@@ -18,6 +18,5 @@ cask "iterm2"
 cask "sensiblesidebuttons"
 cask "slack"
 cask "1password"
-# mas "Magnet", id: 441258766
-# mas "DaisyDisk", id: 803453959
-
+mas "Magnet", id: 441258766
+mas "DaisyDisk", id: 411643860

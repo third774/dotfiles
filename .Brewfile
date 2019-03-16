@@ -14,8 +14,10 @@ cask "firefox"
 cask "visual-studio-code"
 cask "notion"
 cask "figma"
-mas "Magnet", id: 441258766
-mas "1Password", id: 1333542190
-mas "Slack", id: 803453959
-mas "DaisyDisk", id: 803453959
+cask "iterm2"
+cask "sensiblesidebuttons"
+cask "slack"
+cask "1password"
+# mas "Magnet", id: 441258766
+# mas "DaisyDisk", id: 803453959
 

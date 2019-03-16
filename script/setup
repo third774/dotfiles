@@ -3,3 +3,6 @@
 cp ~/.dotfiles/.zshrc ~/.zshrc
 cp ~/.dotfiles/.Brewfile ~/.Brewfile
 
+# Install oh-my-zsh
+sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+

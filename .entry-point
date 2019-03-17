@@ -1,2 +1,3 @@
 source ~/.dotfiles/.zsh
+source ~/.dotfiles/.nvm-setup
 source ~/.dotfiles/.powerlevel9k

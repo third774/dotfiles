@@ -10,7 +10,7 @@ ino <right> <Nop>
 ino <up> <Nop>
 
 syntax on
-colorscheme corporation
+
 
 set nocompatible              " be iMproved, required
 filetype off                  " required

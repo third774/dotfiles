@@ -1,3 +1,5 @@
+set modelines=0         " Set modelines to 0 to prevent several security exploits
+
 " Unmap the arrow keys
 no <down> <Nop>
 no <left> <Nop>

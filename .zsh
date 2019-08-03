@@ -7,6 +7,7 @@ plugins=(
   docker
   node
   npm
+  zsh-iterm-touchbar
 )
 
 source $ZSH/oh-my-zsh.sh

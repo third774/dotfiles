@@ -1,3 +1,5 @@
+set modelines=0         " Set modelines to 0 to prevent several security exploits
+
 " Unmap the arrow keys
 no <down> <Nop>
 no <left> <Nop>
@@ -10,7 +12,7 @@ ino <right> <Nop>
 ino <up> <Nop>
 
 syntax on
-colorscheme corporation
+
 
 set nocompatible              " be iMproved, required
 filetype off                  " required

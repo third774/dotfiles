@@ -1,0 +1,5 @@
+# Long format list
+alias gca="git commit --amend --no-edit"
+alias gfph="git push origin HEAD --force-with-lease"
+alias gp="git push -u origin HEAD"
+alias grs1="git reset --soft HEAD~1"

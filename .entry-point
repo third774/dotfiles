@@ -3,3 +3,5 @@ source ~/.dotfiles/.zsh
 source ~/.dotfiles/.nvm-setup
 source ~/.dotfiles/.powerlevel9k
 source ~/.dotfiles/.aliases
+source ~/.dotfiles/.localProfile
+

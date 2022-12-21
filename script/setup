@@ -9,13 +9,11 @@ echo 'copying dotfiles to user directory'
 cp ~/.dotfiles/.zshrc ~/.zshrc
 cp ~/.dotfiles/.vimrc ~/.vimrc
 
-echo 'installing Vundle (VIM plugin manager)'
-rm -rf ~/.vim/bundle/Vundle.vim
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-
 echo 'cloning night owl theme for iTerm'
 rm -rf ~/repos/iterm2-night-owl
 git clone https://github.com/nickcernis/iterm2-night-owl.git ~/repos/iterm2-night-owl
 
 cd ~/.dotfiles
 brew bundle
+
+ln -s ${HOME}/.dotfiles/karabiner ${HOME}/.config/karabiner

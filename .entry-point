@@ -4,4 +4,4 @@ source ~/.dotfiles/.nvm-setup
 source ~/.dotfiles/.powerlevel9k
 source ~/.dotfiles/.aliases
 source ~/.dotfiles/.localProfile
-
+source ~/.dotfiles/utils

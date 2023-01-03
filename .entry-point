@@ -1,8 +1,7 @@
 source ~/.dotfiles/.path
+source ~/.dotfiles/.p10k.zsh
 source ~/.dotfiles/.zsh
 source ~/.dotfiles/.nvm-setup
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 source ~/.dotfiles/.aliases
 source ~/.dotfiles/.localProfile
 source ~/.dotfiles/utils

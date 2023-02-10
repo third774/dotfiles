@@ -2,7 +2,7 @@ resource() {
   source ${HOME}/.zshrc
 }
 
-donezo() {
+fin() {
   say done
   open raycast://confetti
 }

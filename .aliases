@@ -1,5 +1,6 @@
 # Long format list
 alias gca="git commit --amend --no-edit"
+alias gcm="git commit --message"
 alias gfph="git push origin HEAD --force-with-lease"
 alias gp="git push -u origin HEAD"
 alias grs1="git reset --soft HEAD~1"
@@ -7,4 +8,4 @@ alias code.="code ."
 alias update-master="gco master && git pull && gco -"
 alias update-main="gco main && git pull && gco -"
 alias update-staging="gco staging && git pull && gco -"
-
+alias chrome="Google\ Chrome"

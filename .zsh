@@ -7,6 +7,7 @@ plugins=(
   docker
   node
   npm
+  fzf
 )
 
 source $ZSH/oh-my-zsh.sh

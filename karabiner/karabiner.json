@@ -12,11 +12,36 @@
         "parameters": {
           "basic.simultaneous_threshold_milliseconds": 50,
           "basic.to_delayed_action_delay_milliseconds": 500,
-          "basic.to_if_alone_timeout_milliseconds": 1000,
-          "basic.to_if_held_down_threshold_milliseconds": 500,
+          "basic.to_if_alone_timeout_milliseconds": 140,
+          "basic.to_if_held_down_threshold_milliseconds": 100,
           "mouse_motion_to_scroll.speed": 100
         },
         "rules": [
+          {
+            "description": "Change escape to meh when held",
+            "manipulators": [
+              {
+                "from": {
+                  "key_code": "caps_lock",
+                  "modifiers": {
+                    "optional": ["left_gui"]
+                  }
+                },
+                "to_if_alone": [
+                  {
+                    "key_code": "escape"
+                  }
+                ],
+                "to_if_held_down": [
+                  {
+                    "key_code": "left_shift",
+                    "modifiers": ["left_control", "left_option"]
+                  }
+                ],
+                "type": "basic"
+              }
+            ]
+          },
           {
             "description": "Change escape to meh when held",
             "manipulators": [
@@ -26,10 +51,6 @@
                   "modifiers": {
                     "optional": ["left_gui"]
                   }
-                },
-                "parameters": {
-                  "basic.to_if_alone_timeout_milliseconds": 140,
-                  "basic.to_if_held_down_threshold_milliseconds": 100
                 },
                 "to_if_alone": [
                   {

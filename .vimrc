@@ -35,7 +35,7 @@ let g:airline_powerline_fonts = 1
 "Language Plugins
 Plugin 'leafgarland/typescript-vim'
 Plugin 'jelera/vim-javascript-syntax'
-
+Plugin 'tpope/vim-surround'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

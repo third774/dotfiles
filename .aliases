@@ -1,12 +1,24 @@
-# Long format list
+# Quickly stage all changed files, || true is at the end since this will
+# exit with non-zero status code if anything was not added because it was
+# in the .gitignore file.
 alias gaa="git add * || true"
+# Amend current commit 
 alias gca="git commit --amend --no-edit"
+# gcm "My commit message"
 alias gcm="git commit --message"
+# Force push the current branch, unless it would collide with something 
+# someone else already pushed
 alias gfph="git push origin HEAD --force-with-lease"
+# Push the current branch up and track it as upstream
 alias gp="git push -u origin HEAD"
+# Undo last commit without losing the changes
 alias grs1="git reset --soft HEAD~1"
+# Fix typo when I'm trying to open VS Code in the current folder
 alias code.="code ."
+# Update master and then switch back to previous branch
 alias update-master="gco master && git pull && gco -"
+# Update main and then switch back to previous branch
 alias update-main="gco main && git pull && gco -"
+# Update staging and then switch back to previous branch
 alias update-staging="gco staging && git pull && gco -"
 alias chrome="Google\ Chrome"

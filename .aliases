@@ -1,4 +1,5 @@
 # Long format list
+alias gaa="git add * || true"
 alias gca="git commit --amend --no-edit"
 alias gcm="git commit --message"
 alias gfph="git push origin HEAD --force-with-lease"

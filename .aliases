@@ -21,4 +21,6 @@ alias update-master="gco master && git pull && gco -"
 alias update-main="gco main && git pull && gco -"
 # Update staging and then switch back to previous branch
 alias update-staging="gco staging && git pull && gco -"
+# Create new branch
+alias gcb='gco -b'
 alias chrome="Google\ Chrome"

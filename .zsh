@@ -15,3 +15,5 @@ source /opt/homebrew/opt/zsh-syntax-highlighting/share/zsh-syntax-highlighting/z
 ZSH_AUTOSUGGEST_STRATEGY=match_prev_cmd
 source /opt/homebrew/opt/zsh-autosuggestions/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /opt/homebrew/opt/zsh-history-substring-search/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

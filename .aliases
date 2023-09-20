@@ -24,3 +24,7 @@ alias update-staging="gco staging && git pull && gco -"
 # Create new branch
 alias gcb='gco -b'
 alias chrome="Google\ Chrome"
+
+gch() {
+ git checkout "$(git branch | fzf | tr -d '[:space:]')"
+}

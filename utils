@@ -6,3 +6,10 @@ fin() {
   say done
   open raycast://confetti
 }
+
+gu() {
+  branch="$1"
+  git checkout "$branch"
+  git pull
+  git checkout -
+}

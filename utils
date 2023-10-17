@@ -13,3 +13,15 @@ gu() {
   git pull
   git checkout -
 }
+
+gch() {
+ git checkout "$(git branch | fzf | tr -d '[:space:]')"
+}
+
+function gs() {
+  selected=$(git diff --name-only --diff-filter=ACDMRTUXB | fzf --multi)
+  if [ -n "$selected" ]; then
+    git add $(echo $selected | xargs)
+  fi
+}
+

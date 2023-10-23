@@ -38,6 +38,7 @@ function getHeaders(rest: Record<string, string> = {}) {
 type EntriesParams = {
   mode?: "extended";
   read?: "false";
+  starred?: "true";
 };
 
 export function getEntries(params: EntriesParams = {}) {
@@ -60,6 +61,7 @@ export function useSubscriptions() {
   return useFetch<Subscription[]>(`${API_ROOT}/v2/subscriptions.json`, {
     method: "GET",
     headers: getHeaders(),
+    keepPreviousData: true,
   });
 }
 
@@ -112,10 +114,11 @@ export function deleteStarredEntries(...entryIds: number[]) {
   });
 }
 
-export function useStarredEntries() {
+export function useStarredEntriesSet() {
   const api = useFetch<number[]>(`${API_ROOT}/v2/starred_entries.json`, {
     method: "GET",
     headers: getHeaders(),
+    keepPreviousData: true,
   });
 
   const set = useMemo(() => new Set(api.data), [api.data]);
@@ -124,4 +127,8 @@ export function useStarredEntries() {
     ...api,
     data: set,
   };
+}
+
+export function useStarredEntries() {
+  return useEntries({ starred: "true" });
 }

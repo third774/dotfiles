@@ -5,7 +5,7 @@ import {
   markAsRead,
   starEntries,
   useEntries,
-  useStarredEntries,
+  useStarredEntriesSet,
   useSubscriptionMap,
 } from "./utils/api";
 import { useEffect } from "react";
@@ -23,7 +23,7 @@ export default function Command() {
     isLoading: isLoadingStarredEntries,
     data: starredEntriesSet,
     mutate: mutateStarredEntries,
-  } = useStarredEntries();
+  } = useStarredEntriesSet();
 
   useEffect(() => {
     console.log("INTERVAL");

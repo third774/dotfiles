@@ -4,7 +4,7 @@ import {
   markAsRead,
   starEntries,
   useEntries,
-  useStarredEntries,
+  useStarredEntriesSet,
   useSubscriptionMap,
 } from "./utils/api";
 import { ActionShowEntry } from "./components/ActionShowEntry";
@@ -16,7 +16,7 @@ export default function Command() {
     isLoading: isLoadingStarredEntries,
     data: starredEntriesSet,
     mutate: mutateStarredEntries,
-  } = useStarredEntries();
+  } = useStarredEntriesSet();
 
   return (
     <List isLoading={isLoadingEntries || isLoadingSubscriptions || isLoadingStarredEntries}>

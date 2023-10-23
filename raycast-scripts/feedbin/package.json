@@ -47,6 +47,12 @@
       "description": "Displays the number of unread entries in the menu bar",
       "mode": "menu-bar",
       "interval": "5m"
+    },
+    {
+      "name": "starred-entries",
+      "title": "Starred Entries",
+      "description": "View a list of your starred entries",
+      "mode": "view"
     }
   ],
   "dependencies": {

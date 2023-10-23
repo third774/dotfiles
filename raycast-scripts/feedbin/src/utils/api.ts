@@ -27,10 +27,11 @@ export interface Subscription {
   site_url: string;
 }
 
-function getHeaders() {
+function getHeaders(rest: Record<string, string> = {}) {
   const { email, password } = getPreferenceValues();
   return {
     Authorization: "Basic " + btoa(`${email}:${password}`),
+    ...rest,
   };
 }
 
@@ -68,16 +69,13 @@ export function useSubscriptionMap() {
 }
 
 export function markAsRead(...entryIds: number[]) {
-  const del = fetch(`https://feedbin.com/entries/${entryIds[0]}/mark_as_read`, {
-    method: "POST",
-    headers: getHeaders(),
-  });
-
-  return del.then(async (res) => {
-    const clone = await res.clone();
-
-    console.log(res.status, await res.json());
-
-    return clone;
+  return fetch(`${API_ROOT}/v2/unread_entries.json`, {
+    body: JSON.stringify({
+      unread_entries: entryIds,
+    }),
+    method: "DELETE",
+    headers: getHeaders({
+      "Content-Type": "application/json",
+    }),
   });
 }

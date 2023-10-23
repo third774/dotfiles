@@ -1,9 +1,9 @@
 import { Action, ActionPanel, List } from "@raycast/api";
-import { ShowEntryAction } from "./components/ShowEntryAction";
 import { markAsRead, useEntries, useSubscriptionMap } from "./utils/api";
+import { ActionShowEntry } from "./components/ActionShowEntry";
 
 export default function Command() {
-  const { isLoading: isLoadingEntries, data: entries } = useEntries();
+  const { isLoading: isLoadingEntries, data: entries, mutate } = useEntries();
   const { isLoading: isLoadingSubscriptions, data: subscriptionMap } = useSubscriptionMap();
 
   return (
@@ -13,12 +13,26 @@ export default function Command() {
           <List.Item
             key={entry.id}
             title={entry.title ?? entry.summary}
+            keywords={(subscriptionMap[entry.feed_id]?.title ?? entry.url).split(" ")}
             subtitle={subscriptionMap[entry.feed_id]?.title ?? entry.url}
             actions={
               <ActionPanel>
-                <ShowEntryAction entry={entry} />
+                <ActionShowEntry entry={entry} />
                 <Action.OpenInBrowser url={entry.url} />
-                <Action title="Mark as Read" onAction={() => markAsRead(entry.id)} />
+                <Action.CopyToClipboard title="Copy URL to Clipboard" content={entry.url} />
+                <Action
+                  title="Mark as Read"
+                  onAction={async () => {
+                    mutate(markAsRead(entry.id), {
+                      optimisticUpdate: (data) => data?.filter((e) => e.id !== entry.id),
+                      rollbackOnError: () => entries,
+                    });
+                  }}
+                  shortcut={{
+                    key: "r",
+                    modifiers: ["cmd"],
+                  }}
+                />
               </ActionPanel>
             }
           />

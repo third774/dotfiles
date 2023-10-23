@@ -2,11 +2,11 @@ import { Detail, ActionPanel, Action } from "@raycast/api";
 import { NodeHtmlMarkdown } from "node-html-markdown";
 import { Entry } from "../utils/api";
 
-export interface ShowEntryActionProps {
+export interface ActionShowEntryProps {
   entry: Entry;
 }
 
-export function ShowEntryAction(props: ShowEntryActionProps) {
+export function ActionShowEntry(props: ActionShowEntryProps) {
   if (props.entry.content === null) return null;
   return (
     <Action.Push

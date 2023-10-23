@@ -1,4 +1,4 @@
-import { Form, ActionPanel, Action, showToast, open, popToRoot } from "@raycast/api";
+import { Action, ActionPanel, Form, open, popToRoot } from "@raycast/api";
 
 type Values = {
   query: string;

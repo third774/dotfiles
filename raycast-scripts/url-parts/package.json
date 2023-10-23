@@ -1,0 +1,57 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "url-parts",
+  "title": "URL Parts",
+  "description": "Allows grabbing specific URL parts without needing to meticulously select the specific text",
+  "icon": "command-icon.png",
+  "author": "third774",
+  "categories": [
+    "Productivity",
+    "Developer Tools"
+  ],
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "paste-selected-path-segment",
+      "title": "Paste selected URL path segment",
+      "description": "Parses URL on clipboard to allow for pasting a specific part",
+      "mode": "view"
+    },
+    {
+      "name": "paste-host",
+      "title": "Paste URL host",
+      "description": "Parses URL on clipboard and pastes the host",
+      "mode": "no-view"
+    },
+    {
+      "name": "paste-last-path-segment",
+      "title": "Paste last URL path segment",
+      "description": "Parses URL on clipboard and pastes the last path segment from the pathname",
+      "mode": "no-view"
+    },
+    {
+      "name": "paste-search-param-value",
+      "title": "Paste a value from search params",
+      "description": "Parses URL on clipboard and pastes the selected search param",
+      "mode": "view"
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.60.1"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^1.0.6",
+    "@types/node": "18.18.4",
+    "@types/react": "18.2.27",
+    "eslint": "^8.51.0",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
+  },
+  "scripts": {
+    "build": "ray build -e dist",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "publish": "npx @raycast/api@latest publish"
+  }
+}

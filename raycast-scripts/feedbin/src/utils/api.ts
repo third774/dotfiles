@@ -75,7 +75,45 @@ export function markAsRead(...entryIds: number[]) {
     }),
     method: "DELETE",
     headers: getHeaders({
-      "Content-Type": "application/json",
+      "Content-Type": "application/json; charset=utf-8",
     }),
   });
+}
+
+export function starEntries(...entryIds: number[]) {
+  return fetch(`${API_ROOT}/v2/starred_entries.json`, {
+    body: JSON.stringify({
+      starred_entries: entryIds,
+    }),
+    method: "POST",
+    headers: getHeaders({
+      "Content-Type": "application/json; charset=utf-8",
+    }),
+  });
+}
+
+export function deleteStarredEntries(...entryIds: number[]) {
+  return fetch(`${API_ROOT}/v2/starred_entries.json`, {
+    body: JSON.stringify({
+      starred_entries: entryIds,
+    }),
+    method: "DELETE",
+    headers: getHeaders({
+      "Content-Type": "application/json; charset=utf-8",
+    }),
+  });
+}
+
+export function useStarredEntries() {
+  const api = useFetch<number[]>(`${API_ROOT}/v2/starred_entries.json`, {
+    method: "GET",
+    headers: getHeaders(),
+  });
+
+  const set = useMemo(() => new Set(api.data), [api.data]);
+
+  return {
+    ...api,
+    data: set,
+  };
 }

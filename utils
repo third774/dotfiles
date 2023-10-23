@@ -25,3 +25,7 @@ function gs() {
   fi
 }
 
+function t {
+  mkdir -p $(dirname $1)
+  touch $1
+}

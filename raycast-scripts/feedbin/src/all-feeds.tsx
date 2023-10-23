@@ -1,4 +1,4 @@
-import { Action, ActionPanel, Icon, List } from "@raycast/api";
+import { Action, ActionPanel, Icon, LaunchType, List, launchCommand } from "@raycast/api";
 import {
   deleteStarredEntries,
   markAsRead,
@@ -68,9 +68,13 @@ export default function Command() {
                 <Action
                   title="Mark as Read"
                   onAction={async () => {
-                    mutate(markAsRead(entry.id), {
+                    await mutate(markAsRead(entry.id), {
                       optimisticUpdate: (data) => data?.filter((e) => e.id !== entry.id),
                       rollbackOnError: () => entries,
+                    });
+                    launchCommand({
+                      name: "unread-menu-bar",
+                      type: LaunchType.Background,
                     });
                   }}
                   shortcut={{

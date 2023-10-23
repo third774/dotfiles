@@ -35,10 +35,18 @@
       "mode": "view"
     },
     {
-      "name": "unread",
+      "name": "unread-list",
       "title": "Unread feed",
       "description": "Shows a feed of unread content from all RSS feeds",
-      "mode": "view"
+      "mode": "view",
+      "interval": "10s"
+    },
+    {
+      "name": "unread-menu-bar",
+      "title": "Unread Menu Bar",
+      "description": "Displays the number of unread entries in the menu bar",
+      "mode": "menu-bar",
+      "interval": "5m"
     }
   ],
   "dependencies": {

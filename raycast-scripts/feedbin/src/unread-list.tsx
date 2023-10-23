@@ -1,4 +1,5 @@
-import { Action, ActionPanel, Icon, List } from "@raycast/api";
+import { Action, ActionPanel, Icon, LaunchType, List, launchCommand } from "@raycast/api";
+import { ActionShowEntry } from "./components/ActionShowEntry";
 import {
   deleteStarredEntries,
   markAsRead,
@@ -7,7 +8,7 @@ import {
   useStarredEntries,
   useSubscriptionMap,
 } from "./utils/api";
-import { ActionShowEntry } from "./components/ActionShowEntry";
+import { useEffect } from "react";
 
 export default function Command() {
   const {
@@ -23,6 +24,10 @@ export default function Command() {
     data: starredEntriesSet,
     mutate: mutateStarredEntries,
   } = useStarredEntries();
+
+  useEffect(() => {
+    console.log("INTERVAL");
+  }, []);
 
   return (
     <List isLoading={isLoadingEntries || isLoadingSubscriptions || isLoadingStarredEntries}>
@@ -74,9 +79,13 @@ export default function Command() {
                 <Action
                   title="Mark as Read"
                   onAction={async () => {
-                    mutate(markAsRead(entry.id), {
+                    await mutate(markAsRead(entry.id), {
                       optimisticUpdate: (data) => data?.filter((e) => e.id !== entry.id),
                       rollbackOnError: () => entries,
+                    });
+                    launchCommand({
+                      name: "unread-menu-bar",
+                      type: LaunchType.Background,
                     });
                   }}
                   shortcut={{

@@ -1,7 +1,7 @@
 import { getPreferenceValues } from "@raycast/api";
 import { useFetch } from "@raycast/utils";
-import { useMemo } from "react";
 import fetch from "node-fetch";
+import { useMemo } from "react";
 
 const API_ROOT = "https://api.feedbin.com";
 
@@ -39,6 +39,14 @@ type EntriesParams = {
   mode?: "extended";
   read?: "false";
 };
+
+export function getEntries(params: EntriesParams = {}) {
+  const searchParams = new URLSearchParams(params);
+  return fetch(`${API_ROOT}/v2/entries.json?${searchParams}`, {
+    method: "GET",
+    headers: getHeaders(),
+  }).then((res) => res.json() as Promise<Entry[]>);
+}
 
 export function useEntries(params: EntriesParams = {}) {
   const searchParams = new URLSearchParams(params);

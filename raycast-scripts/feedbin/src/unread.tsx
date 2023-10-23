@@ -37,7 +37,7 @@ export default function Command() {
                     });
                   }}
                   shortcut={{
-                    key: "r",
+                    key: "m",
                     modifiers: ["cmd"],
                   }}
                 />

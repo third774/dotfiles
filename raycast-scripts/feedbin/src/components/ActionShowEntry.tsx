@@ -1,4 +1,4 @@
-import { Detail, ActionPanel, Action } from "@raycast/api";
+import { Detail, ActionPanel, Action, Icon } from "@raycast/api";
 import { NodeHtmlMarkdown } from "node-html-markdown";
 import { Entry } from "../utils/api";
 
@@ -10,7 +10,8 @@ export function ActionShowEntry(props: ActionShowEntryProps) {
   if (props.entry.content === null) return null;
   return (
     <Action.Push
-      title="Show Details"
+      title="View in Raycast"
+      icon={Icon.Document}
       target={
         <Detail
           markdown={NodeHtmlMarkdown.translate(props.entry.content)}

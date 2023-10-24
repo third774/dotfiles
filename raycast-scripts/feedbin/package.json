@@ -59,6 +59,12 @@
       "title": "Subscriptions",
       "description": "List Feedbin Subscriptions",
       "mode": "view"
+    },
+    {
+      "name": "add-subscription",
+      "title": "Add Subscription",
+      "description": "Subscibes to an RSS feed",
+      "mode": "view"
     }
   ],
   "dependencies": {

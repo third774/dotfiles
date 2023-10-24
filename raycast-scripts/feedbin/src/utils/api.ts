@@ -43,6 +43,10 @@ function getHeaders(rest: Record<string, string> = {}) {
   };
 }
 
+const jsonHeaders = {
+  "Content-Type": "application/json; charset=utf-8",
+};
+
 type EntriesParams = {
   mode?: "extended";
   read?: "false";
@@ -62,6 +66,7 @@ export function useEntries(params: EntriesParams = {}) {
   return useFetch<Entry[]>(`${API_ROOT}/v2/entries.json?${searchParams}`, {
     method: "GET",
     headers: getHeaders(),
+    keepPreviousData: true,
   });
 }
 
@@ -92,9 +97,7 @@ export function markAsRead(...entryIds: number[]) {
       unread_entries: entryIds,
     }),
     method: "DELETE",
-    headers: getHeaders({
-      "Content-Type": "application/json; charset=utf-8",
-    }),
+    headers: getHeaders(jsonHeaders),
   });
 }
 
@@ -104,9 +107,7 @@ export function starEntries(...entryIds: number[]) {
       starred_entries: entryIds,
     }),
     method: "POST",
-    headers: getHeaders({
-      "Content-Type": "application/json; charset=utf-8",
-    }),
+    headers: getHeaders(jsonHeaders),
   });
 }
 
@@ -116,9 +117,7 @@ export function deleteStarredEntries(...entryIds: number[]) {
       starred_entries: entryIds,
     }),
     method: "DELETE",
-    headers: getHeaders({
-      "Content-Type": "application/json; charset=utf-8",
-    }),
+    headers: getHeaders(jsonHeaders),
   });
 }
 
@@ -146,4 +145,47 @@ export function useFeedEntries(id: number) {
     method: "GET",
     headers: getHeaders(),
   });
+}
+
+export function unsubscribe(subscriptionId: number) {
+  return fetch(`${API_ROOT}/v2/subscriptions/${subscriptionId}.json `, {
+    method: "DELETE",
+    headers: getHeaders(),
+  });
+}
+
+export function useUnreadEntriesIdSet() {
+  const api = useFetch<number[]>(`${API_ROOT}/v2/unread_entries.json`, {
+    method: "GET",
+    headers: getHeaders(),
+    keepPreviousData: true,
+  });
+
+  const set = useMemo(() => new Set(api.data), [api.data]);
+
+  return {
+    ...api,
+    data: set,
+  };
+}
+
+export type SingleFeed = {
+  feed_url: string;
+};
+
+export type MultipleFeeds = {
+  feed_url: string;
+  title: string;
+}[];
+
+export type CreatedSubscription = SingleFeed | MultipleFeeds;
+
+export function createSubscription(url: string) {
+  return fetch(`${API_ROOT}/v2/subscriptions.json`, {
+    body: JSON.stringify({
+      feed_url: url,
+    }),
+    method: "POST",
+    headers: getHeaders(jsonHeaders),
+  }).then((res) => res.json()) as Promise<CreatedSubscription>;
 }

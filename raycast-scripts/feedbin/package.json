@@ -53,6 +53,12 @@
       "title": "Starred Entries",
       "description": "View a list of your starred entries",
       "mode": "view"
+    },
+    {
+      "name": "subscriptions",
+      "title": "Subscriptions",
+      "description": "List Feedbin Subscriptions",
+      "mode": "view"
     }
   ],
   "dependencies": {

@@ -25,6 +25,14 @@ export interface Subscription {
   title: string;
   feed_url: string;
   site_url: string;
+  json_feed: {
+    favicon: string;
+    feed_url: string;
+    icon: string;
+    version: string;
+    home_page_url: string;
+    title: string;
+  };
 }
 
 function getHeaders(rest: Record<string, string> = {}) {
@@ -58,7 +66,7 @@ export function useEntries(params: EntriesParams = {}) {
 }
 
 export function useSubscriptions() {
-  return useFetch<Subscription[]>(`${API_ROOT}/v2/subscriptions.json`, {
+  return useFetch<Subscription[]>(`${API_ROOT}/v2/subscriptions.json?`, {
     method: "GET",
     headers: getHeaders(),
     keepPreviousData: true,
@@ -131,4 +139,11 @@ export function useStarredEntriesSet() {
 
 export function useStarredEntries() {
   return useEntries({ starred: "true" });
+}
+
+export function useFeedEntries(id: number) {
+  return useFetch<Entry[]>(`${API_ROOT}/v2/feeds/${id}/entries.json`, {
+    method: "GET",
+    headers: getHeaders(),
+  });
 }

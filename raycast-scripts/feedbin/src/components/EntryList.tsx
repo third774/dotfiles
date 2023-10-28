@@ -25,7 +25,11 @@ export function EntryList(props: EntryListProps) {
     data: starredEntriesSet,
     mutate: mutateStarredEntries,
   } = useStarredEntriesSet();
-  const { isLoading: isLoadingUnreadEntriesSet, data: unreadEntriesSet } = useUnreadEntriesIdSet();
+  const {
+    isLoading: isLoadingUnreadEntriesSet,
+    data: unreadEntriesSet,
+    mutate: mutateUnreadEntriesSet,
+  } = useUnreadEntriesIdSet();
 
   return (
     <List
@@ -49,15 +53,14 @@ export function EntryList(props: EntryListProps) {
             icon={icons[new URL(entry.url).host] ?? Icon.Globe}
             keywords={(subscriptionMap[entry.feed_id]?.title ?? entry.url).split(" ")}
             subtitle={subscriptionMap[entry.feed_id]?.title ?? entry.url}
-            accessories={
-              starredEntriesSet.has(entry.id)
-                ? [
-                    {
-                      icon: Icon.Star,
-                    },
-                  ]
-                : []
-            }
+            accessories={[
+              starredEntriesSet.has(entry.id) && {
+                icon: Icon.Star,
+              },
+              unreadEntriesSet.has(entry.id) && {
+                icon: Icon.Tray,
+              },
+            ].filter(Boolean)}
             actions={
               <ActionPanel>
                 <Action.OpenInBrowser url={entry.url} />
@@ -100,7 +103,7 @@ export function EntryList(props: EntryListProps) {
                     title="Mark as Read"
                     icon={Icon.Check}
                     onAction={async () => {
-                      await props.markEntryReadMutation?.(markAsRead(entry.id), entry.id);
+                      await mutateUnreadEntriesSet(markAsRead(entry.id));
                       await launchCommand({
                         name: "unread-menu-bar",
                         type: LaunchType.Background,

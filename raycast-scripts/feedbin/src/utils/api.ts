@@ -189,3 +189,11 @@ export function createSubscription(url: string) {
     headers: getHeaders(jsonHeaders),
   }).then((res) => res.json()) as Promise<CreatedSubscription>;
 }
+
+export function readLater(body: { url: string; title: string }) {
+  return fetch(`${API_ROOT}/v2/pages.json`, {
+    method: "POST",
+    headers: getHeaders(jsonHeaders),
+    body: JSON.stringify(body),
+  }).then((res) => res.json()) as Promise<Entry>;
+}

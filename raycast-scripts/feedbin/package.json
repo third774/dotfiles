@@ -65,6 +65,12 @@
       "title": "Add Subscription",
       "description": "Subscibes to an RSS feed",
       "mode": "view"
+    },
+    {
+      "name": "read-later",
+      "title": "Read Later",
+      "description": "Saves the selected URL to Feedbin to read later",
+      "mode": "no-view"
     }
   ],
   "dependencies": {

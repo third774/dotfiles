@@ -14,8 +14,7 @@ import { unsubscribe, useFeedEntries, useSubscriptions } from "./utils/api";
 
 function FeedList(props: { feedId: number }) {
   const { data, isLoading, mutate } = useFeedEntries(props.feedId);
-
-  return <EntryList entries={data} isLoading={isLoading} markEntryReadMutation={(promise) => mutate(promise)} />;
+  return <EntryList entries={data} isLoading={isLoading} mutateEntries={mutate} />;
 }
 
 export default function SubscriptionsCommand(): JSX.Element {
@@ -31,6 +30,13 @@ export default function SubscriptionsCommand(): JSX.Element {
           actions={
             <ActionPanel>
               <Action.Push title="View Feed" target={<FeedList feedId={sub.feed_id} />} />
+              <Action.CopyToClipboard
+                shortcut={{
+                  key: "c",
+                  modifiers: ["cmd", "shift"],
+                }}
+                content={sub.site_url}
+              />
               <Action
                 title="Unsubscribe"
                 shortcut={{

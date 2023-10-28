@@ -30,33 +30,33 @@
   "commands": [
     {
       "name": "all-feeds",
-      "title": "All feeds",
-      "description": "Shows a feed of all your RSS feeds combined into one linear view",
+      "title": "View All Entries",
+      "description": "Shows a feed of all entries from your RSS feeds combined into one view",
       "mode": "view"
     },
     {
       "name": "unread-list",
-      "title": "Unread feed",
-      "description": "Shows a feed of unread content from all RSS feeds",
+      "title": "View Unread Entries",
+      "description": "Shows a feed of unread entries from all RSS feeds",
       "mode": "view",
       "interval": "10s"
     },
     {
       "name": "unread-menu-bar",
-      "title": "Unread Menu Bar",
+      "title": "Feedbin Menu Bar",
       "description": "Displays the number of unread entries in the menu bar",
       "mode": "menu-bar",
-      "interval": "5m"
+      "interval": "15m"
     },
     {
       "name": "starred-entries",
-      "title": "Starred Entries",
+      "title": "View Starred",
       "description": "View a list of your starred entries",
       "mode": "view"
     },
     {
       "name": "subscriptions",
-      "title": "Subscriptions",
+      "title": "View Subscriptions",
       "description": "List Feedbin Subscriptions",
       "mode": "view"
     },

@@ -4,12 +4,7 @@ import { readLater } from "./utils/api";
 export default async function Main() {
   const url = await getSelectedText();
   try {
-    const entry = await readLater({
-      url,
-      // Feedbin API will fetch the title for us, but we
-      // need to provide a title according to the API docs.
-      title: url,
-    });
+    const entry = await readLater(url);
     if (entry && entry.id) {
       await showToast(Toast.Style.Success, `Saved ${entry.title} to read later`);
     } else {

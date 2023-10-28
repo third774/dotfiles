@@ -190,10 +190,31 @@ export function createSubscription(url: string) {
   }).then((res) => res.json()) as Promise<CreatedSubscription>;
 }
 
-export function readLater(body: { url: string; title: string }) {
+export function readLater(url: string) {
   return fetch(`${API_ROOT}/v2/pages.json`, {
     method: "POST",
     headers: getHeaders(jsonHeaders),
-    body: JSON.stringify(body),
+    body: JSON.stringify({ url }),
   }).then((res) => res.json()) as Promise<Entry>;
+}
+
+export interface Icon {
+  host: string;
+  url: string;
+}
+
+export function useIcons() {
+  const { data, ...rest } = useFetch<Icon[]>(`${API_ROOT}/v2/icons.json`, {
+    headers: getHeaders(),
+  });
+
+  const iconMap = useMemo(
+    () => (data ? data.reduce<Record<string, string>>((acc, icon) => ({ ...acc, [icon.host]: icon.url }), {}) : {}),
+    [data],
+  );
+
+  return {
+    ...rest,
+    data: iconMap,
+  };
 }

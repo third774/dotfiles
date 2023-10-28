@@ -4,6 +4,7 @@ import {
   deleteStarredEntries,
   markAsRead,
   starEntries,
+  useIcons,
   useStarredEntriesSet,
   useSubscriptionMap,
   useUnreadEntriesIdSet,
@@ -18,14 +19,24 @@ export interface EntryListProps {
 
 export function EntryList(props: EntryListProps) {
   const { isLoading: isLoadingSubscriptions, data: subscriptionMap } = useSubscriptionMap();
+  const { isLoading: isLoadingIcons, data: icons } = useIcons();
   const {
     isLoading: isLoadingStarredEntries,
     data: starredEntriesSet,
     mutate: mutateStarredEntries,
   } = useStarredEntriesSet();
   const { isLoading: isLoadingUnreadEntriesSet, data: unreadEntriesSet } = useUnreadEntriesIdSet();
+
   return (
-    <List isLoading={props.isLoading || isLoadingSubscriptions || isLoadingStarredEntries || isLoadingUnreadEntriesSet}>
+    <List
+      isLoading={
+        props.isLoading ||
+        isLoadingSubscriptions ||
+        isLoadingStarredEntries ||
+        isLoadingUnreadEntriesSet ||
+        isLoadingIcons
+      }
+    >
       {props.entries && props.entries.length === 0 && (
         <List.EmptyView icon={Icon.CheckRosette} title="No unread content!" />
       )}
@@ -35,7 +46,7 @@ export function EntryList(props: EntryListProps) {
           <List.Item
             key={entry.id}
             title={entry.title ?? entry.summary}
-            icon={unreadEntriesSet.has(entry.id) ? Icon.Tray : undefined}
+            icon={icons[new URL(entry.url).host] ?? Icon.Globe}
             keywords={(subscriptionMap[entry.feed_id]?.title ?? entry.url).split(" ")}
             subtitle={subscriptionMap[entry.feed_id]?.title ?? entry.url}
             accessories={

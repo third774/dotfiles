@@ -27,7 +27,7 @@ function AddMultipleFeeds(props: { feeds: MultipleFeeds }) {
       }
     >
       {props.feeds.map(({ feed_url, title }) => (
-        <Form.Checkbox key={feed_url} defaultValue={true} id={feed_url} label={title} />
+        <Form.Checkbox key={feed_url} defaultValue={true} id={feed_url} label={feed_url} title={title} />
       ))}
     </Form>
   );

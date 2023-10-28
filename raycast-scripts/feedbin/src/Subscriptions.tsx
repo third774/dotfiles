@@ -27,6 +27,7 @@ export default function SubscriptionsCommand(): JSX.Element {
           key={sub.id}
           title={sub.title}
           subtitle={sub.site_url}
+          keywords={[sub.site_url]}
           actions={
             <ActionPanel>
               <Action.Push title="View Feed" target={<FeedList feedId={sub.feed_id} />} />

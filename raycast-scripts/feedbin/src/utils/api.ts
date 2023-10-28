@@ -1,7 +1,7 @@
 import { getPreferenceValues } from "@raycast/api";
-import { useFetch } from "@raycast/utils";
+import { showFailureToast, useFetch } from "@raycast/utils";
 import fetch from "node-fetch";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 const API_ROOT = "https://api.feedbin.com";
 
@@ -58,24 +58,69 @@ export function getEntries(params: EntriesParams = {}) {
   return fetch(`${API_ROOT}/v2/entries.json?${searchParams}`, {
     method: "GET",
     headers: getHeaders(),
-  }).then((res) => res.json() as Promise<Entry[]>);
+  })
+    .then((res) => res.json() as Promise<Entry[]>)
+    .catch((err) => {
+      showFailureToast("Failed to fetch entries");
+      throw err;
+    });
 }
 
 export function useEntries(params: EntriesParams = {}) {
   const searchParams = new URLSearchParams(params);
-  return useFetch<Entry[]>(`${API_ROOT}/v2/entries.json?${searchParams}`, {
+  const { error, revalidate, ...rest } = useFetch<Entry[]>(`${API_ROOT}/v2/entries.json?${searchParams}`, {
     method: "GET",
     headers: getHeaders(),
     keepPreviousData: true,
   });
+
+  useEffect(() => {
+    if (error) {
+      showFailureToast("Failed to load entries", {
+        primaryAction: {
+          title: "Retry",
+          shortcut: { modifiers: ["cmd"], key: "r" },
+          onAction: () => {
+            revalidate();
+          },
+        },
+      });
+    }
+  }, [error]);
+
+  return {
+    revalidate,
+    error,
+    ...rest,
+  };
 }
 
 export function useSubscriptions() {
-  return useFetch<Subscription[]>(`${API_ROOT}/v2/subscriptions.json?`, {
+  const { error, revalidate, ...rest } = useFetch<Subscription[]>(`${API_ROOT}/v2/subscriptions.json?`, {
     method: "GET",
     headers: getHeaders(),
     keepPreviousData: true,
   });
+
+  useEffect(() => {
+    if (error) {
+      showFailureToast("Failed to load subscriptions", {
+        primaryAction: {
+          shortcut: { modifiers: ["cmd"], key: "r" },
+          title: "Retry",
+          onAction: () => {
+            revalidate();
+          },
+        },
+      });
+    }
+  }, [error]);
+
+  return {
+    error,
+    revalidate,
+    ...rest,
+  };
 }
 
 export function useSubscriptionMap() {
@@ -98,6 +143,9 @@ export function markAsRead(...entryIds: number[]) {
     }),
     method: "DELETE",
     headers: getHeaders(jsonHeaders),
+  }).catch((err) => {
+    showFailureToast("Failed to Mark as Read");
+    throw err;
   });
 }
 
@@ -108,6 +156,9 @@ export function starEntries(...entryIds: number[]) {
     }),
     method: "POST",
     headers: getHeaders(jsonHeaders),
+  }).catch((err) => {
+    showFailureToast("Failed to Star");
+    throw err;
   });
 }
 
@@ -118,6 +169,9 @@ export function deleteStarredEntries(...entryIds: number[]) {
     }),
     method: "DELETE",
     headers: getHeaders(jsonHeaders),
+  }).catch((err) => {
+    showFailureToast("Failed to Unstar");
+    throw err;
   });
 }
 
@@ -151,6 +205,9 @@ export function unsubscribe(subscriptionId: number) {
   return fetch(`${API_ROOT}/v2/subscriptions/${subscriptionId}.json `, {
     method: "DELETE",
     headers: getHeaders(),
+  }).catch((err) => {
+    showFailureToast("Failed to Unsuscribe");
+    throw err;
   });
 }
 
@@ -187,7 +244,12 @@ export function createSubscription(url: string) {
     }),
     method: "POST",
     headers: getHeaders(jsonHeaders),
-  }).then((res) => res.json()) as Promise<CreatedSubscription>;
+  })
+    .then((res) => res.json())
+    .catch((err) => {
+      showFailureToast("Failed to Subscribe");
+      throw err;
+    }) as Promise<CreatedSubscription>;
 }
 
 export function readLater(url: string) {
@@ -195,7 +257,12 @@ export function readLater(url: string) {
     method: "POST",
     headers: getHeaders(jsonHeaders),
     body: JSON.stringify({ url }),
-  }).then((res) => res.json()) as Promise<Entry>;
+  })
+    .then((res) => res.json())
+    .catch((err) => {
+      showFailureToast("Failed to Save to Read Later");
+      throw err;
+    }) as Promise<Entry>;
 }
 
 export interface Icon {

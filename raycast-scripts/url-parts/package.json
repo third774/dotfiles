@@ -12,8 +12,8 @@
   "license": "MIT",
   "commands": [
     {
-      "name": "paste-selected-path-segment",
-      "title": "Paste selected URL path segment",
+      "name": "paste-url-path-segment",
+      "title": "Paste URL Path Segment",
       "description": "Parses URL on clipboard to allow for pasting a specific part",
       "mode": "view"
     },
@@ -21,12 +21,6 @@
       "name": "paste-host",
       "title": "Paste URL host",
       "description": "Parses URL on clipboard and pastes the host",
-      "mode": "no-view"
-    },
-    {
-      "name": "paste-last-path-segment",
-      "title": "Paste last URL path segment",
-      "description": "Parses URL on clipboard and pastes the last path segment from the pathname",
       "mode": "no-view"
     },
     {

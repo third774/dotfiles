@@ -33,18 +33,12 @@ export default function PasteSearchParamValue() {
         <List.Item
           key={i}
           title={value}
-          subtitle={key}
+          subtitle={"?" + key + "="}
+          keywords={[key, "?" + key + "="]}
           actions={
             <ActionPanel>
-              <Action.CopyToClipboard title="Copy to Clipboard" content={value} />
-              <Action.Paste
-                title="Paste"
-                content={value}
-                shortcut={{
-                  key: "enter",
-                  modifiers: ["cmd"],
-                }}
-              />
+              <Action.Paste content={value} />
+              <Action.CopyToClipboard content={value} />
             </ActionPanel>
           }
         />

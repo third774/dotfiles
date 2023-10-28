@@ -35,7 +35,8 @@ export default function GrabUrlPartFromSelection() {
           title={fragment}
           actions={
             <ActionPanel>
-              <Action.CopyToClipboard title="Copy to Clipboard" content={fragment} />
+              <Action.Paste content={fragment} />
+              <Action.CopyToClipboard content={fragment} />
             </ActionPanel>
           }
         />

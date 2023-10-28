@@ -10,11 +10,13 @@ import {
   useUnreadEntriesIdSet,
 } from "../utils/api";
 import { ActionShowEntry } from "./ActionShowEntry";
+import { MutatePromise } from "@raycast/utils";
 
 export interface EntryListProps {
-  markEntryReadMutation?: (promise: Promise<unknown>, entryId?: number) => Promise<void>;
   isLoading: boolean;
   entries?: Entry[];
+  revalidate?: () => void;
+  mutateEntries?: MutatePromise<Entry[] | undefined, Entry[] | undefined, unknown>;
 }
 
 export function EntryList(props: EntryListProps) {
@@ -103,11 +105,18 @@ export function EntryList(props: EntryListProps) {
                     title="Mark as Read"
                     icon={Icon.Check}
                     onAction={async () => {
-                      await mutateUnreadEntriesSet(markAsRead(entry.id));
+                      const pendingMutation = mutateUnreadEntriesSet(markAsRead(entry.id));
+                      await (props.mutateEntries
+                        ? props.mutateEntries(pendingMutation, {
+                            optimisticUpdate: (entries) => entries?.filter((e) => e.id !== entry.id),
+                            rollbackOnError: true,
+                          })
+                        : pendingMutation);
                       await launchCommand({
                         name: "unread-menu-bar",
                         type: LaunchType.Background,
                       });
+                      props.revalidate?.();
                     }}
                     shortcut={{
                       key: "m",

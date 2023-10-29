@@ -1,4 +1,5 @@
 import { Action, ActionPanel, Icon, LaunchType, List, launchCommand } from "@raycast/api";
+import { MutatePromise } from "@raycast/utils";
 import {
   Entry,
   deleteStarredEntries,
@@ -10,7 +11,7 @@ import {
   useUnreadEntriesIdSet,
 } from "../utils/api";
 import { ActionShowEntry } from "./ActionShowEntry";
-import { MutatePromise } from "@raycast/utils";
+import { DetailSummarized } from "./DetailSummarized";
 
 export interface EntryListProps {
   isLoading: boolean;
@@ -67,6 +68,16 @@ export function EntryList(props: EntryListProps) {
               <ActionPanel>
                 <Action.OpenInBrowser url={entry.url} />
                 <ActionShowEntry entry={entry} />
+                {entry.content && (
+                  <Action.Push
+                    title="Summarize"
+                    target={<DetailSummarized entry={entry} />}
+                    shortcut={{
+                      key: "s",
+                      modifiers: ["cmd", "shift"],
+                    }}
+                  />
+                )}
                 <Action.CopyToClipboard
                   title="Copy URL to Clipboard"
                   content={entry.url}

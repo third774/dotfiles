@@ -1,4 +1,4 @@
-import { Action, ActionPanel, Icon, LaunchType, List, launchCommand } from "@raycast/api";
+import { AI, Action, ActionPanel, Icon, LaunchType, List, environment, launchCommand } from "@raycast/api";
 import { MutatePromise } from "@raycast/utils";
 import {
   Entry,
@@ -68,10 +68,11 @@ export function EntryList(props: EntryListProps) {
               <ActionPanel>
                 <Action.OpenInBrowser url={entry.url} />
                 <ActionShowEntry entry={entry} />
-                {entry.content && (
+                {entry.content && environment.canAccess(AI) && (
                   <Action.Push
                     title="Summarize"
-                    target={<DetailSummarized entry={entry} />}
+                    icon={Icon.Stars}
+                    target={<DetailSummarized entry={entry} mutateUnreadEntriesSet={mutateUnreadEntriesSet} />}
                     shortcut={{
                       key: "s",
                       modifiers: ["cmd", "shift"],

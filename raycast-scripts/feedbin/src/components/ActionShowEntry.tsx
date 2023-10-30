@@ -11,7 +11,7 @@ export function ActionShowEntry(props: ActionShowEntryProps) {
   return (
     <Action.Push
       title="View in Raycast"
-      icon={Icon.Document}
+      icon={Icon.RaycastLogoNeg}
       target={
         <Detail
           markdown={NodeHtmlMarkdown.translate(props.entry.content)}

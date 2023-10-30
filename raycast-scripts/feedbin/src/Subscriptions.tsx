@@ -9,13 +9,8 @@ import {
   confirmAlert,
   launchCommand,
 } from "@raycast/api";
-import { EntryList } from "./components/EntryList";
-import { unsubscribe, useFeedEntries, useSubscriptions } from "./utils/api";
-
-function FeedList(props: { feedId: number }) {
-  const { data, isLoading, mutate } = useFeedEntries(props.feedId);
-  return <EntryList entries={data} isLoading={isLoading} mutateEntries={mutate} />;
-}
+import { FeedList } from "./components/FeedList";
+import { unsubscribe, useSubscriptions } from "./utils/api";
 
 export default function SubscriptionsCommand(): JSX.Element {
   const { data, isLoading, mutate } = useSubscriptions();

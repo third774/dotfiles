@@ -30,16 +30,9 @@
   "commands": [
     {
       "name": "all-feeds",
-      "title": "View All Entries",
-      "description": "Shows a feed of all entries from your RSS feeds combined into one view",
+      "title": "View All Feeds",
+      "description": "Shows all feeds in your Feedbin account",
       "mode": "view"
-    },
-    {
-      "name": "unread-list",
-      "title": "View Unread Entries",
-      "description": "Shows a feed of unread entries from all RSS feeds",
-      "mode": "view",
-      "interval": "10s"
     },
     {
       "name": "unread-menu-bar",

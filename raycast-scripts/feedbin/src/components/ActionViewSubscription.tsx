@@ -12,6 +12,10 @@ export function ActionViewSubscription(props: ActionViewSubscriptionProps) {
   return (
     <Action.Push
       title="Show Only This Feed"
+      shortcut={{
+        modifiers: ["cmd", "shift"],
+        key: "f",
+      }}
       icon={Icon.Filter}
       target={
         <FeedbinApiContextProvider>

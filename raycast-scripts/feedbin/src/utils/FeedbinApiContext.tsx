@@ -31,6 +31,12 @@ export const FeedbinApiContextProvider = (props: { children?: ReactNode }) => {
   const icons = useIcons();
   const starredEntriesIds = useStarredEntriesIds();
   const unreadEntriesIds = useUnreadEntriesIds();
+  const isLoading =
+    subscriptions.isLoading ||
+    starredEntries.isLoading ||
+    icons.isLoading ||
+    starredEntriesIds.isLoading ||
+    unreadEntriesIds.isLoading;
 
   const subscriptionMap = useMemo(
     () =>
@@ -72,11 +78,7 @@ export const FeedbinApiContextProvider = (props: { children?: ReactNode }) => {
     starredEntriesIdsSet,
     unreadEntriesIds,
     unreadEntriesSet,
-    isLoading:
-      subscriptions.isLoading ||
-      icons.isLoading ||
-      starredEntriesIds.isLoading ||
-      unreadEntriesIds.isLoading,
+    isLoading,
   };
 
   return <Context.Provider value={api}>{props.children}</Context.Provider>;

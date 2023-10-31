@@ -55,7 +55,7 @@
     },
     {
       "name": "add-subscription",
-      "title": "Subscribe",
+      "title": "Subscribe to Selected URL",
       "description": "Subscibes to an RSS feed",
       "mode": "view"
     },

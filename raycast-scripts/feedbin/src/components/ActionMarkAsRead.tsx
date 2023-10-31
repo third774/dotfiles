@@ -17,6 +17,7 @@ export function ActionMarkAsRead(props: ActionMarkAsReadProps) {
       onAction={async () => {
         await unreadEntriesIds.mutate(markAsRead(props.id), {
           optimisticUpdate: (ids) => ids?.filter((id) => id !== props.id),
+          shouldRevalidateAfter: false,
         });
         await launchCommand({
           name: "unread-menu-bar",

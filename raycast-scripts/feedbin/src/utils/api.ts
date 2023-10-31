@@ -234,7 +234,9 @@ export type MultipleFeeds = {
   title: string;
 }[];
 
-export type CreatedSubscription = SingleFeed | MultipleFeeds;
+export type Subscribe404 = { status: 404; message: null; errors: [] };
+
+export type CreatedSubscription = SingleFeed | MultipleFeeds | Subscribe404;
 
 export function createSubscription(url: string) {
   return fetch(`${API_ROOT}/v2/subscriptions.json`, {

@@ -2,34 +2,40 @@ import {
   Action,
   ActionPanel,
   Form,
-  popToRoot,
+  Toast,
+  getSelectedText,
   showToast,
   useNavigation,
 } from "@raycast/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MultipleFeeds, createSubscription } from "./utils/api";
+import { closeAndShowToast } from "./utils/closeAndShowToast";
+import { isValidURL } from "./utils/isValidURL";
 
 function AddMultipleFeeds(props: { feeds: MultipleFeeds }) {
-  const [isLoading, setIsloading] = useState(false);
   return (
     <Form
-      isLoading={isLoading}
       actions={
         <ActionPanel>
           <Action.SubmitForm
             onSubmit={async (values: Record<string, boolean>) => {
-              setIsloading(true);
               const feeds = Object.entries(values)
                 .filter(([, value]) => value)
                 .map(([key]) => key);
-              await Promise.all(feeds.map((key) => createSubscription(key)));
-              setIsloading(false);
-              showToast({
-                title: `Added ${feeds.length} feed${
+              showToast(
+                Toast.Style.Animated,
+                `Subscribing to ${feeds.length} feed${
                   feeds.length === 1 ? "" : "s"
-                }.`,
-              });
-              popToRoot();
+                }...`,
+              );
+
+              await Promise.all(feeds.map((key) => createSubscription(key)));
+              closeAndShowToast(
+                Toast.Style.Success,
+                feeds.length === 1
+                  ? `Subscribed to ${feeds[0]}`
+                  : `Subscribed to ${feeds.length} feeds`,
+              );
             }}
           />
         </ActionPanel>
@@ -50,34 +56,43 @@ function AddMultipleFeeds(props: { feeds: MultipleFeeds }) {
 
 export default function Command(): JSX.Element {
   const { push } = useNavigation();
-  const [isLoading, setIsloading] = useState(false);
 
-  async function handleSubmit(values: { URI: string }) {
-    setIsloading(true);
-    const result = await createSubscription(values.URI);
-    setIsloading(false);
-    if (Array.isArray(result)) {
-      push(<AddMultipleFeeds feeds={result} />);
-    } else {
-      showToast({ title: `Added ${result.feed_url}` });
-      popToRoot();
-    }
-  }
-  return (
-    <Form
-      isLoading={isLoading}
-      actions={
-        <ActionPanel>
-          <Action.SubmitForm onSubmit={handleSubmit} />
-        </ActionPanel>
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const text = await getSelectedText();
+        if (!isValidURL(text)) {
+          closeAndShowToast(Toast.Style.Failure, "Invalid URL selected");
+          return;
+        }
+
+        showToast(Toast.Style.Animated, "Checking for feeds...");
+        const result = await createSubscription(text);
+        setIsLoading(false);
+        if (Array.isArray(result)) {
+          showToast(Toast.Style.Success, "Multiple feeds found");
+          push(<AddMultipleFeeds feeds={result} />);
+          return;
+        } else if ("feed_url" in result) {
+          closeAndShowToast(
+            Toast.Style.Success,
+            `Subscribed to ${result.feed_url}`,
+          );
+          return;
+        } else if (result.status === 404) {
+          closeAndShowToast(Toast.Style.Failure, "No feeds found");
+          return;
+        } else {
+          closeAndShowToast(Toast.Style.Failure, "Unknown error");
+          return;
+        }
+      } catch (error) {
+        closeAndShowToast(Toast.Style.Failure, "Unable to get selected text");
       }
-    >
-      <Form.TextField
-        autoFocus
-        id="URI"
-        title="RSS or URL"
-        placeholder="https://www.example.com"
-      />
-    </Form>
-  );
+    })();
+  }, []);
+
+  return <Form isLoading={isLoading} />;
 }

@@ -1,9 +1,11 @@
 import { Action, ActionPanel, Icon, List } from "@raycast/api";
-import { ActionCopyUrlToClipboard } from "./components/ActionCopyUrlToClipboard";
 import { ActionUnsubscribe } from "./components/ActionUnsubscribe";
 import { FeedList } from "./components/FeedList";
-import { FeedbinApiContextProvider } from "./utils/FeedbinApiContext";
-import { Subscription, useSubscriptions } from "./utils/api";
+import {
+  FeedbinApiContextProvider,
+  useFeedbinApiContext,
+} from "./utils/FeedbinApiContext";
+import { Subscription } from "./utils/api";
 import { useIcon } from "./utils/useIcon";
 
 export function SubscriptionItem(props: { sub: Subscription }) {
@@ -14,7 +16,7 @@ export function SubscriptionItem(props: { sub: Subscription }) {
       key={props.sub.id}
       title={props.sub.title}
       icon={icon}
-      subtitle={props.sub.site_url}
+      subtitle={props.sub.feed_url}
       keywords={[props.sub.site_url]}
       actions={
         <ActionPanel>
@@ -27,7 +29,16 @@ export function SubscriptionItem(props: { sub: Subscription }) {
               </FeedbinApiContextProvider>
             }
           />
-          <ActionCopyUrlToClipboard url={props.sub.site_url} />
+          <Action.OpenInBrowser url={props.sub.site_url} />
+          <Action.CopyToClipboard
+            shortcut={{
+              modifiers: ["cmd", "shift"],
+              key: "c",
+            }}
+            icon={Icon.CopyClipboard}
+            title="Copy Feed URL"
+            content={props.sub.feed_url}
+          />
           <ActionUnsubscribe subscription={props.sub} />
         </ActionPanel>
       }
@@ -36,11 +47,13 @@ export function SubscriptionItem(props: { sub: Subscription }) {
 }
 
 export function SubscriptionsCommand(): JSX.Element {
-  const { data, isLoading } = useSubscriptions();
+  const { subscriptions } = useFeedbinApiContext();
 
   return (
-    <List isLoading={isLoading}>
-      {data?.map((sub) => <SubscriptionItem key={sub.feed_id} sub={sub} />)}
+    <List isLoading={subscriptions.isLoading}>
+      {subscriptions.data?.map((sub) => (
+        <SubscriptionItem key={sub.feed_id} sub={sub} />
+      ))}
     </List>
   );
 }

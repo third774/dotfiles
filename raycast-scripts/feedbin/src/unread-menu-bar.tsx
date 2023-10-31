@@ -30,12 +30,15 @@ export default function MenuCommand(): JSX.Element {
       subscriptionMap[+aKey].title.localeCompare(subscriptionMap[+bKey].title),
   );
 
+  const unreadCount = data ? data.length : 0;
+
   return (
     <MenuBarExtra
       icon={{ source: "feedbin.png" }}
-      title={`${data?.length.toString() ?? "0"} unread`}
+      title={unreadCount ? unreadCount.toString() : undefined}
       isLoading={isLoading || isLoadingSubscriptionMap}
     >
+      {unreadCount === 0 && <MenuBarExtra.Section title="No unread items" />}
       {entries.map(([feedId, entries]) => {
         return (
           <MenuBarExtra.Section
@@ -44,8 +47,8 @@ export default function MenuCommand(): JSX.Element {
           >
             {entries.map((entry) => {
               let title = entry.title ?? entry.summary;
-              if (title.length > 50) {
-                title = title.substring(0, 50) + "...";
+              if (title.length > 60) {
+                title = title.substring(0, 60) + "...";
               }
               return (
                 <MenuBarExtra.Item

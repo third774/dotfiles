@@ -1,79 +1,64 @@
-import { AI, Action, ActionPanel, Icon, LaunchType, List, environment, launchCommand } from "@raycast/api";
+import { Action, ActionPanel, Icon, List } from "@raycast/api";
 import { MutatePromise } from "@raycast/utils";
 import { ReactNode, useState } from "react";
-import {
-  Entry,
-  Subscription,
-  deleteStarredEntries,
-  markAsRead,
-  starEntries,
-  useIcons,
-  useStarredEntriesSet,
-  useSubscriptionMap,
-  useUnreadEntriesIdSet,
-} from "../utils/api";
+import { useFeedbinApiContext } from "../utils/FeedbinApiContext";
+import { Entry } from "../utils/api";
+import { useIcon } from "../utils/useIcon";
+import { ActionAiSummary } from "./ActionAiSummary";
+import { ActionCopyUrlToClipboard } from "./ActionCopyUrlToClipboard";
+import { ActionMarkAsRead } from "./ActionMarkAsRead";
 import { ActionShowEntry } from "./ActionShowEntry";
-import { DetailSummarized } from "./DetailSummarized";
-import { FeedList } from "./FeedList";
-
-function getHost(url: string) {
-  try {
-    return new URL(url).host;
-  } catch {
-    return null;
-  }
-}
+import { ActionStarToggle } from "./ActionStarToggle";
+import { ActionViewSubscription } from "./ActionViewSubscription";
 
 export interface EntryListProps {
-  isLoading: boolean;
-  entries?: Entry[];
-  revalidate?: () => void;
-  mutateEntries?: MutatePromise<Entry[] | undefined, Entry[] | undefined, unknown>;
+  isLoading?: boolean;
+  navigationTitle?: string;
+  entries: Entry[] | undefined;
+  mutateEntries?: MutatePromise<
+    Entry[] | undefined,
+    Entry[] | undefined,
+    unknown
+  >;
+  revalidateEntries?: () => void;
 }
 
-const ReadSection = (props: { prioritizeUnread: boolean; children: ReactNode }) =>
-  props.prioritizeUnread ? <List.Section title="Read">{props.children}</List.Section> : <>{props.children}</>;
+const ReadSection = (props: {
+  prioritizeUnread: boolean;
+  children: ReactNode;
+}) =>
+  props.prioritizeUnread ? (
+    <List.Section title="Read">{props.children}</List.Section>
+  ) : (
+    <>{props.children}</>
+  );
 
 export function EntryList(props: EntryListProps) {
-  const { isLoading: isLoadingSubscriptions, data: subscriptionMap } = useSubscriptionMap();
-  const { isLoading: isLoadingIcons, data: icons } = useIcons();
-  const { isLoading: isLoadingStarredEntries } = useStarredEntriesSet();
-  const {
-    isLoading: isLoadingUnreadEntriesSet,
-    data: unreadEntriesSet,
-    mutate: mutateUnreadEntriesSet,
-  } = useUnreadEntriesIdSet();
-  const { data: starredEntriesSet, mutate: mutateStarredEntries } = useStarredEntriesSet();
+  const { isLoading, unreadEntriesSet } = useFeedbinApiContext();
   const [prioritizeUnread, setPrioritizeUnread] = useState(true);
-
-  const unreadItems = props.entries?.filter((entry) => unreadEntriesSet.has(entry.id));
+  const unreadItems = props.entries?.filter((entry) =>
+    unreadEntriesSet.has(entry.id),
+  );
 
   return (
     <List
+      navigationTitle={props.navigationTitle}
       searchBarAccessory={
         <List.Dropdown
           defaultValue={prioritizeUnread.toString()}
           storeValue
           tooltip="Option to prioritize unread entries"
-          onChange={(value) => {
-            console.log({ value });
-
-            return setPrioritizeUnread(value === "true");
-          }}
+          onChange={(value) => setPrioritizeUnread(value === "true")}
         >
           <List.Dropdown.Item title="Prioritize Unread" value="true" />
           <List.Dropdown.Item title="Show All in Order" value="false" />
         </List.Dropdown>
       }
-      isLoading={
-        props.isLoading ||
-        isLoadingSubscriptions ||
-        isLoadingStarredEntries ||
-        isLoadingUnreadEntriesSet ||
-        isLoadingIcons
-      }
+      isLoading={isLoading || props.isLoading}
     >
-      {props.entries && props.entries.length === 0 && <List.EmptyView icon={Icon.CheckRosette} title="No content!" />}
+      {props.entries && props.entries.length === 0 && (
+        <List.EmptyView icon={Icon.CheckRosette} title="No content!" />
+      )}
 
       {prioritizeUnread && (
         <>
@@ -82,85 +67,52 @@ export function EntryList(props: EntryListProps) {
               <List.Item
                 actions={
                   <ActionPanel>
-                    {props.revalidate && (
-                      <Action title="Refresh" icon={Icon.RotateClockwise} onAction={() => props.revalidate?.()} />
+                    {props.revalidateEntries && (
+                      <Action
+                        title="Refresh"
+                        icon={Icon.RotateClockwise}
+                        onAction={() => props.revalidateEntries?.()}
+                      />
                     )}
                   </ActionPanel>
                 }
                 title="No Unread Items"
               />
             )}
-            {subscriptionMap &&
-              unreadEntriesSet &&
+            {unreadEntriesSet &&
               unreadItems?.map((entry) => (
-                <ListItem
-                  key={entry.id}
-                  entry={entry}
-                  mutateEntries={props.mutateEntries}
-                  icons={icons}
-                  subscriptionMap={subscriptionMap}
-                  mutateStarredEntries={mutateStarredEntries}
-                  mutateUnreadEntriesSet={mutateUnreadEntriesSet}
-                  starredEntriesSet={starredEntriesSet}
-                  unreadEntriesSet={unreadEntriesSet}
-                />
+                <ListItem key={entry.id} entry={entry} />
               ))}
           </List.Section>
         </>
       )}
 
       <ReadSection prioritizeUnread={prioritizeUnread}>
-        {subscriptionMap &&
-          unreadEntriesSet &&
+        {unreadEntriesSet &&
           props.entries
-            ?.filter((entry) => (prioritizeUnread ? !unreadEntriesSet.has(entry.id) : true))
-            .map((entry) => (
-              <ListItem
-                key={entry.id}
-                entry={entry}
-                mutateEntries={props.mutateEntries}
-                icons={icons}
-                subscriptionMap={subscriptionMap}
-                mutateStarredEntries={mutateStarredEntries}
-                mutateUnreadEntriesSet={mutateUnreadEntriesSet}
-                starredEntriesSet={starredEntriesSet}
-                unreadEntriesSet={unreadEntriesSet}
-              />
-            ))}
+            ?.filter((entry) =>
+              prioritizeUnread ? !unreadEntriesSet.has(entry.id) : true,
+            )
+            .map((entry) => <ListItem key={entry.id} entry={entry} />)}
       </ReadSection>
     </List>
   );
 }
 
-function ListItem({
-  entry,
-  mutateEntries,
-  subscriptionMap,
-  mutateStarredEntries,
-  mutateUnreadEntriesSet,
-  icons,
-  starredEntriesSet,
-  unreadEntriesSet,
-}: {
-  entry: Entry;
-  mutateEntries?: MutatePromise<Entry[] | undefined, Entry[] | undefined, unknown>;
-  subscriptionMap: Record<number, Subscription>;
-  mutateStarredEntries: MutatePromise<number[] | undefined, number[] | undefined, unknown>;
-  mutateUnreadEntriesSet: MutatePromise<number[] | undefined, number[] | undefined, unknown>;
-  starredEntriesSet: Set<number>;
-  unreadEntriesSet: Set<number>;
-  icons: Record<string, string>;
-}) {
-  const host = getHost(entry.url);
+function ListItem(props: { entry: Entry }) {
+  const { subscriptionMap, starredEntriesIdsSet, unreadEntriesSet } =
+    useFeedbinApiContext();
+  const { entry } = props;
+  const icon = useIcon(entry.url);
   return (
     <List.Item
       key={entry.id}
       title={entry.title ?? entry.summary}
-      icon={(host && icons[host]) || Icon.Globe}
+      icon={icon}
       keywords={(subscriptionMap[entry.feed_id]?.title ?? entry.url).split(" ")}
       subtitle={subscriptionMap[entry.feed_id]?.title ?? entry.url}
       accessories={[
-        starredEntriesSet.has(entry.id) && {
+        starredEntriesIdsSet.has(entry.id) && {
           icon: Icon.Star,
         },
         unreadEntriesSet.has(entry.id) && {
@@ -171,73 +123,14 @@ function ListItem({
         <ActionPanel>
           <Action.OpenInBrowser url={entry.url} />
           <ActionShowEntry entry={entry} />
-          {entry.content && environment.canAccess(AI) && (
-            <Action.Push
-              title="Summarize"
-              icon={Icon.Stars}
-              target={<DetailSummarized entry={entry} mutateUnreadEntriesSet={mutateUnreadEntriesSet} />}
-              shortcut={{
-                key: "s",
-                modifiers: ["cmd", "shift"],
-              }}
-            />
-          )}
-          <Action.CopyToClipboard
-            title="Copy URL to Clipboard"
-            content={entry.url}
-            shortcut={{
-              key: "c",
-              modifiers: ["cmd", "shift"],
-            }}
+          <ActionAiSummary entry={entry} />
+          <ActionCopyUrlToClipboard url={entry.url} />
+          <ActionViewSubscription
+            feedName={subscriptionMap[entry.feed_id]?.title}
+            entry={entry}
           />
-          <Action.Push title="View Subscription" icon={Icon.Livestream} target={<FeedList feedId={entry.feed_id} />} />
-          {starredEntriesSet.has(entry.id) ? (
-            <Action
-              title="Unstar This Content"
-              icon={Icon.StarDisabled}
-              onAction={async () => {
-                mutateStarredEntries(deleteStarredEntries(entry.id));
-              }}
-              shortcut={{
-                key: "s",
-                modifiers: ["cmd"],
-              }}
-            />
-          ) : (
-            <Action
-              title="Star This Content"
-              icon={Icon.Star}
-              onAction={async () => {
-                mutateStarredEntries(starEntries(entry.id));
-              }}
-              shortcut={{
-                key: "s",
-                modifiers: ["cmd"],
-              }}
-            />
-          )}
-          {unreadEntriesSet.has(entry.id) && (
-            <Action
-              title="Mark as Read"
-              icon={Icon.Check}
-              onAction={async () => {
-                const pendingMutation = mutateUnreadEntriesSet(markAsRead(entry.id));
-                await (mutateEntries
-                  ? mutateEntries(pendingMutation, {
-                      optimisticUpdate: (entries) => entries?.filter((e) => e.id !== entry.id),
-                    })
-                  : pendingMutation);
-                await launchCommand({
-                  name: "unread-menu-bar",
-                  type: LaunchType.Background,
-                });
-              }}
-              shortcut={{
-                key: "m",
-                modifiers: ["cmd"],
-              }}
-            />
-          )}
+          <ActionStarToggle id={entry.id} />
+          <ActionMarkAsRead id={entry.id} />
         </ActionPanel>
       }
     />

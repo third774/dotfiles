@@ -1,4 +1,11 @@
-import { Action, ActionPanel, Form, popToRoot, showToast, useNavigation } from "@raycast/api";
+import {
+  Action,
+  ActionPanel,
+  Form,
+  popToRoot,
+  showToast,
+  useNavigation,
+} from "@raycast/api";
 import { useState } from "react";
 import { MultipleFeeds, createSubscription } from "./utils/api";
 
@@ -18,7 +25,9 @@ function AddMultipleFeeds(props: { feeds: MultipleFeeds }) {
               await Promise.all(feeds.map((key) => createSubscription(key)));
               setIsloading(false);
               showToast({
-                title: `Added ${feeds.length} feed${feeds.length === 1 ? "" : "s"}.`,
+                title: `Added ${feeds.length} feed${
+                  feeds.length === 1 ? "" : "s"
+                }.`,
               });
               popToRoot();
             }}
@@ -27,7 +36,13 @@ function AddMultipleFeeds(props: { feeds: MultipleFeeds }) {
       }
     >
       {props.feeds.map(({ feed_url, title }) => (
-        <Form.Checkbox key={feed_url} defaultValue={true} id={feed_url} label={feed_url} title={title} />
+        <Form.Checkbox
+          key={feed_url}
+          defaultValue={true}
+          id={feed_url}
+          label={feed_url}
+          title={title}
+        />
       ))}
     </Form>
   );
@@ -57,7 +72,12 @@ export default function Command(): JSX.Element {
         </ActionPanel>
       }
     >
-      <Form.TextField autoFocus id="URI" title="RSS or URL" />
+      <Form.TextField
+        autoFocus
+        id="URI"
+        title="RSS or URL"
+        placeholder="https://www.example.com"
+      />
     </Form>
   );
 }

@@ -1,69 +1,54 @@
-import {
-  Action,
-  ActionPanel,
-  Alert,
-  Icon,
-  LaunchType,
-  List,
-  clearSearchBar,
-  confirmAlert,
-  launchCommand,
-} from "@raycast/api";
+import { Action, ActionPanel, Icon, List } from "@raycast/api";
+import { ActionCopyUrlToClipboard } from "./components/ActionCopyUrlToClipboard";
+import { ActionUnsubscribe } from "./components/ActionUnsubscribe";
 import { FeedList } from "./components/FeedList";
-import { unsubscribe, useSubscriptions } from "./utils/api";
+import { FeedbinApiContextProvider } from "./utils/FeedbinApiContext";
+import { Subscription, useSubscriptions } from "./utils/api";
+import { useIcon } from "./utils/useIcon";
 
-export default function SubscriptionsCommand(): JSX.Element {
-  const { data, isLoading, mutate } = useSubscriptions();
+export function SubscriptionItem(props: { sub: Subscription }) {
+  const icon = useIcon(props.sub.site_url);
+
+  return (
+    <List.Item
+      key={props.sub.id}
+      title={props.sub.title}
+      icon={icon}
+      subtitle={props.sub.site_url}
+      keywords={[props.sub.site_url]}
+      actions={
+        <ActionPanel>
+          <Action.Push
+            title="View Feed"
+            icon={Icon.List}
+            target={
+              <FeedbinApiContextProvider>
+                <FeedList feedId={props.sub.feed_id} />
+              </FeedbinApiContextProvider>
+            }
+          />
+          <ActionCopyUrlToClipboard url={props.sub.site_url} />
+          <ActionUnsubscribe subscription={props.sub} />
+        </ActionPanel>
+      }
+    />
+  );
+}
+
+export function SubscriptionsCommand(): JSX.Element {
+  const { data, isLoading } = useSubscriptions();
 
   return (
     <List isLoading={isLoading}>
-      {data?.map((sub) => (
-        <List.Item
-          key={sub.id}
-          title={sub.title}
-          subtitle={sub.site_url}
-          keywords={[sub.site_url]}
-          actions={
-            <ActionPanel>
-              <Action.Push title="View Feed" target={<FeedList feedId={sub.feed_id} />} />
-              <Action.CopyToClipboard
-                shortcut={{
-                  key: "c",
-                  modifiers: ["cmd", "shift"],
-                }}
-                content={sub.site_url}
-              />
-              <Action
-                title="Unsubscribe"
-                shortcut={{
-                  key: "u",
-                  modifiers: ["cmd"],
-                }}
-                onAction={async () => {
-                  if (
-                    await confirmAlert({
-                      title: `Are you sure?`,
-                      message: sub.title,
-                      icon: Icon.ExclamationMark,
-                      primaryAction: {
-                        title: "Unsubscribe",
-                        style: Alert.ActionStyle.Destructive,
-                      },
-                    })
-                  ) {
-                    await mutate(unsubscribe(sub.id));
-                    launchCommand({
-                      name: "unread-menu-bar",
-                      type: LaunchType.Background,
-                    });
-                    clearSearchBar();
-                  }
-                }}
-              />
-            </ActionPanel>
-          }
-        />
-      ))}
+      {data?.map((sub) => <SubscriptionItem key={sub.feed_id} sub={sub} />)}
     </List>
+  );
+}
+
+export default function Command() {
+  return (
+    <FeedbinApiContextProvider>
+      <SubscriptionsCommand />
+    </FeedbinApiContextProvider>
   );
 }

@@ -1,7 +1,17 @@
 import { EntryList } from "./components/EntryList";
+import { FeedbinApiContextProvider } from "./utils/FeedbinApiContext";
 import { useEntries } from "./utils/api";
 
 export default function Command() {
-  const { isLoading: isLoadingEntries, data, revalidate } = useEntries();
-  return <EntryList isLoading={isLoadingEntries} entries={data} revalidate={revalidate} />;
+  const { data, mutate, revalidate, isLoading } = useEntries();
+  return (
+    <FeedbinApiContextProvider>
+      <EntryList
+        entries={data}
+        mutateEntries={mutate}
+        revalidateEntries={revalidate}
+        isLoading={isLoading}
+      />
+    </FeedbinApiContextProvider>
+  );
 }

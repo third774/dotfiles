@@ -19,9 +19,13 @@ export default async function Main() {
   }
 
   try {
+    await showToast(Toast.Style.Animated, `Saving ${url}`);
     const entry = await readLater(url);
     if (entry && entry.id) {
-      await showToast(Toast.Style.Success, `Saved ${entry.title} to read later`);
+      await showToast(
+        Toast.Style.Success,
+        `Saved ${entry.title} to read later`,
+      );
     } else {
       await showToast(Toast.Style.Failure, "Failed to save to read later");
     }

@@ -68,11 +68,14 @@ export function getEntries(params: EntriesParams = {}) {
 
 export function useEntries(params: EntriesParams = {}) {
   const searchParams = new URLSearchParams(params);
-  const { error, revalidate, ...rest } = useFetch<Entry[]>(`${API_ROOT}/v2/entries.json?${searchParams}`, {
-    method: "GET",
-    headers: getHeaders(),
-    keepPreviousData: true,
-  });
+  const { error, revalidate, ...rest } = useFetch<Entry[]>(
+    `${API_ROOT}/v2/entries.json?${searchParams}`,
+    {
+      method: "GET",
+      headers: getHeaders(),
+      keepPreviousData: true,
+    },
+  );
 
   useEffect(() => {
     if (error) {
@@ -96,11 +99,14 @@ export function useEntries(params: EntriesParams = {}) {
 }
 
 export function useSubscriptions() {
-  const { error, revalidate, ...rest } = useFetch<Subscription[]>(`${API_ROOT}/v2/subscriptions.json?`, {
-    method: "GET",
-    headers: getHeaders(),
-    keepPreviousData: true,
-  });
+  const { error, revalidate, ...rest } = useFetch<Subscription[]>(
+    `${API_ROOT}/v2/subscriptions.json?`,
+    {
+      method: "GET",
+      headers: getHeaders(),
+      keepPreviousData: true,
+    },
+  );
 
   useEffect(() => {
     if (error) {
@@ -126,7 +132,13 @@ export function useSubscriptions() {
 export function useSubscriptionMap() {
   const { isLoading, data } = useSubscriptions();
   const subscriptionMap = useMemo(
-    () => (data ? data.reduce<Record<number, Subscription>>((acc, sub) => ({ ...acc, [sub.feed_id]: sub }), {}) : {}),
+    () =>
+      data
+        ? data.reduce<Record<number, Subscription>>(
+            (acc, sub) => ({ ...acc, [sub.feed_id]: sub }),
+            {},
+          )
+        : {},
     [data],
   );
 
@@ -175,19 +187,12 @@ export function deleteStarredEntries(...entryIds: number[]) {
   });
 }
 
-export function useStarredEntriesSet() {
-  const api = useFetch<number[]>(`${API_ROOT}/v2/starred_entries.json`, {
+export function useStarredEntriesIds() {
+  return useFetch<number[]>(`${API_ROOT}/v2/starred_entries.json`, {
     method: "GET",
     headers: getHeaders(),
     keepPreviousData: true,
   });
-
-  const set = useMemo(() => new Set(api.data), [api.data]);
-
-  return {
-    ...api,
-    data: set,
-  };
 }
 
 export function useStarredEntries() {
@@ -198,6 +203,7 @@ export function useFeedEntries(id: number) {
   return useFetch<Entry[]>(`${API_ROOT}/v2/feeds/${id}/entries.json`, {
     method: "GET",
     headers: getHeaders(),
+    keepPreviousData: true,
   });
 }
 
@@ -211,19 +217,12 @@ export function unsubscribe(subscriptionId: number) {
   });
 }
 
-export function useUnreadEntriesIdSet() {
-  const api = useFetch<number[]>(`${API_ROOT}/v2/unread_entries.json`, {
+export function useUnreadEntriesIds() {
+  return useFetch<number[]>(`${API_ROOT}/v2/unread_entries.json`, {
     method: "GET",
     headers: getHeaders(),
     keepPreviousData: true,
   });
-
-  const set = useMemo(() => new Set(api.data), [api.data]);
-
-  return {
-    ...api,
-    data: set,
-  };
 }
 
 export type SingleFeed = {
@@ -271,17 +270,8 @@ export interface Icon {
 }
 
 export function useIcons() {
-  const { data, ...rest } = useFetch<Icon[]>(`${API_ROOT}/v2/icons.json`, {
+  return useFetch<Icon[]>(`${API_ROOT}/v2/icons.json`, {
     headers: getHeaders(),
+    keepPreviousData: true,
   });
-
-  const iconMap = useMemo(
-    () => (data ? data.reduce<Record<string, string>>((acc, icon) => ({ ...acc, [icon.host]: icon.url }), {}) : {}),
-    [data],
-  );
-
-  return {
-    ...rest,
-    data: iconMap,
-  };
 }

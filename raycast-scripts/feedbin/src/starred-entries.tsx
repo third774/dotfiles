@@ -1,8 +1,27 @@
 import { EntryList } from "./components/EntryList";
-import { useStarredEntries } from "./utils/api";
+import {
+  FeedbinApiContextProvider,
+  useFeedbinApiContext,
+} from "./utils/FeedbinApiContext";
+
+function StarredEntries() {
+  const { starredEntries, starredEntriesIdsSet } = useFeedbinApiContext();
+  return (
+    <EntryList
+      entries={starredEntries.data?.filter((entry) =>
+        starredEntriesIdsSet.has(entry.id),
+      )}
+      revalidateEntries={starredEntries.revalidate}
+      mutateEntries={starredEntries.mutate}
+      isLoading={starredEntries.isLoading}
+    />
+  );
+}
 
 export default function Command(): JSX.Element {
-  const { data, isLoading } = useStarredEntries();
-
-  return <EntryList isLoading={isLoading} entries={data} />;
+  return (
+    <FeedbinApiContextProvider>
+      <StarredEntries />
+    </FeedbinApiContextProvider>
+  );
 }

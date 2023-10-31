@@ -10,7 +10,7 @@ export default function MenuCommand(): JSX.Element {
   useEffect(() => {
     (async () => {
       await updateCommandMetadata({
-        subtitle: `${data?.length.toString() ?? ""} items`,
+        subtitle: `${data?.length.toString() ?? ""} unread items`,
       });
     })();
   }, []);

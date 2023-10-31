@@ -4,6 +4,7 @@ import {
   Form,
   Toast,
   getSelectedText,
+  popToRoot,
   showToast,
   useNavigation,
 } from "@raycast/api";
@@ -64,7 +65,8 @@ export default function Command(): JSX.Element {
       try {
         const text = await getSelectedText();
         if (!isValidURL(text)) {
-          closeAndShowToast(Toast.Style.Failure, "Invalid URL selected");
+          popToRoot({ clearSearchBar: false });
+          showToast(Toast.Style.Failure, "Invalid URL selected");
           return;
         }
 
@@ -89,7 +91,8 @@ export default function Command(): JSX.Element {
           return;
         }
       } catch (error) {
-        closeAndShowToast(Toast.Style.Failure, "Unable to get selected text");
+        popToRoot({ clearSearchBar: false });
+        showToast(Toast.Style.Failure, "Unable to get selected text");
       }
     })();
   }, []);

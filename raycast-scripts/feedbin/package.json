@@ -30,7 +30,7 @@
   "commands": [
     {
       "name": "all-feeds",
-      "title": "View All Feeds",
+      "title": "View Feeds",
       "description": "Shows all feeds in your Feedbin account",
       "mode": "view"
     },
@@ -61,7 +61,7 @@
     },
     {
       "name": "read-later",
-      "title": "Read Later",
+      "title": "Read Selected URL Later",
       "description": "Saves the selected URL to Feedbin to read later",
       "mode": "no-view"
     }

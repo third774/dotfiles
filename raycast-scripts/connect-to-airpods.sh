@@ -15,7 +15,7 @@
 #!/bin/bash
 
 # Set the name of your AirPods Pro  
-airpods="Kevin’s AirPods Pro"
+airpods="Kevin's AirPods Pro"
 
 SwitchAudioSource -a -t output
 

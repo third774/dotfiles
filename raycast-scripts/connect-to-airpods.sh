@@ -26,3 +26,5 @@ echo $airpods_device
 
 # Set AirPods Pro as the audio output device
 SwitchAudioSource -s "$airpods_device"
+sleep .2
+open raycast://extensions/raycast/system/set-volume-to-50

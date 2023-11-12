@@ -18,7 +18,7 @@
         },
         "rules": [
           {
-            "description": "Change escape to meh when held",
+            "description": "Change Caps Lock to Meh when held",
             "manipulators": [
               {
                 "from": {
@@ -27,37 +27,7 @@
                     "optional": ["left_gui"]
                   }
                 },
-                "to_if_alone": [
-                  {
-                    "key_code": "escape"
-                  }
-                ],
-                "to_if_held_down": [
-                  {
-                    "key_code": "left_shift",
-                    "modifiers": ["left_control", "left_option"]
-                  }
-                ],
-                "type": "basic"
-              }
-            ]
-          },
-          {
-            "description": "Change escape to meh when held",
-            "manipulators": [
-              {
-                "from": {
-                  "key_code": "escape",
-                  "modifiers": {
-                    "optional": ["left_gui"]
-                  }
-                },
-                "to_if_alone": [
-                  {
-                    "key_code": "escape"
-                  }
-                ],
-                "to_if_held_down": [
+                "to": [
                   {
                     "key_code": "left_shift",
                     "modifiers": ["left_control", "left_option"]

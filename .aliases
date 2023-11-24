@@ -24,3 +24,4 @@ alias update-staging="gco staging && git pull && gco -"
 # Create new branch
 alias gcb='gco -b'
 alias chrome="Google\ Chrome"
+alias gl="git log --oneline --decorate --graph | fzf | awk '{print \$2}' | pbcopy"

@@ -37,3 +37,7 @@ function grecent() {
     && branch=$(echo "$branch" | awk '{print $1}' | tr -d '*') \
     && git checkout "$branch"
 }
+
+function newpost() {
+  echo '---\n{\n  "title": "",\n  "description": ""\n}\n---\n' >> src/content/blog/new-post.md
+}

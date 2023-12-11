@@ -25,3 +25,4 @@ alias update-staging="gco staging && git pull && gco -"
 alias gcb='gco -b'
 alias chrome="Google\ Chrome"
 alias gl="git log --oneline --decorate --graph | fzf | awk '{print \$2}' | pbcopy"
+alias pull="git pull"

@@ -19,7 +19,7 @@ gch() {
 }
 
 function gs() {
-  selected=$(git diff --name-only --diff-filter=ACDMRTUXB | fzf --multi)
+  selected=$( (git diff --name-only --diff-filter=ACDMRTUXB ; git ls-files --others --exclude-standard ; git diff --name-only --diff-filter=D) | fzf --multi )
   if [ -n "$selected" ]; then
     git add $(echo $selected | xargs)
   fi

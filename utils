@@ -4,7 +4,7 @@ resource() {
 
 fin() {
   say done
-  open raycast://confetti
+  open -g raycast://confetti
 }
 
 gu() {

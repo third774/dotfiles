@@ -17,4 +17,5 @@ cd ~/.dotfiles
 brew bundle
 
 ln -s ${HOME}/.dotfiles/karabiner ${HOME}/.config/karabiner
+ln -s ${HOME}/.dotfiles/raycast ${HOME}
 ln -s ${HOME}/.dotfiles/nvm/default-packages ${HOME}/.nvm/default-packages

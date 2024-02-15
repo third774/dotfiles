@@ -41,3 +41,8 @@ function grecent() {
 function newpost() {
   echo '---\n{\n  "title": "",\n  "description": ""\n}\n---\n' >> src/content/blog/new-post.md
 }
+
+function ub() {
+    branch=$1
+    git checkout $branch && git pull && git checkout -
+}

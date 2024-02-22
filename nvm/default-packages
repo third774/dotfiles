@@ -5,4 +5,4 @@ yarn
 pnpm
 npm-upgrade
 fkill-cli
-
+npm-check-updates

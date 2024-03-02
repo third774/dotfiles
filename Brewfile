@@ -21,6 +21,5 @@ cask "notion"
 cask "figma"
 cask "iterm2"
 cask "1password"
+cask "hiddenbar"
 cask "karabiner-elements"
-mas "Magnet", id: 441258766
-mas "DaisyDisk", id: 411643860

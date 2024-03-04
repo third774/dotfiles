@@ -1,17 +1,28 @@
-import { Action, ActionPanel, Form, LaunchProps, getPreferenceValues } from "@raycast/api";
+import {
+  Action,
+  ActionPanel,
+  Form,
+  LaunchProps,
+  PopToRootType,
+  Toast,
+  closeMainWindow,
+  getPreferenceValues,
+  showToast,
+} from "@raycast/api";
 import { useForm } from "@raycast/utils";
-import { useEffect } from "react";
 import * as cheerio from "cheerio";
 import fetch from "node-fetch";
+import { useEffect, useState } from "react";
 
 export default function Command(
   props: LaunchProps<{
     arguments: Arguments.ShareLinkToBlog;
   }>,
 ) {
+  const [submitting, setSubmitting] = useState(false);
   const { API_TOKEN } = getPreferenceValues<Preferences.ShareLinkToBlog>();
 
-  const { handleSubmit, itemProps, values, setValue } = useForm({
+  const { handleSubmit, itemProps, values, setValue, focus } = useForm({
     onSubmit(values) {
       const body: Record<string, string> = { ...values };
 
@@ -19,6 +30,7 @@ export default function Command(
         delete body.remarks;
       }
 
+      setSubmitting(true);
       fetch("https://kevinkipp.com/api/private/linkShare", {
         method: "POST",
         body: JSON.stringify(values),
@@ -26,7 +38,21 @@ export default function Command(
           "Content-Type": "application/json",
           Authorization: `Bearer ${API_TOKEN}`,
         },
-      });
+      })
+        .then(() => {
+          closeMainWindow({
+            clearRootSearch: true,
+            popToRootType: PopToRootType.Immediate,
+          });
+          showToast(Toast.Style.Success, `Shared ${values.title ? values.title : "link"}`);
+        })
+        .catch((error) => {
+          console.error(error);
+          showToast(Toast.Style.Failure, "Failed to share link");
+        })
+        .finally(() => {
+          setSubmitting(false);
+        });
     },
     initialValues: {
       url: props.arguments.url ?? "",
@@ -70,11 +96,13 @@ export default function Command(
           title = $("h2").text();
         }
         setValue("title", title);
+        focus("title");
       });
   }, [values.url]);
 
   return (
     <Form
+      isLoading={submitting}
       actions={
         <ActionPanel>
           <Action.SubmitForm title="Share" onSubmit={handleSubmit}></Action.SubmitForm>

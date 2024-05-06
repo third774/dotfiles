@@ -1,6 +1,6 @@
 import fs from "fs";
 import { KarabinerRules } from "./types";
-import { app, bgOpen, createLeaderSubLayers, open, shell } from "./utils";
+import { bgOpen, createLeaderSubLayers, open, shell } from "./utils";
 
 const rules: KarabinerRules[] = [
   {

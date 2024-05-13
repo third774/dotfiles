@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+git config --global core.excludesfile ~/.dotfiles/.globalgitignore
+
 touch ~/.dotfiles/.localProfile
 
 echo 'installing oh-my-zsh'

@@ -13,10 +13,11 @@ echo 'cloning night owl theme for iTerm'
 rm -rf ~/repos/iterm2-night-owl
 git clone https://github.com/nickcernis/iterm2-night-owl.git ~/repos/iterm2-night-owl
 
-cd ~/.dotfiles
-brew bundle
-
 ln -s ${HOME}/.dotfiles/karabiner ${HOME}/.config/karabiner
 ln -s ${HOME}/.dotfiles/raycast ${HOME}
 ln -s ${HOME}/.dotfiles/nvm/default-packages ${HOME}/.nvm/default-packages
 ln -s ${HOME}/.dotfiles/.nirc ${HOME}/.nirc
+ln -s ${HOME}/.dotfiles/.tmux.conf ${HOME}/.tmux.conf
+
+cd ~/.dotfiles
+brew bundle

@@ -18,3 +18,6 @@ source /opt/homebrew/opt/zsh-history-substring-search/share/zsh-history-substrin
 
 eval "$(zoxide init --cmd cd zsh)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export EDITOR=nvim
+

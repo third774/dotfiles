@@ -20,6 +20,7 @@ alias code.="code ."
 alias gcb='gco -b'
 alias chrome="Google\ Chrome"
 alias gl="git log --oneline --decorate --graph | fzf | awk '{print \$2}' | pbcopy"
+alias lg="lazygit"
 alias pull="git pull"
 alias scripts="cat package.json | jq --color-output '.scripts'"
 alias ls="eza --long --color=always --git --icons=always"

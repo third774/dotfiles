@@ -15,7 +15,7 @@
 #!/bin/bash
 
 # Set the name of your AirPods Pro
-airpods="Kevin's AirPods Pro"
+airpods="AirPods Pro"
 airpods_mac="14-1A-97-33-93-DB"
 
 /opt/homebrew/bin/BluetoothConnector --connect "$airpods_mac"

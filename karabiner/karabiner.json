@@ -1,10 +1,7 @@
 {
-  "global": {
-    "show_in_menu_bar": false
-  },
+  "global": { "show_in_menu_bar": false },
   "profiles": [
     {
-      "name": "Default",
       "complex_modifications": {
         "rules": [
           {
@@ -14,76 +11,44 @@
                 "from": {
                   "key_code": "j",
                   "modifiers": {
-                    "mandatory": [
-                      "right_command"
-                    ],
-                    "optional": [
-                      "any"
-                    ]
+                    "mandatory": ["right_command"],
+                    "optional": ["any"]
                   }
                 },
-                "to": [
-                  {
-                    "key_code": "left_arrow"
-                  }
-                ],
+                "to": [{ "key_code": "left_arrow" }],
                 "type": "basic"
               },
               {
                 "from": {
                   "key_code": "k",
                   "modifiers": {
-                    "mandatory": [
-                      "right_command"
-                    ],
-                    "optional": [
-                      "any"
-                    ]
+                    "mandatory": ["right_command"],
+                    "optional": ["any"]
                   }
                 },
-                "to": [
-                  {
-                    "key_code": "down_arrow"
-                  }
-                ],
+                "to": [{ "key_code": "down_arrow" }],
                 "type": "basic"
               },
               {
                 "from": {
                   "key_code": "i",
                   "modifiers": {
-                    "mandatory": [
-                      "right_command"
-                    ],
-                    "optional": [
-                      "any"
-                    ]
+                    "mandatory": ["right_command"],
+                    "optional": ["any"]
                   }
                 },
-                "to": [
-                  {
-                    "key_code": "up_arrow"
-                  }
-                ],
+                "to": [{ "key_code": "up_arrow" }],
                 "type": "basic"
               },
               {
                 "from": {
                   "key_code": "l",
                   "modifiers": {
-                    "mandatory": [
-                      "right_command"
-                    ],
-                    "optional": [
-                      "any"
-                    ]
+                    "mandatory": ["right_command"],
+                    "optional": ["any"]
                   }
                 },
-                "to": [
-                  {
-                    "key_code": "right_arrow"
-                  }
-                ],
+                "to": [{ "key_code": "right_arrow" }],
                 "type": "basic"
               }
             ]
@@ -94,19 +59,12 @@
               {
                 "from": {
                   "key_code": "caps_lock",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
+                  "modifiers": { "optional": ["any"] }
                 },
                 "to": [
                   {
                     "key_code": "left_shift",
-                    "modifiers": [
-                      "left_control",
-                      "left_option"
-                    ]
+                    "modifiers": ["left_control", "left_option"]
                   }
                 ],
                 "type": "basic"
@@ -117,15 +75,47 @@
             "description": "Leader Key sublayer \"s\"",
             "manipulators": [
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_b",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_u",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_w",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_spacebar",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_m",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_r",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
                 "description": "Enable Leader sublayer s",
-                "type": "basic",
                 "from": {
                   "key_code": "s",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
+                  "modifiers": { "optional": ["any"] }
                 },
                 "to": [
                   {
@@ -141,54 +131,20 @@
                     }
                   }
                 ],
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_b",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_u",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_w",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_spacebar",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_m",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_r",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_s",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
                 "description": "Disable Leader sublayer s",
-                "type": "basic",
                 "from": {
                   "key_code": "escape",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
+                  "modifiers": { "optional": ["any"] }
                 },
                 "to": [
                   {
@@ -198,15 +154,21 @@
                     }
                   }
                 ],
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_s",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_s",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Open raycast://extensions/khasbilegt/1password/item-list",
+                "from": {
+                  "key_code": "1",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "open raycast://extensions/khasbilegt/1password/item-list"
@@ -224,25 +186,21 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/khasbilegt/1password/item-list",
-                "type": "basic",
-                "from": {
-                  "key_code": "1",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_s",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_s",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Open raycast://extensions/mattisssa/spotify-player/search",
+                "from": {
+                  "key_code": "s",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "open raycast://extensions/mattisssa/spotify-player/search"
@@ -260,25 +218,21 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/mattisssa/spotify-player/search",
-                "type": "basic",
-                "from": {
-                  "key_code": "s",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_s",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_s",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Open raycast://extensions/KevinBatdorf/obsidian/searchNoteCommand",
+                "from": {
+                  "key_code": "o",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "open raycast://extensions/KevinBatdorf/obsidian/searchNoteCommand"
@@ -296,25 +250,21 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/KevinBatdorf/obsidian/searchNoteCommand",
-                "type": "basic",
-                "from": {
-                  "key_code": "o",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_s",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_s",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Open raycast://extensions/the-browser-company/arc/search",
+                "from": {
+                  "key_code": "a",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "open raycast://extensions/the-browser-company/arc/search"
@@ -332,25 +282,21 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/the-browser-company/arc/search",
-                "type": "basic",
-                "from": {
-                  "key_code": "a",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_s",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_s",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Open raycast://extensions/nhojb/brew/search",
+                "from": {
+                  "key_code": "b",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "open raycast://extensions/nhojb/brew/search"
@@ -368,25 +314,21 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/nhojb/brew/search",
-                "type": "basic",
-                "from": {
-                  "key_code": "b",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_s",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_s",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Open raycast://extensions/xilopaint/amazon-search/index",
+                "from": {
+                  "key_code": "m",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "open raycast://extensions/xilopaint/amazon-search/index"
@@ -404,23 +346,7 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/xilopaint/amazon-search/index",
-                "type": "basic",
-                "from": {
-                  "key_code": "m",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_s",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               }
             ]
           },
@@ -428,15 +354,47 @@
             "description": "Leader Key sublayer \"b\"",
             "manipulators": [
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_s",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_u",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_w",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_spacebar",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_m",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_r",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
                 "description": "Enable Leader sublayer b",
-                "type": "basic",
                 "from": {
                   "key_code": "b",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
+                  "modifiers": { "optional": ["any"] }
                 },
                 "to": [
                   {
@@ -452,54 +410,20 @@
                     }
                   }
                 ],
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_s",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_u",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_w",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_spacebar",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_m",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_r",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_b",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
                 "description": "Disable Leader sublayer b",
-                "type": "basic",
                 "from": {
                   "key_code": "escape",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
+                  "modifiers": { "optional": ["any"] }
                 },
                 "to": [
                   {
@@ -509,13 +433,7 @@
                     }
                   }
                 ],
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_b",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               }
             ]
           },
@@ -523,15 +441,47 @@
             "description": "Leader Key sublayer \"u\"",
             "manipulators": [
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_s",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_b",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_w",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_spacebar",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_m",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_r",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
                 "description": "Enable Leader sublayer u",
-                "type": "basic",
                 "from": {
                   "key_code": "u",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
+                  "modifiers": { "optional": ["any"] }
                 },
                 "to": [
                   {
@@ -547,54 +497,20 @@
                     }
                   }
                 ],
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_s",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_b",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_w",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_spacebar",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_m",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_r",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_u",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
                 "description": "Disable Leader sublayer u",
-                "type": "basic",
                 "from": {
                   "key_code": "escape",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
+                  "modifiers": { "optional": ["any"] }
                 },
                 "to": [
                   {
@@ -604,22 +520,24 @@
                     }
                   }
                 ],
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_u",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_u",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "from": {
+                  "key_code": "z",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "key_code": "8",
-                    "modifiers": [
-                      "left_command",
-                      "left_option"
-                    ]
+                    "modifiers": ["left_command", "left_option"]
                   },
                   {
                     "set_variable": {
@@ -634,30 +552,24 @@
                     }
                   }
                 ],
-                "type": "basic",
-                "from": {
-                  "key_code": "z",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_u",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_u",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "from": {
+                  "key_code": "v",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "key_code": "f5",
-                    "modifiers": [
-                      "left_command"
-                    ]
+                    "modifiers": ["left_command"]
                   },
                   {
                     "set_variable": {
@@ -672,24 +584,21 @@
                     }
                   }
                 ],
-                "type": "basic",
-                "from": {
-                  "key_code": "v",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_u",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_u",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Open raycast://extensions/raycast/system/toggle-system-appearance in background",
+                "from": {
+                  "key_code": "d",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "open -g raycast://extensions/raycast/system/toggle-system-appearance"
@@ -707,29 +616,22 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/raycast/system/toggle-system-appearance in background",
-                "type": "basic",
-                "from": {
-                  "key_code": "d",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_u",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
-                "to": [
+                "conditions": [
                   {
-                    "consumer_key_code": "dictation"
-                  },
+                    "name": "leader_sublayer_u",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "from": {
+                  "key_code": "t",
+                  "modifiers": { "optional": ["any"] }
+                },
+                "to": [
+                  { "consumer_key_code": "dictation" },
                   {
                     "set_variable": {
                       "name": "leader_sublayer_u",
@@ -743,32 +645,24 @@
                     }
                   }
                 ],
-                "type": "basic",
-                "from": {
-                  "key_code": "t",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_u",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_u",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "from": {
+                  "key_code": "s",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "key_code": "4",
-                    "modifiers": [
-                      "left_command",
-                      "left_control",
-                      "left_shift"
-                    ]
+                    "modifiers": ["left_command", "left_control", "left_shift"]
                   },
                   {
                     "set_variable": {
@@ -783,22 +677,7 @@
                     }
                   }
                 ],
-                "type": "basic",
-                "from": {
-                  "key_code": "s",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_u",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               }
             ]
           },
@@ -806,15 +685,47 @@
             "description": "Leader Key sublayer \"w\"",
             "manipulators": [
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_s",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_b",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_u",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_spacebar",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_m",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_r",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
                 "description": "Enable Leader sublayer w",
-                "type": "basic",
                 "from": {
                   "key_code": "w",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
+                  "modifiers": { "optional": ["any"] }
                 },
                 "to": [
                   {
@@ -830,54 +741,20 @@
                     }
                   }
                 ],
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_s",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_b",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_u",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_spacebar",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_m",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_r",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_w",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
                 "description": "Disable Leader sublayer w",
-                "type": "basic",
                 "from": {
                   "key_code": "escape",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
+                  "modifiers": { "optional": ["any"] }
                 },
                 "to": [
                   {
@@ -887,15 +764,21 @@
                     }
                   }
                 ],
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_w",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_w",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Open raycast://extensions/raycast/window-management/top-right-quarter in background",
+                "from": {
+                  "key_code": "i",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "open -g raycast://extensions/raycast/window-management/top-right-quarter"
@@ -913,25 +796,21 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/raycast/window-management/top-right-quarter in background",
-                "type": "basic",
-                "from": {
-                  "key_code": "i",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_w",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_w",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Open raycast://extensions/raycast/window-management/top-left-quarter in background",
+                "from": {
+                  "key_code": "u",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "open -g raycast://extensions/raycast/window-management/top-left-quarter"
@@ -949,25 +828,21 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/raycast/window-management/top-left-quarter in background",
-                "type": "basic",
-                "from": {
-                  "key_code": "u",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_w",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_w",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Open raycast://extensions/raycast/window-management/bottom-right-quarter in background",
+                "from": {
+                  "key_code": "k",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "open -g raycast://extensions/raycast/window-management/bottom-right-quarter"
@@ -985,25 +860,21 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/raycast/window-management/bottom-right-quarter in background",
-                "type": "basic",
-                "from": {
-                  "key_code": "k",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_w",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_w",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Open raycast://extensions/raycast/window-management/bottom-left-quarter in background",
+                "from": {
+                  "key_code": "j",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "open -g raycast://extensions/raycast/window-management/bottom-left-quarter"
@@ -1021,25 +892,21 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/raycast/window-management/bottom-left-quarter in background",
-                "type": "basic",
-                "from": {
-                  "key_code": "j",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_w",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_w",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Open raycast://extensions/raycast/window-management/maximize in background",
+                "from": {
+                  "key_code": "return_or_enter",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "open -g raycast://extensions/raycast/window-management/maximize"
@@ -1057,25 +924,21 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/raycast/window-management/maximize in background",
-                "type": "basic",
-                "from": {
-                  "key_code": "return_or_enter",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_w",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_w",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Open raycast://extensions/raycast/window-management/restore in background",
+                "from": {
+                  "key_code": "delete_or_backspace",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "open -g raycast://extensions/raycast/window-management/restore"
@@ -1093,23 +956,7 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/raycast/window-management/restore in background",
-                "type": "basic",
-                "from": {
-                  "key_code": "delete_or_backspace",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_w",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               }
             ]
           },
@@ -1117,6 +964,18 @@
             "description": "Leader Key + spacebar",
             "manipulators": [
               {
+                "conditions": [
+                  {
+                    "name": "leader",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Open raycast://extensions/raycast/raycast/confetti in background",
+                "from": {
+                  "key_code": "spacebar",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "open -g raycast://extensions/raycast/raycast/confetti"
@@ -1128,23 +987,7 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/raycast/raycast/confetti in background",
-                "type": "basic",
-                "from": {
-                  "key_code": "spacebar",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               }
             ]
           },
@@ -1152,15 +995,47 @@
             "description": "Leader Key sublayer \"m\"",
             "manipulators": [
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_s",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_b",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_u",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_w",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_spacebar",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_r",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
                 "description": "Enable Leader sublayer m",
-                "type": "basic",
                 "from": {
                   "key_code": "m",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
+                  "modifiers": { "optional": ["any"] }
                 },
                 "to": [
                   {
@@ -1176,54 +1051,20 @@
                     }
                   }
                 ],
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_s",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_b",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_u",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_w",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_spacebar",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_r",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_m",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
                 "description": "Disable Leader sublayer m",
-                "type": "basic",
                 "from": {
                   "key_code": "escape",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
+                  "modifiers": { "optional": ["any"] }
                 },
                 "to": [
                   {
@@ -1233,15 +1074,21 @@
                     }
                   }
                 ],
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_m",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_m",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Run shell command: osascript -e \"set volume output volume 100\"",
+                "from": {
+                  "key_code": "0",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "osascript -e \"set volume output volume 100\""
@@ -1259,25 +1106,21 @@
                     }
                   }
                 ],
-                "description": "Run shell command: osascript -e \"set volume output volume 100\"",
-                "type": "basic",
-                "from": {
-                  "key_code": "0",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_m",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_m",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Run shell command: osascript -e \"set volume output volume 10\"",
+                "from": {
+                  "key_code": "1",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "osascript -e \"set volume output volume 10\""
@@ -1295,25 +1138,21 @@
                     }
                   }
                 ],
-                "description": "Run shell command: osascript -e \"set volume output volume 10\"",
-                "type": "basic",
-                "from": {
-                  "key_code": "1",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_m",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_m",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Run shell command: osascript -e \"set volume output volume 20\"",
+                "from": {
+                  "key_code": "2",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "osascript -e \"set volume output volume 20\""
@@ -1331,25 +1170,21 @@
                     }
                   }
                 ],
-                "description": "Run shell command: osascript -e \"set volume output volume 20\"",
-                "type": "basic",
-                "from": {
-                  "key_code": "2",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_m",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_m",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Run shell command: osascript -e \"set volume output volume 30\"",
+                "from": {
+                  "key_code": "3",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "osascript -e \"set volume output volume 30\""
@@ -1367,25 +1202,21 @@
                     }
                   }
                 ],
-                "description": "Run shell command: osascript -e \"set volume output volume 30\"",
-                "type": "basic",
-                "from": {
-                  "key_code": "3",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_m",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_m",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Run shell command: osascript -e \"set volume output volume 40\"",
+                "from": {
+                  "key_code": "4",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "osascript -e \"set volume output volume 40\""
@@ -1403,25 +1234,21 @@
                     }
                   }
                 ],
-                "description": "Run shell command: osascript -e \"set volume output volume 40\"",
-                "type": "basic",
-                "from": {
-                  "key_code": "4",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_m",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_m",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Run shell command: osascript -e \"set volume output volume 50\"",
+                "from": {
+                  "key_code": "5",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "osascript -e \"set volume output volume 50\""
@@ -1439,25 +1266,21 @@
                     }
                   }
                 ],
-                "description": "Run shell command: osascript -e \"set volume output volume 50\"",
-                "type": "basic",
-                "from": {
-                  "key_code": "5",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_m",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_m",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Run shell command: osascript -e \"set volume output volume 60\"",
+                "from": {
+                  "key_code": "6",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "osascript -e \"set volume output volume 60\""
@@ -1475,25 +1298,21 @@
                     }
                   }
                 ],
-                "description": "Run shell command: osascript -e \"set volume output volume 60\"",
-                "type": "basic",
-                "from": {
-                  "key_code": "6",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_m",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_m",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Run shell command: osascript -e \"set volume output volume 70\"",
+                "from": {
+                  "key_code": "7",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "osascript -e \"set volume output volume 70\""
@@ -1511,25 +1330,21 @@
                     }
                   }
                 ],
-                "description": "Run shell command: osascript -e \"set volume output volume 70\"",
-                "type": "basic",
-                "from": {
-                  "key_code": "7",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_m",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_m",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Run shell command: osascript -e \"set volume output volume 80\"",
+                "from": {
+                  "key_code": "8",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "osascript -e \"set volume output volume 80\""
@@ -1547,25 +1362,21 @@
                     }
                   }
                 ],
-                "description": "Run shell command: osascript -e \"set volume output volume 80\"",
-                "type": "basic",
-                "from": {
-                  "key_code": "8",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_m",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_m",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Run shell command: osascript -e \"set volume output volume 90\"",
+                "from": {
+                  "key_code": "9",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "osascript -e \"set volume output volume 90\""
@@ -1583,64 +1394,22 @@
                     }
                   }
                 ],
-                "description": "Run shell command: osascript -e \"set volume output volume 90\"",
-                "type": "basic",
-                "from": {
-                  "key_code": "9",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_m",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
-                "to": [
+                "conditions": [
                   {
-                    "key_code": "play_or_pause"
-                  },
-                  {
-                    "set_variable": {
-                      "name": "leader_sublayer_m",
-                      "value": 0
-                    }
-                  },
-                  {
-                    "set_variable": {
-                      "name": "leader",
-                      "value": 0
-                    }
+                    "name": "leader_sublayer_m",
+                    "type": "variable_if",
+                    "value": 1
                   }
                 ],
-                "type": "basic",
                 "from": {
                   "key_code": "p",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
+                  "modifiers": { "optional": ["any"] }
                 },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_m",
-                    "value": 1
-                  }
-                ]
-              },
-              {
                 "to": [
-                  {
-                    "key_code": "fastforward"
-                  },
+                  { "key_code": "play_or_pause" },
                   {
                     "set_variable": {
                       "name": "leader_sublayer_m",
@@ -1654,28 +1423,22 @@
                     }
                   }
                 ],
-                "type": "basic",
+                "type": "basic"
+              },
+              {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_m",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
                 "from": {
                   "key_code": "n",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
+                  "modifiers": { "optional": ["any"] }
                 },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_m",
-                    "value": 1
-                  }
-                ]
-              },
-              {
                 "to": [
-                  {
-                    "key_code": "rewind"
-                  },
+                  { "key_code": "fastforward" },
                   {
                     "set_variable": {
                       "name": "leader_sublayer_m",
@@ -1689,22 +1452,36 @@
                     }
                   }
                 ],
-                "type": "basic",
-                "from": {
-                  "key_code": "b",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
+                "type": "basic"
+              },
+              {
                 "conditions": [
                   {
-                    "type": "variable_if",
                     "name": "leader_sublayer_m",
+                    "type": "variable_if",
                     "value": 1
                   }
-                ]
+                ],
+                "from": {
+                  "key_code": "b",
+                  "modifiers": { "optional": ["any"] }
+                },
+                "to": [
+                  { "key_code": "rewind" },
+                  {
+                    "set_variable": {
+                      "name": "leader_sublayer_m",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "leader",
+                      "value": 0
+                    }
+                  }
+                ],
+                "type": "basic"
               }
             ]
           },
@@ -1712,15 +1489,47 @@
             "description": "Leader Key sublayer \"r\"",
             "manipulators": [
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_s",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_b",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_u",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_w",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_spacebar",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader_sublayer_m",
+                    "type": "variable_if",
+                    "value": 0
+                  },
+                  {
+                    "name": "leader",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
                 "description": "Enable Leader sublayer r",
-                "type": "basic",
                 "from": {
                   "key_code": "r",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
+                  "modifiers": { "optional": ["any"] }
                 },
                 "to": [
                   {
@@ -1736,54 +1545,20 @@
                     }
                   }
                 ],
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_s",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_b",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_u",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_w",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_spacebar",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_m",
-                    "value": 0
-                  },
-                  {
-                    "type": "variable_if",
-                    "name": "leader",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_r",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
                 "description": "Disable Leader sublayer r",
-                "type": "basic",
                 "from": {
                   "key_code": "escape",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
+                  "modifiers": { "optional": ["any"] }
                 },
                 "to": [
                   {
@@ -1793,15 +1568,21 @@
                     }
                   }
                 ],
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_r",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_r",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Open raycast://script-commands/dismiss-notifications",
+                "from": {
+                  "key_code": "n",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "open raycast://script-commands/dismiss-notifications"
@@ -1819,25 +1600,21 @@
                     }
                   }
                 ],
-                "description": "Open raycast://script-commands/dismiss-notifications",
-                "type": "basic",
-                "from": {
-                  "key_code": "n",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_r",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_r",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Open raycast://extensions/raycast/system/open-camera",
+                "from": {
+                  "key_code": "c",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "open raycast://extensions/raycast/system/open-camera"
@@ -1855,25 +1632,21 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/raycast/system/open-camera",
-                "type": "basic",
-                "from": {
-                  "key_code": "c",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_r",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_r",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Open raycast://extensions/raycast/raycast-ai/ai-chat",
+                "from": {
+                  "key_code": "a",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "open raycast://extensions/raycast/raycast-ai/ai-chat"
@@ -1891,25 +1664,21 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/raycast/raycast-ai/ai-chat",
-                "type": "basic",
-                "from": {
-                  "key_code": "a",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_r",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               },
               {
+                "conditions": [
+                  {
+                    "name": "leader_sublayer_r",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "description": "Open raycast://extensions/raycast/raycast-settings/extensions",
+                "from": {
+                  "key_code": "e",
+                  "modifiers": { "optional": ["any"] }
+                },
                 "to": [
                   {
                     "shell_command": "open raycast://extensions/raycast/raycast-settings/extensions"
@@ -1927,28 +1696,15 @@
                     }
                   }
                 ],
-                "description": "Open raycast://extensions/raycast/raycast-settings/extensions",
-                "type": "basic",
-                "from": {
-                  "key_code": "e",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_if",
-                    "name": "leader_sublayer_r",
-                    "value": 1
-                  }
-                ]
+                "type": "basic"
               }
             ]
           }
         ]
-      }
+      },
+      "name": "Default",
+      "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
     }
   ]
 }
+

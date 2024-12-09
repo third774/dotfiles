@@ -3,8 +3,13 @@ resource() {
 }
 
 fin() {
-  say done
-  open -g raycast://confetti
+  if [ $? -eq 0 ]; then
+    say "Task completed successfully"
+    open -g raycast://confetti
+  else
+    say "Task failed"
+    open -g raycast://confetti
+  fi
 }
 
 gu() {

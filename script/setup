@@ -19,6 +19,7 @@ ln -s ${HOME}/.dotfiles/karabiner ${HOME}/.config/karabiner
 ln -s ${HOME}/.dotfiles/raycast ${HOME}
 ln -s ${HOME}/.dotfiles/nvm/default-packages ${HOME}/.nvm/default-packages
 ln -s ${HOME}/.dotfiles/.nirc ${HOME}/.nirc
+ln -s ${HOME}/.dotfiles/ghostty ${HOME}/.config/ghostty
 
 # Setup tmux
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm

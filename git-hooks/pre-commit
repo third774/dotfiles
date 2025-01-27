@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Example on how to link
+# ln -s ${HOME}/.dotfiles/git-hooks/pre-commit ${HOME}/repos/example-repo/.git/hooks/pre-commit
+
+# Get staged changes with line numbers
+staged_changes=$(git diff --cached --unified=0)
+
+# Check for "// SHIM" in the staged changes
+if echo "$staged_changes" | grep -n "// SHIM" >/tmp/shim_matches; then
+  echo "Error: Found '// SHIM' comment in staged changes:"
+  cat /tmp/shim_matches
+  echo "Please remove temporary shims before committing."
+  rm /tmp/shim_matches
+  exit 1
+fi
+
+# Clean up temporary file if no matches
+rm -f /tmp/shim_matches
+
+exit 0

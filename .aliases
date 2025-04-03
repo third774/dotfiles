@@ -3,8 +3,8 @@
 # in the .gitignore file.
 alias gaa="git add * || true"
 # Amend current commit 
-alias gca="git commit --amend"
-alias gcan="git commit --amend --no-edit"
+alias gca="git commit --amend --no-verify"
+alias gcan="git commit --amend --no-verify --no-edit"
 # gcm "My commit message"
 alias gcm="git commit --message"
 # Force push the current branch, unless it would collide with something 

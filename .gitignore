@@ -3,3 +3,5 @@
 karabiner/automatic_backups
 raycast/cf-*
 node_modules
+.claude/statsig
+

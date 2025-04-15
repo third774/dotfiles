@@ -1,6 +1,5 @@
 font-family = "GeistMono Nerd Font Mono"
 theme = tokyonight_moon
-command=~/.dotfiles/ghostty/startup.sh
 
 # custom-shader = shaders/animated-gradient-shader.glsl
 # custom-shader = shaders/bloom.glsl

@@ -26,4 +26,5 @@ alias scripts="cat package.json | jq --color-output '.scripts'"
 alias ls="eza --long --color=always --git --icons=always"
 alias clean_lazyvim="rm -rf ~/.cache/nvim ~/.local/share/nvim ~/.local/state/nvim"
 alias y="yazi"
+alias cdgr="cd $(git rev-parse --show-toplevel)"
 

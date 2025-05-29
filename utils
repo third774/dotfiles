@@ -4,10 +4,10 @@ resource() {
 
 fin() {
   if [ $? -eq 0 ]; then
-    say "Task completed successfully"
+    say -v Good\ News "Yay! Task succeeded"
     open -g raycast://confetti
   else
-    say "Task failed"
+    say -v Bad\ News "Uh oh! Task failed"
     open -g raycast://confetti
   fi
 }

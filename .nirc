@@ -1,2 +1,2 @@
 defaultAgent=pnpm
-globalAgent=pnpm
+globalAgent=npm

@@ -4,13 +4,14 @@ resource() {
 
 fin() {
   if [ $? -eq 0 ]; then
-    say -v Good\ News "Yay! Task succeeded"
+    say -v Good\ News "Yay" &
     open -g raycast://confetti
   else
-    say -v Bad\ News "Uh oh! Task failed"
+    say -v Bad\ News "oh no" &
     open -g raycast://confetti
   fi
 }
+
 
 gu() {
   branch="$1"

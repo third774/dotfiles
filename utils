@@ -4,14 +4,15 @@ resource() {
 
 fin() {
   if [ $? -eq 0 ]; then
-    say -v Good\ News "Yay" &
+    # Redirect stdout and stderr of 'say' to /dev/null
+    say -v Good\ News "Yay" > /dev/null 2>&1 &
     open -g raycast://confetti
   else
-    say -v Bad\ News "oh no" &
+    # Redirect stdout and stderr of 'say' to /dev/null
+    say -v Bad\ News "oh no" > /dev/null 2>&1 &
     open -g raycast://confetti
   fi
 }
-
 
 gu() {
   branch="$1"

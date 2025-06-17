@@ -6,3 +6,4 @@ pnpm
 npm-upgrade
 fkill-cli
 npm-check-updates
+git-split-diffs

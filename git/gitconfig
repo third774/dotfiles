@@ -1,0 +1,25 @@
+[user]
+	name = Kevin Kipp
+
+[push]
+	followTags = true
+
+[init]
+	defaultBranch = main
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[core]
+	editor = nvim
+	excludesfile = ~/.dotfiles/git/gitignore_global
+	pager = git-split-diffs --color | less -RFX
+
+[branch]
+	autosetuprebase = always
+
+[pull]
+	rebase = true

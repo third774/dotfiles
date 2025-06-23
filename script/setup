@@ -2,40 +2,40 @@
 
 # Setup git configuration
 setup_git_config() {
-    echo "Setting up git configuration..."
-    
-    # Check if ~/.gitconfig.local exists
-    if [ ! -f ~/.gitconfig.local ]; then
-        echo "Creating ~/.gitconfig.local..."
-        echo "Please enter your git email address:"
-        read -p "Email: " git_email
-        cat > ~/.gitconfig.local << EOF
+  echo "Setting up git configuration..."
+
+  # Check if ~/.gitconfig.local exists
+  if [ ! -f ~/.gitconfig.local ]; then
+    echo "Creating ~/.gitconfig.local..."
+    echo "Please enter your git email address:"
+    read -p "Email: " git_email
+    cat >~/.gitconfig.local <<EOF
 [user]
 	email = $git_email
 EOF
-        echo "Created ~/.gitconfig.local with email: $git_email"
-    else
-        echo "~/.gitconfig.local already exists"
-    fi
-    
-    # Add includes to ~/.gitconfig only if they don't already exist
-    echo "Checking ~/.gitconfig for required includes..."
-    
-    # Check if shared config include exists
-    if ! grep -q "path = ~/.dotfiles/git/gitconfig" ~/.gitconfig 2>/dev/null; then
-        echo "Adding shared git config include..."
-        git config --global include.path ~/.dotfiles/git/gitconfig
-    else
-        echo "Shared git config include already exists"
-    fi
-    
-    # Check if local config include exists
-    if ! grep -q "path = ~/.gitconfig.local" ~/.gitconfig 2>/dev/null; then
-        echo "Adding local git config include..."
-        git config --global include.path ~/.gitconfig.local
-    else
-        echo "Local git config include already exists"
-    fi
+    echo "Created ~/.gitconfig.local with email: $git_email"
+  else
+    echo "~/.gitconfig.local already exists"
+  fi
+
+  # Add includes to ~/.gitconfig only if they don't already exist
+  echo "Checking ~/.gitconfig for required includes..."
+
+  # Check if shared config include exists
+  if ! grep -q "path = ~/.dotfiles/git/gitconfig" ~/.gitconfig 2>/dev/null; then
+    echo "Adding shared git config include..."
+    git config --global include.path ~/.dotfiles/git/gitconfig
+  else
+    echo "Shared git config include already exists"
+  fi
+
+  # Check if local config include exists
+  if ! grep -q "path = ~/.gitconfig.local" ~/.gitconfig 2>/dev/null; then
+    echo "Adding local git config include..."
+    git config --global include.path ~/.gitconfig.local
+  else
+    echo "Local git config include already exists"
+  fi
 }
 
 setup_git_config
@@ -55,6 +55,7 @@ git clone https://github.com/nickcernis/iterm2-night-owl.git ~/repos/iterm2-nigh
 
 ln -s ${HOME}/.dotfiles/karabiner ${HOME}/.config/karabiner
 ln -s ${HOME}/.dotfiles/raycast ${HOME}
+ln -s ${HOME}/.dotfiles/lazygit ${HOME}/Library/Application\ Support/lazygit
 ln -s ${HOME}/.dotfiles/nvm/default-packages ${HOME}/.nvm/default-packages
 ln -s ${HOME}/.dotfiles/.nirc ${HOME}/.nirc
 ln -s ${HOME}/.dotfiles/ghostty ${HOME}/.config/ghostty

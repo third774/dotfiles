@@ -1,0 +1,6 @@
+os:
+  editPreset: "vscode"
+git:
+  paging:
+    colorArg: always
+    useConfig: false

@@ -3,4 +3,4 @@ os:
 git:
   paging:
     colorArg: always
-    useConfig: false
+    pager: git-split-diffs

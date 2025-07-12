@@ -82,3 +82,10 @@ function commit() {
 # Commit these changes if user confirms
   gum confirm "Commit changes?" && git commit -m "$SUMMARY" -m "$DESCRIPTION"
 }
+
+gar() {
+    local url=$(pbpaste)
+    local username=$(echo "$url" | sed 's/.*:\([^/]*\)\/.*/\1/')
+    git remote add "$username" "$url"
+}
+

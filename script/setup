@@ -55,7 +55,7 @@ git clone https://github.com/nickcernis/iterm2-night-owl.git ~/repos/iterm2-nigh
 
 ln -s ${HOME}/.dotfiles/karabiner ${HOME}/.config/karabiner
 ln -s ${HOME}/.dotfiles/raycast ${HOME}
-ln -s ${HOME}/.dotfiles/lazygit ${HOME}/Library/Application\ Support/lazygit
+ln -s ${HOME}/.dotfiles/lazygit ${HOME}/.config/lazygit
 ln -s ${HOME}/.dotfiles/nvm/default-packages ${HOME}/.nvm/default-packages
 ln -s ${HOME}/.dotfiles/.nirc ${HOME}/.nirc
 ln -s ${HOME}/.dotfiles/ghostty ${HOME}/.config/ghostty

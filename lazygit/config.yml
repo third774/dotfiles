@@ -4,3 +4,11 @@ git:
   paging:
     colorArg: always
     pager: git-split-diffs
+customCommands:
+  - key: "F"
+    command: "git push origin HEAD --force-with-lease"
+    context: "localBranches"
+    prompts:
+      - type: "confirm"
+        title: "Force push to remote"
+        body: "Are you sure you want to force push to the remote?"

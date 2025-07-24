@@ -1,0 +1,7 @@
+{
+  "enableAllProjectMcpServers": false,
+  "permissions": {
+    "allow": ["WebFetch(domain:unix.stackexchange.com)"]
+  }
+}
+

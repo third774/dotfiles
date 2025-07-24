@@ -3,6 +3,12 @@
 karabiner/automatic_backups
 raycast/cf-*
 node_modules
-.claude
 lazygit/state.yml
+
+.claude/ide/*
+.claude/projects/*
+.claude/shell-snapshots/*
+.claude/statsig/*
+.claude/todos
+.claude/.update.lock
 

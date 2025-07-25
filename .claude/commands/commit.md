@@ -12,4 +12,15 @@ description: Create a git commit
 
 ## Your task
 
-Based on the above changes, create a single git commit.
+Based on the above changes, create a single git commit using conventional commit format.
+
+### Conventional Commit Format
+
+- Use format: `<type>(<scope>): <subject>`
+- Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
+- Scope is optional but recommended (e.g., component name, module)
+- Subject should be imperative, present tense ("change" not "changed")
+- Examples:
+  - `feat(auth): add OAuth2 integration`
+  - `fix: resolve memory leak in data processing`
+  - `docs(readme): update installation instructions`

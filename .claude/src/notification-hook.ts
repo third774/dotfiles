@@ -16,7 +16,7 @@ function extractToolName(message: string): string {
   if (toolMatch) {
     return toolMatch[1].replace(/[^a-zA-Z0-9 ._-]/g, "").substring(0, 100);
   }
-  return "";
+  return "something";
 }
 
 async function handleNotification(event: NotificationEvent): Promise<void> {

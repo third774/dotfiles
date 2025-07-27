@@ -4,7 +4,8 @@
   "description": "TypeScript hooks for Claude Code notifications",
   "private": true,
   "scripts": {
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "format": "prettier ./* -w"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

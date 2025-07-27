@@ -1,7 +1,10 @@
 {
-  "enableAllProjectMcpServers": false,
   "permissions": {
-    "allow": ["WebFetch(domain:unix.stackexchange.com)"]
-  }
+    "allow": [
+      "WebFetch(domain:unix.stackexchange.com)",
+      "Bash(mkdir:*)",
+      "Bash(npm run check:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": false
 }
-

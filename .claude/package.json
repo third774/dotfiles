@@ -1,0 +1,15 @@
+{
+  "name": "claude-code-hooks",
+  "version": "1.0.0",
+  "description": "TypeScript hooks for Claude Code notifications",
+  "private": true,
+  "scripts": {
+    "check": "tsc --noEmit",
+    "format": "prettier ./* -w"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "tsx": "^4.0.0"
+  }
+}

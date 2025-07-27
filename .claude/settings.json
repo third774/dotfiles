@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/kkipp/.dotfiles/.claude/notify-hook.sh"
+            "command": "cd /Users/kevin/.dotfiles/.claude && npx tsx src/notification-hook.ts"
           }
         ]
       }
@@ -18,7 +18,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/kkipp/.dotfiles/.claude/notify-hook.sh"
+            "command": "cd /Users/kevin/.dotfiles/.claude && npx tsx src/stop-hook.ts"
           }
         ]
       }
@@ -29,7 +29,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/kkipp/.dotfiles/.claude/notify-hook.sh"
+            "command": "cd /Users/kevin/.dotfiles/.claude && npx tsx src/subagent-stop-hook.ts"
           }
         ]
       }

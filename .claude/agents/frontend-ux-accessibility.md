@@ -39,6 +39,15 @@ You will analyze and improve frontend code with a laser focus on:
 - Ensure cross-browser compatibility
 - Minimize cognitive load through clear component APIs
 
+**CSS Spacing Principles:**
+
+- Avoid using margin in components - components should not affect layout outside their boundaries
+- Move spacing responsibility to parent components using gap, spacers, or layout utilities
+- Use consistent spacing scales through design tokens or CSS custom properties
+- Prefer flexbox/grid gap over margins for component spacing
+- When spacing is needed, use padding for internal spacing, let parents handle external spacing
+- Exception: margin-bottom on typography elements within rich text content is acceptable
+
 **Your Approach:**
 
 1. First, assess the current implementation for accessibility violations

@@ -1,0 +1,56 @@
+{
+  "description": "File protection patterns for Claude Code hooks. Add patterns here to protect sensitive files from being read.",
+  "fileExtensions": [
+    ".env",
+    ".env.local",
+    ".env.development", 
+    ".env.production",
+    ".env.staging",
+    ".pem",
+    ".p12",
+    ".key",
+    ".crt",
+    ".pfx",
+    ".jks"
+  ],
+  "filePaths": [
+    ".ssh/",
+    ".aws/credentials",
+    ".aws/config",
+    ".git/config",
+    ".docker/config.json",
+    ".netrc",
+    ".pgpass",
+    ".my.cnf",
+    ".npmrc"
+  ],
+  "filenamePatterns": [
+    "*secret*",
+    "*password*", 
+    "*token*",
+    "*credential*",
+    "*api-key*",
+    "*apikey*",
+    "*private*",
+    "*auth*",
+    "*backup*"
+  ],
+  "directoryPatterns": [
+    ".ssh",
+    ".gnupg",
+    ".aws",
+    ".kube",
+    "secrets/",
+    "credentials/",
+    "private/"
+  ],
+  "customPatterns": [
+    "id_rsa",
+    "id_ed25519", 
+    "known_hosts",
+    "authorized_keys",
+    "*.backup",
+    "vault.txt",
+    "keystore.*"
+  ]
+}

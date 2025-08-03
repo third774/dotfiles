@@ -1,6 +1,17 @@
 {
   "model": "opus",
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read|Glob|Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd ~/.dotfiles/.claude && npx tsx src/file-protection-hook.ts"
+          }
+        ]
+      }
+    ],
     "Notification": [
       {
         "matcher": "*",

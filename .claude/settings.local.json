@@ -3,7 +3,8 @@
     "allow": [
       "WebFetch(domain:unix.stackexchange.com)",
       "Bash(mkdir:*)",
-      "Bash(npm run check:*)"
+      "Bash(npm run check:*)",
+      "WebFetch(domain:docs.anthropic.com)"
     ]
   },
   "enableAllProjectMcpServers": false

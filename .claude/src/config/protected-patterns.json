@@ -3,9 +3,10 @@
   "fileExtensions": [
     ".env",
     ".env.local",
-    ".env.development", 
+    ".env.development",
     ".env.production",
     ".env.staging",
+    ".localProfile",
     ".pem",
     ".p12",
     ".key",
@@ -26,7 +27,7 @@
   ],
   "filenamePatterns": [
     "*secret*",
-    "*password*", 
+    "*password*",
     "*token*",
     "*credential*",
     "*api-key*",
@@ -46,7 +47,7 @@
   ],
   "customPatterns": [
     "id_rsa",
-    "id_ed25519", 
+    "id_ed25519",
     "known_hosts",
     "authorized_keys",
     "*.backup",
@@ -54,3 +55,4 @@
     "keystore.*"
   ]
 }
+

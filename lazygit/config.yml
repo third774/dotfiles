@@ -12,3 +12,10 @@ customCommands:
       - type: "confirm"
         title: "Force push to remote"
         body: "Are you sure you want to force push to the remote?"
+  - key: "U"
+    command: "git checkout {{.SelectedLocalBranch.Name}} && git pull && git checkout -"
+    context: "localBranches"
+    prompts:
+      - type: "confirm"
+        title: "Update {{.SelectedLocalBranch.Name}} branch"
+        body: "Are you sure you want to update the {{.SelectedLocalBranch.Name}} branch?"

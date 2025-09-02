@@ -3,6 +3,7 @@ cask_args appdir: "/Applications"
 tap "homebrew/bundle"
 tap "homebrew/cask-fonts"
 
+brew "ast-grep"
 brew "bat"
 brew "bluetoothconnector"
 brew "eza"

@@ -1,5 +1,5 @@
 font-family = "GeistMono Nerd Font Mono"
-theme = tokyonight_moon
+theme = "TokyoNight Moon"
 
 # custom-shader = shaders/animated-gradient-shader.glsl
 # custom-shader = shaders/bloom.glsl

@@ -2,8 +2,10 @@ os:
   editPreset: "nvim"
 git:
   paging:
-    colorArg: always
-    pager: git-split-diffs
+    # colorArg: always
+    # pager: git-split-diffs
+services:
+  "gitlab.cfdata.org": "gitlab:gitlab.cfdata.org"
 customCommands:
   - key: "F"
     command: "git push origin HEAD --force-with-lease"
@@ -19,3 +21,11 @@ customCommands:
       - type: "confirm"
         title: "Update {{.SelectedLocalBranch.Name}} branch"
         body: "Are you sure you want to update the {{.SelectedLocalBranch.Name}} branch?"
+  - key: "N"
+    command: "PRIMARY_BRANCH=$(git remote show origin | awk '/HEAD branch/ {print $NF}') && BRANCH_NAME=$(echo '{{.Form.BranchName}}' | sed 's/ /-/g') && git checkout $PRIMARY_BRANCH && git pull && git checkout -b $BRANCH_NAME"
+    context: "localBranches"
+    prompts:
+      - type: "input"
+        title: "Create new branch from primary"
+        key: "BranchName"
+        initialValue: ""

@@ -25,9 +25,7 @@ SwitchAudioSource -a -t output
 # Get the full name of the AirPods Pro audio device
 airpods_device=$(SwitchAudioSource -a -t output | grep "$airpods" | sed 's/ (.*//')
 
-echo $airpods_device
+echo "$airpods_device"
 
 # Set AirPods Pro as the audio output device
 SwitchAudioSource -s "$airpods_device"
-sleep .2
-open raycast://extensions/raycast/system/set-volume-to-50

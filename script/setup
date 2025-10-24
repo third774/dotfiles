@@ -15,7 +15,7 @@ setup_git_config() {
 EOF
     echo "Created ~/.gitconfig.local with email: $git_email"
   else
-    echo "~/.gitconfig.local already exists"
+    echo "${HOME}/.gitconfig.local already exists"
   fi
 
   # Add includes to ~/.gitconfig only if they don't already exist
@@ -60,6 +60,7 @@ ln -s ${HOME}/.dotfiles/nvm/default-packages ${HOME}/.nvm/default-packages
 ln -s ${HOME}/.dotfiles/.nirc ${HOME}/.nirc
 ln -s ${HOME}/.dotfiles/ghostty ${HOME}/.config/ghostty
 ln -s ${HOME}/.dotfiles/.claude ${HOME}/.claude
+ln -s ${HOME}/.dotfiles/alacritty ${HOME}/.config
 
 # Setup tmux
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm

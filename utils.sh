@@ -9,8 +9,8 @@ fin() {
     open -g raycast://confetti
   else
     # Redirect stdout and stderr of 'say' to /dev/null
-    say -v Bad\ News "oh no" >/dev/null 2>&1 &
-    open -g raycast://confetti
+    say -v Bad\ News "kaboom" >/dev/null 2>&1 &
+    open -g "raycast://extensions/raycast/raycast/confetti?emojis=💣🧨💥💥💥"
   fi
 }
 

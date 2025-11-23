@@ -1,3 +1,4 @@
+
 [font]
 size = 14
 
@@ -39,6 +40,7 @@ foreground = "#a9b1d6"
 
 [window]
 decorations = "None"
+option_as_alt = "OnlyLeft"
 
 [selection]
 save_to_clipboard = true

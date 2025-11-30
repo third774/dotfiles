@@ -1,0 +1,131 @@
+{
+  "description": "File protection patterns for OpenCode. Files matching these patterns will be blocked from being read or accessed by the AI.",
+  "patterns": {
+    "env_files": {
+      "description": "Environment configuration files containing secrets",
+      "enabled": true,
+      "extensions": [
+        ".env",
+        ".env.local",
+        ".env.development",
+        ".env.production",
+        ".env.staging",
+        ".env.test",
+        ".envrc"
+      ],
+      "filenames": [
+        "env.json",
+        "env.yaml",
+        "env.yml"
+      ],
+      "patterns": [
+        "*.env",
+        "**/.env*"
+      ],
+      "exceptions": [
+        ".env.example",
+        ".env.sample",
+        ".env.template"
+      ]
+    },
+    "ssh_keys": {
+      "description": "SSH keys and certificates",
+      "enabled": true,
+      "extensions": [
+        ".pem",
+        ".key",
+        ".crt",
+        ".p12",
+        ".pfx",
+        ".jks"
+      ],
+      "filenames": [
+        "id_rsa",
+        "id_ed25519",
+        "id_ecdsa",
+        "id_dsa",
+        "known_hosts",
+        "authorized_keys"
+      ],
+      "directories": [
+        ".ssh"
+      ]
+    },
+    "cloud_credentials": {
+      "description": "Cloud provider credentials and configuration",
+      "enabled": true,
+      "paths": [
+        ".aws/credentials",
+        ".aws/config",
+        ".azure/credentials",
+        ".gcp/credentials.json",
+        ".config/gcloud/credentials",
+        ".kube/config"
+      ],
+      "directories": [
+        ".aws",
+        ".azure",
+        ".gcp",
+        ".kube"
+      ]
+    },
+    "database_credentials": {
+      "description": "Database configuration and credentials",
+      "enabled": true,
+      "filenames": [
+        ".pgpass",
+        ".my.cnf",
+        ".mysqlrc",
+        "database.yml",
+        "database.json"
+      ],
+      "patterns": [
+        "**/config/database.*",
+        "**/.pgpass",
+        "**/.my.cnf"
+      ]
+    },
+    "api_keys": {
+      "description": "API keys and authentication tokens",
+      "enabled": true,
+      "patterns": [
+        "**/*secret*",
+        "**/*password*",
+        "**/*token*",
+        "**/*credential*",
+        "**/*api-key*",
+        "**/*apikey*",
+        "**/*auth*"
+      ],
+      "filenames": [
+        "secrets.json",
+        "secrets.yaml",
+        "credentials.json",
+        "api-keys.json"
+      ],
+      "directories": [
+        "secrets",
+        "credentials",
+        "private"
+      ]
+    },
+    "other_sensitive": {
+      "description": "Other sensitive files",
+      "enabled": true,
+      "filenames": [
+        ".netrc",
+        ".npmrc",
+        ".pypirc",
+        ".dockercfg"
+      ],
+      "paths": [
+        ".docker/config.json",
+        ".gnupg"
+      ],
+      "directories": [
+        ".gnupg"
+      ]
+    }
+  },
+  "message_template": "🔒 Access Denied: Cannot read '{filepath}'\n\nReason: {reason}\n\nThis file contains sensitive information and has been blocked by file protection.\n\n📋 To help me understand what you need:\n1. Manually inspect the file yourself\n2. Tell me what specific information you need from it (without sharing secrets)\n3. I can help you work with the information once you provide context\n\nAlternatively, if this file should not be protected, you can update the protection patterns in:\n~/.config/opencode/plugin/protection-patterns.json"
+}

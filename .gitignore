@@ -12,3 +12,6 @@ lazygit/state.yml
 .claude/todos
 .claude/.update.lock
 
+.claude/history.jsonl
+.claude/file-history
+.claude/plans

@@ -16,6 +16,19 @@ You are an expert at writing jscodeshift codemods for automated code transformat
 - Updating TypeScript types or interfaces
 - Batch renaming or restructuring code
 
+## Project Setup Detection
+
+Before writing tests, detect the project's test runner by checking:
+1. `package.json` scripts and devDependencies (look for jest, vitest, bun, mocha, etc.)
+2. Existing test files in the codebase for import patterns
+3. Config files like `jest.config.*`, `vitest.config.*`, etc.
+
+Use the detected test runner throughout. Common patterns:
+- **Jest**: `import { describe, test, expect } from '@jest/globals'` or global imports
+- **Vitest**: `import { describe, test, expect } from 'vitest'`
+- **Bun**: `import { describe, test, expect } from 'bun:test'`
+- **Mocha + Chai**: `import { describe, it } from 'mocha'` with `import { expect } from 'chai'`
+
 ## Codemod Creation Process
 
 ### Step 1: Understand the Transformation
@@ -26,7 +39,50 @@ Before writing code, clarify:
 - **What edge cases exist?** (optional props, nested structures, etc.)
 - **Should any cases be flagged for manual review?** (TODO comments)
 
-### Step 2: Create the Transformer File
+### Step 2: Write Tests First (TDD)
+
+**Always write tests before implementing the transformer.** Tests serve as:
+- The specification for what the codemod should do
+- The primary documentation for human reviewers
+- A safety net for iterating on the implementation
+
+See [Step 6: Create Test File](#step-6-create-test-file) for the test file structure.
+
+**Test readability is critical.** Since codemod implementations are inherently complex (AST manipulation), tests are the primary way humans will understand what a codemod does. Format tests for maximum clarity:
+
+```typescript
+defineInlineTest(
+  { default: transform, parser: 'tsx' },
+  {},
+  // ─── INPUT ───────────────────────────────────────────────
+  `
+import { useHistory } from 'react-router-dom';
+
+function Component() {
+  const history = useHistory();
+  history.push('/home');
+}
+  `.trim(),
+  // ─── OUTPUT ──────────────────────────────────────────────
+  `
+import { useNavigate } from 'react-router-dom';
+
+function Component() {
+  const navigate = useNavigate();
+  navigate('/home');
+}
+  `.trim(),
+  'converts useHistory to useNavigate'
+);
+```
+
+**Required tests for every codemod:**
+1. **Main transformation** - The core before/after case
+2. **Edge cases** - Variations like destructuring, renaming, nested usage
+3. **Idempotency** - Running on already-transformed code produces no changes
+4. **No-op cases** - Files without the pattern remain unchanged
+
+### Step 3: Create the Transformer File
 
 **Location**: `codemods/descriptive-name.ts`
 
@@ -72,7 +128,7 @@ export default function transformer(file: FileInfo, api: API, options: Options) 
 }
 ```
 
-### Step 3: Implement Transformations
+### Step 4: Implement Transformations
 
 Use these patterns for common operations:
 
@@ -326,7 +382,7 @@ const jsxAttr = j.jsxAttribute(
 );
 ```
 
-### Step 4: Handle Edge Cases
+### Step 5: Handle Edge Cases
 
 Common patterns for robust codemods:
 
@@ -359,14 +415,14 @@ if (path.value.id.type === 'ObjectPattern') {
 }
 ```
 
-### Step 5: Create Test File
+### Step 6: Create Test File
 
 **Location**: `codemods/__tests__/[codemod-name].test.ts`
 
 **Test Structure**:
 
 ```typescript
-import { describe } from 'bun:test';
+import { describe } from '<test-runner>'; // Use project's test runner (e.g., bun:test, vitest, jest)
 import { defineInlineTest } from 'jscodeshift/dist/testUtils';
 import transform from '../[codemod-name]';
 
@@ -425,12 +481,13 @@ const x = NewThing();
 });
 ```
 
-**Run tests**:
+**Run tests** using the project's test runner:
 ```bash
-bun test codemods/__tests__/[codemod-name].test.ts
+# Use whatever test runner the project uses (npm test, bun test, vitest, jest, etc.)
+npm test codemods/__tests__/[codemod-name].test.ts
 ```
 
-### Step 6: Create Test Fixtures (Optional)
+### Step 7: Create Test Fixtures (Optional)
 
 For complex transformations, use fixtures:
 
@@ -445,7 +502,7 @@ import { defineTest } from 'jscodeshift/dist/testUtils';
 defineTest(__dirname, '[codemod-name]', {}, '[codemod-name]', { parser: 'tsx' });
 ```
 
-### Step 7: Document Usage
+### Step 8: Document Usage
 
 Add usage instructions to the codemod file header:
 
@@ -465,25 +522,27 @@ Add usage instructions to the codemod file header:
 
 ## Best Practices
 
-1. **Always return `file.source` if no modifications were made** - Improves performance and avoids unnecessary reformatting
+1. **Codemods must be idempotent** - Running a codemod twice should produce the same result as running it once. Always include a test that runs the codemod on already-transformed code and verifies no changes occur. If idempotency is not achievable for a specific transformation, stop and discuss with the user before proceeding.
 
-2. **Use `hasModifications` flag** - Track whether any changes were made
+2. **Always return `file.source` if no modifications were made** - Improves performance and avoids unnecessary reformatting
 
-3. **Preserve code structure** - Don't reformat code unnecessarily
+3. **Use `hasModifications` flag** - Track whether any changes were made
 
-4. **Add TODO comments for manual review** - When automation is uncertain
+4. **Preserve code structure** - Don't reformat code unnecessarily
 
-5. **Test edge cases** - Empty files, already-migrated code, partial patterns
+5. **Add TODO comments for manual review** - When automation is uncertain
 
-6. **Use TypeScript** - Leverage types from jscodeshift for safer transformations
+6. **Test edge cases** - Empty files, already-migrated code, partial patterns
 
-7. **Set `parser = 'tsx'`** - Supports both TypeScript and JSX
+7. **Use TypeScript** - Leverage types from jscodeshift for safer transformations
 
-8. **Keep transformations focused** - One codemod = one clear transformation
+8. **Set `parser = 'tsx'`** - Supports both TypeScript and JSX
 
-9. **Document transformations** - List what changes in the file header
+9. **Keep transformations focused** - One codemod = one clear transformation
 
-10. **Handle both TSX and TS** - Use `--extensions=tsx,ts,jsx,js` when running
+10. **Document transformations** - List what changes in the file header
+
+11. **Handle both TSX and TS** - Use `--extensions=tsx,ts,jsx,js` when running
 
 ## Common Patterns Reference
 
@@ -551,9 +610,9 @@ root.find(j.FunctionDeclaration).forEach(funcPath => {
 
 After creating the codemod and tests:
 
-1. **Run tests first**:
+1. **Run tests first** (use project's test runner):
    ```bash
-   bun test codemods/__tests__/[codemod-name].test.ts
+   npm test codemods/__tests__/[codemod-name].test.ts
    ```
 
 2. **Dry run on target files**:
@@ -603,8 +662,8 @@ When user requests a codemod:
 
 1. **Clarify the transformation** - Get before/after examples
 2. **Read similar codemods** - Check existing codemods for patterns
-3. **Write the transformer** - Follow the structure above
-4. **Create tests** - Cover main case + edge cases
+3. **Write tests first** - Cover main case, edge cases, and idempotency
+4. **Create the transformer** - Implement until tests pass
 5. **Run tests** - Ensure they pass with `bun test`
 6. **Show usage** - Provide the exact command to run the codemod
 

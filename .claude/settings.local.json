@@ -4,7 +4,9 @@
       "WebFetch(domain:unix.stackexchange.com)",
       "Bash(mkdir:*)",
       "Bash(npm run check:*)",
-      "WebFetch(domain:docs.anthropic.com)"
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebSearch",
+      "WebFetch(domain:github.com)"
     ]
   },
   "enableAllProjectMcpServers": false

@@ -1,9 +1,10 @@
-trash-cli
 @antfu/ni
-wrangler
-yarn
-pnpm
-npm-upgrade
 fkill-cli
-npm-check-updates
 git-split-diffs
+npm-check-updates
+npm-upgrade
+pnpm
+trash-cli
+wrangler
+yalc
+yarn

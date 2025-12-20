@@ -3,5 +3,5 @@ source ~/.dotfiles/.p10k.zsh
 source ~/.dotfiles/.zsh
 source ~/.dotfiles/.nvm-setup
 source ~/.dotfiles/.aliases
-source ~/.dotfiles/.localProfile
 source ~/.dotfiles/utils.sh
+source ~/.dotfiles/.localProfile

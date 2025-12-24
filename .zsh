@@ -1,5 +1,7 @@
 export ZSH=~/.oh-my-zsh
 
+bindkey -v
+
 plugins=(
   aws
   kubectl

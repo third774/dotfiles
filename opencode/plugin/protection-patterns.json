@@ -89,19 +89,31 @@
       "description": "API keys and authentication tokens",
       "enabled": true,
       "patterns": [
-        "**/*secret*",
-        "**/*password*",
-        "**/*token*",
-        "**/*credential*",
-        "**/*api-key*",
-        "**/*apikey*",
-        "**/*auth*"
+        "**/*.secret",
+        "**/*.secrets",
+        "**/secrets/*.json",
+        "**/secrets/*.yaml",
+        "**/secrets/*.yml",
+        "**/*-secrets.json",
+        "**/*-secrets.yaml",
+        "**/*-secrets.yml",
+        "**/*.secrets.json",
+        "**/*.secrets.yaml",
+        "**/*.credentials",
+        "**/credentials/*.json",
+        "**/credentials/*.yaml",
+        "**/*-credentials.json",
+        "**/*-credentials.yaml"
       ],
       "filenames": [
         "secrets.json",
         "secrets.yaml",
+        "secrets.yml",
         "credentials.json",
-        "api-keys.json"
+        "credentials.yaml",
+        "api-keys.json",
+        "api-keys.yaml",
+        "apikeys.json"
       ],
       "directories": [
         "secrets",

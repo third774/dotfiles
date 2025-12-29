@@ -16,3 +16,4 @@ lazygit/state.yml
 .claude/file-history
 .claude/plans
 .claude/debug
+.claude/telemetry

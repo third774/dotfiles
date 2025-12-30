@@ -7,23 +7,37 @@ allowed-tools: Bash(git:*), Bash(pbcopy:*), Bash(osascript:*)
 
 Generate a markdown PR description based on the current conversation context and any committed changes on the current branch.
 
+## Argument Parsing
+
+**Raw arguments:** $ARGUMENTS
+
+Parse the arguments to extract an optional base branch:
+- If arguments start with `--base <branch>`, use `<branch>` as the base branch and treat the remainder as the developer's intent
+- Otherwise, auto-detect the base branch and treat the full arguments as the developer's intent
+
+**Auto-detected default base:** !`git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || echo "main"`
+
+Based on parsing above, determine:
+- **Base branch:** (use `--base` value if provided, otherwise use auto-detected default)
+- **Developer's intent:** (remainder after `--base <branch>` extraction, or full arguments if no `--base`)
+
 ## Developer's Intent
 
-**Why this change is being made:** $ARGUMENTS
-
-Use this as the primary guide for the "Context" section. The developer has provided a brief, informal description of the motivation. Your job is to:
+Use the parsed developer's intent as the primary guide for the "Context" section. The developer has provided a brief, informal description of the motivation. Your job is to:
 - Expand on this intent using evidence from the diffs and conversation
 - Clean up the language so it reads naturally and professionally
 - Connect it to the specific changes visible in the code
 
-If no argument is provided, infer the "why" from the conversation history and changes.
+If no intent is provided, infer the "why" from the conversation history and changes.
 
 ## Git Context
 
+Using the parsed base branch from above:
+
 - Current branch: !`git branch --show-current`
-- Base branch: !`git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || echo "main"`
-- Commits on this branch (not on base): !`git log $(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || echo "main")..HEAD --oneline`
-- Full diff from base branch: !`git diff $(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || echo "main")...HEAD --stat`
+- Base branch: (use parsed base branch)
+- Commits on this branch (not on base): !`git log <base-branch>..HEAD --oneline` (substitute parsed base branch)
+- Full diff from base branch: !`git diff <base-branch>...HEAD --stat` (substitute parsed base branch)
 
 ## Your Task
 

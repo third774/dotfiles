@@ -35,6 +35,47 @@ Self-documenting code reduces maintenance burden and prevents comment drift. Stu
 
 ---
 
+## Refactoring: Preserve Existing Comments
+
+**This skill's guidance applies to writing new code. When refactoring existing code, preserve comments.**
+
+Existing comments represent institutional knowledge. Someone wrote them for a reason. During refactoring:
+
+### Never Remove
+
+- Comments explaining WHY something exists
+- Comments warning about gotchas or edge cases
+- Comments referencing external context (tickets, specs, RFCs)
+- Comments documenting non-obvious business logic
+
+### Update When Necessary
+
+- If refactoring changes behavior the comment describes, update the comment
+- If refactoring makes a workaround obsolete, update or remove with the workaround
+- Add to existing comments if refactoring introduces new context
+
+### Only Remove When
+
+- The comment is demonstrably incorrect (doesn't match code behavior)
+- The comment documents code you're deleting entirely
+- The refactoring eliminates the "why" (e.g., removing a workaround makes its explanation obsolete)
+
+```
+// BAD: Stripping context during refactoring
+// Before: // Retry 3x - payment gateway has transient failures (JIRA-892)
+// After:  (comment removed, code unchanged)
+
+// GOOD: Preserving context during refactoring
+// Before: // Retry 3x - payment gateway has transient failures (JIRA-892)
+// After:  // Retry 3x - payment gateway has transient failures (JIRA-892)
+
+// GOOD: Updating comment when refactoring changes behavior
+// Before: // Retry 3x - payment gateway has transient failures
+// After:  // Retry with exponential backoff - payment gateway has transient failures
+```
+
+---
+
 ## When NOT to Write Comments
 
 ### Never Comment the Obvious
@@ -181,7 +222,7 @@ function validateEmail(email: string): void {}
 
 When reviewing code comments:
 
-1. **Necessity**: Can code be refactored to be self-documenting to eliminate this comment?
+1. **Necessity**: For new code, can it be self-documenting? For existing code, is this comment still accurate? If accurate, keep it.
 2. **Accuracy**: Does comment match current code behavior?
 3. **Value**: Does it explain WHY, not WHAT?
 4. **Freshness**: Is it still relevant?

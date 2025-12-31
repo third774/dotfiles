@@ -11,6 +11,7 @@ Use these tactical techniques when executing the systematic debugging process to
 - [Differential Analysis](#differential-analysis)
 - [Multi-Component System Debugging](#multi-component-system-debugging)
 - [Backward Tracing for Deep Call Stack Errors](#backward-tracing-for-deep-call-stack-errors)
+- [Debug-Shim Markers](#debug-shim-markers)
 
 ## Binary Search / Code Bisection
 
@@ -194,3 +195,74 @@ codesign --sign "$IDENTITY" --verbose=4 "$APP"
 - Fix at source, not at symptom
 
 For complex cases, see the `root-cause-tracing` skill for detailed backward tracing techniques.
+
+## Debug-Shim Markers
+
+Mark ALL temporary debug instrumentation for reliable cleanup.
+
+### Language Variants
+
+| Language | Single-line Syntax | Block Syntax |
+|----------|-------------------|--------------|
+| JS/TS | `// debug-shim` | `// debug-shim` ... `// end debug-shim` |
+| Python | `# debug-shim` | `# debug-shim` ... `# end debug-shim` |
+| Bash | `# debug-shim` | `# debug-shim` ... `# end debug-shim` |
+| JSX | `{/* debug-shim */}` | Wrap in fragment with markers |
+| CSS | `/* debug-shim */` | `/* debug-shim */` ... `/* end debug-shim */` |
+
+### Examples
+
+**Single-line (preferred when possible):**
+
+```typescript
+console.error("DEBUG:", data); // debug-shim
+```
+
+```python
+print(f"DEBUG: {variable}")  # debug-shim
+```
+
+```bash
+echo "DEBUG: $VAR"  # debug-shim
+```
+
+**Multi-line block (when adding multiple lines):**
+
+```typescript
+// debug-shim
+const stack = new Error().stack;
+console.error("=== Debug ===");
+console.error("State:", JSON.stringify(state, null, 2));
+console.error("Stack:", stack);
+// end debug-shim
+```
+
+**JSX (comment inside JSX node):**
+
+```jsx
+{/* debug-shim */}
+<pre style={{ background: 'yellow' }}>{JSON.stringify(props, null, 2)}</pre>
+{/* end debug-shim */}
+```
+
+### Cleanup Commands
+
+```bash
+# Find all debug shims
+grep -rn "debug-shim" .
+
+# Find with file type filtering
+grep -rn "debug-shim" --include="*.ts" --include="*.tsx" --include="*.py" .
+
+# Count remaining markers
+grep -rc "debug-shim" . | grep -v ":0$"
+```
+
+### Cleanup Checklist (Phase 4)
+
+Before marking fix complete:
+
+- [ ] `grep -r "debug-shim" .` returns no results
+- [ ] Tests pass without debug output
+- [ ] No console noise in CI logs
+- [ ] Commit contains NO debug instrumentation

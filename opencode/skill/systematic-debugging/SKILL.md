@@ -72,6 +72,7 @@ Debugging Progress:
   - [ ] Create failing test case
   - [ ] Implement single fix at root cause
   - [ ] Apply defense-in-depth
+  - [ ] Remove all // debug-shim markers
   - [ ] Verify fix and tests pass
 ```
 
@@ -174,8 +175,10 @@ execFileAsync('git', ['init'], { cwd: projectDir })  // Symptom
 
 ```typescript
 async function gitInit(directory: string) {
+  // debug-shim
   const stack = new Error().stack;
   console.error("DEBUG:", { directory, cwd: process.cwd(), stack });
+  // end debug-shim
   await execFileAsync("git", ["init"], { cwd: directory });
 }
 ```
@@ -184,6 +187,21 @@ Key points:
 - Use `console.error()` in tests (logger may be suppressed)
 - Log before the operation, not after it fails
 - Include context: directory, cwd, environment variables
+
+### Debug Instrumentation Markers
+
+**ALL temporary debug code MUST include the `// debug-shim` marker:**
+
+```typescript
+console.error("DEBUG:", { value, context }); // debug-shim
+```
+
+This enables reliable cleanup via grep. Before completing Phase 4:
+1. Search: `grep -r "debug-shim" .`
+2. Remove all marked instrumentation
+3. Verify tests still pass
+
+For language-specific variants (Python, Bash, JSX), see `references/debugging-techniques.md#debug-shim-markers`.
 
 **Verify the Root Cause:**
 - If you fix at the source, does the symptom disappear?

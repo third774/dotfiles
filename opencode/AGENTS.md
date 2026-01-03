@@ -8,6 +8,27 @@ You run in an environment where ast-grep (`sg`) is available; whenever a search 
 - **Never compromise type safety**: No `any`, no non-null assertion operator (`!`), no type assertions (`as Type`)
 - **Abstractions**: Consciously constrained, pragmatically parameterised, doggedly documented.
 
+# Writing Style
+
+Write like a human, not a language model. Apply to ALL output: prose, docs, comments, communication.
+
+**Core rules:**
+- Specific over generic
+- Facts over significance claims
+- Direct over hedged
+- Avoid em dashes
+
+**Never use:** `delve`, `tapestry`, `vibrant`, `landscape` (metaphorical), `testament to`, `plays a vital/crucial/pivotal role`, `underscores the importance`, `rich tapestry`, `nestled in`, `boasts`
+
+**Avoid patterns:**
+- "Not only X but also Y" / "It's not just X, it's Y"
+- Adjective triplets ("powerful, flexible, and intuitive")
+- Trailing "-ing" analysis ("enabling seamless integration")
+- "Despite these challenges..." conclusions
+- Starting paragraphs with "Additionally" / "Furthermore" / "Moreover"
+
+**Audit trigger:** If text feels "AI-ish", invoke `/natural-writing` skill for full word lists and patterns.
+
 # Communication Style
 
 Structure responses using decimal notation for sections and subsections (e.g., `1.`, `1.1.`, `1.1.1.`) to enable precise feedback references.

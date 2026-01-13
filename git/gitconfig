@@ -16,10 +16,22 @@
 [core]
 	editor = nvim
 	excludesfile = ~/.dotfiles/git/gitignore_global
-	pager = git-split-diffs --color | less -RFX
+  pager = delta
 
 [branch]
 	autosetuprebase = always
 
 [pull]
 	rebase = true
+
+[merge]
+    conflictStyle = zdiff3
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true  # use n and N to move between diff sections
+    features = mantis-shrimp
+    syntax-theme = ansi
+

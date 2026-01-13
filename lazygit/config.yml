@@ -2,8 +2,8 @@ os:
   editPreset: "nvim"
 git:
   paging:
-    # colorArg: always
-    # pager: git-split-diffs
+    colorArg: always
+    pager: delta --paging=never --line-numbers
 services:
   "gitlab.cfdata.org": "gitlab:gitlab.cfdata.org"
 customCommands:

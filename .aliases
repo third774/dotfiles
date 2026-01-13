@@ -28,4 +28,5 @@ alias clean_lazyvim="rm -rf ~/.cache/nvim ~/.local/share/nvim ~/.local/state/nvi
 alias y="yazi"
 alias oc="opencode"
 alias cdgr="cd $(git rev-parse --show-toplevel)"
+alias vim="nvim"
 

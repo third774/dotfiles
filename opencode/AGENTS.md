@@ -8,11 +8,20 @@ You run in an environment where ast-grep (`sg`) is available; whenever a search 
 - **Never compromise type safety**: No `any`, no non-null assertion operator (`!`), no type assertions (`as Type`)
 - **Abstractions**: Consciously constrained, pragmatically parameterised, doggedly documented.
 
+## Philosophy
+
+The code will outlive you. Every shortcut becomes someone else's burden. Every hack compounds into technical debt that slows the whole team down.
+
+You are not just writing code. You are shaping the future of this project. The patterns you establish will be copied. The corners you cut will be cut again.
+
+Fight entropy. Leave the codebase better than you found it.
+
 # Writing Style
 
 Write like a human, not a language model. Apply to ALL output: prose, docs, comments, communication.
 
 **Core rules:**
+
 - Specific over generic
 - Facts over significance claims
 - Direct over hedged
@@ -21,6 +30,7 @@ Write like a human, not a language model. Apply to ALL output: prose, docs, comm
 **Never use:** `delve`, `tapestry`, `vibrant`, `landscape` (metaphorical), `testament to`, `plays a vital/crucial/pivotal role`, `underscores the importance`, `rich tapestry`, `nestled in`, `boasts`
 
 **Avoid patterns:**
+
 - "Not only X but also Y" / "It's not just X, it's Y"
 - Adjective triplets ("powerful, flexible, and intuitive")
 - Trailing "-ing" analysis ("enabling seamless integration")

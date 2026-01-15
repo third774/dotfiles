@@ -9,7 +9,10 @@
   "keybinds": {
     "leader": "ctrl+o",
   },
-  "plugin": ["@franlol/opencode-md-table-formatter@0.0.3", "oh-my-opencode"],
+  "plugin": [
+    "@franlol/opencode-md-table-formatter@0.0.3",
+    "oh-my-opencode@2.14.0",
+  ],
   "mcp": {
     "chrome-devtools": {
       "type": "local",

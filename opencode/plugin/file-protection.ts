@@ -49,10 +49,8 @@ let CONFIG: ProtectionPatterns;
 try {
   const patternsContent = readFileSync(PATTERNS_FILE, "utf8");
   CONFIG = JSON.parse(patternsContent) as ProtectionPatterns;
-  console.log("[FileProtection] Protection patterns loaded successfully");
 } catch (error) {
-  console.error(`[FileProtection] Failed to load protection patterns: ${error}`);
-  throw error;
+  throw new Error(`Failed to load protection patterns: ${error}`);
 }
 
 // ===== UTILITY FUNCTIONS =====
@@ -245,7 +243,10 @@ function globTargetsSensitiveFiles(pattern: string): boolean {
 // ===== PLUGIN IMPLEMENTATION =====
 
 export const FileProtection: Plugin = async ({ project, client, $, directory, worktree }) => {
-  console.log("[FileProtection] Plugin initialized for directory:", directory || "unknown");
+  const log = (message: string) =>
+    client.app.log({ service: "file-protection", level: "info", message });
+
+  log(`Initialized for directory: ${directory || "unknown"}`);
 
   return {
     "tool.execute.before": async (input, output) => {
@@ -258,7 +259,7 @@ export const FileProtection: Plugin = async ({ project, client, $, directory, wo
           const protection = isProtectedFile(filePath);
           if (protection.isProtected) {
             const errorMsg = generateErrorMessage(filePath, protection.reason!);
-            console.log(`[FileProtection] Blocked read access to: ${filePath} (${protection.category})`);
+            log(`Blocked read: ${filePath} (${protection.category})`);
             throw new Error(errorMsg);
           }
         }
@@ -269,7 +270,7 @@ export const FileProtection: Plugin = async ({ project, client, $, directory, wo
         const pattern = output.args?.pattern;
         if (pattern && globTargetsSensitiveFiles(pattern)) {
           const errorMsg = `🔒 Access Denied: Glob pattern blocked\n\nThe pattern '${pattern}' appears to target sensitive files.\n\nIf you need to search for files, please:\n1. Use a more specific pattern that excludes sensitive files\n2. Or manually list the files you need and I can help with those specifically`;
-          console.log(`[FileProtection] Blocked glob pattern: ${pattern}`);
+          log(`Blocked glob: ${pattern}`);
           throw new Error(errorMsg);
         }
       }
@@ -281,7 +282,7 @@ export const FileProtection: Plugin = async ({ project, client, $, directory, wo
           const protection = isProtectedFile(searchPath);
           if (protection.isProtected) {
             const errorMsg = generateErrorMessage(searchPath, protection.reason!);
-            console.log(`[FileProtection] Blocked grep in: ${searchPath} (${protection.category})`);
+            log(`Blocked grep: ${searchPath} (${protection.category})`);
             throw new Error(errorMsg);
           }
         }
@@ -294,7 +295,7 @@ export const FileProtection: Plugin = async ({ project, client, $, directory, wo
           const protection = isProtectedFile(listPath);
           if (protection.isProtected) {
             const errorMsg = generateErrorMessage(listPath, protection.reason!);
-            console.log(`[FileProtection] Blocked list operation in: ${listPath} (${protection.category})`);
+            log(`Blocked list: ${listPath} (${protection.category})`);
             throw new Error(errorMsg);
           }
         }
@@ -304,7 +305,7 @@ export const FileProtection: Plugin = async ({ project, client, $, directory, wo
     // Log when sessions start
     event: async ({ event }) => {
       if (event.type === "session.created") {
-        console.log("[FileProtection] New session started - file protection active");
+        log("Session started - file protection active");
       }
     },
   };

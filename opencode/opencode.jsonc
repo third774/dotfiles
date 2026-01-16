@@ -9,6 +9,15 @@
   "keybinds": {
     "leader": "ctrl+o",
   },
+  "permission": {
+    "bash": {
+      "git log *": "allow",
+      "git show *": "allow",
+      "ls *": "allow",
+      "sg *": "allow",
+      "rg *": "allow",
+    },
+  },
   "plugin": [
     "@franlol/opencode-md-table-formatter@0.0.3",
     "oh-my-opencode@2.14.0",

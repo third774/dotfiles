@@ -16,6 +16,11 @@ You are not just writing code. You are shaping the future of this project. The p
 
 Fight entropy. Leave the codebase better than you found it.
 
+# Plan Mode
+
+- Make the plan extremely concise. Sacrifice grammar for the sake of concision.
+- At the end of each plan, give me a list of unresolved questions to answer, if any.
+
 # Writing Style
 
 Write like a human, not a language model. Apply to ALL output: prose, docs, comments, communication.

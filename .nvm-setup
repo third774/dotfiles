@@ -1,24 +1,28 @@
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-# place this after nvm initialization!
+# Lazy load NVM — only initializes on first use
+_load_nvm() {
+  unset -f node npm npx nvm _load_nvm
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+}
+
+# Wrapper functions that trigger lazy load
+node() { _load_nvm; node "$@"; }
+npm()  { _load_nvm; npm  "$@"; }
+npx()  { _load_nvm; npx  "$@"; }
+nvm()  { _load_nvm; nvm  "$@"; }
+
+# Auto .nvmrc switching (lazy-loads NVM only when .nvmrc present)
 autoload -U add-zsh-hook
 load-nvmrc() {
-  [[ -a .nvmrc ]] || return
-  local nvmrc_path="$(nvm_find_nvmrc)"
-
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-    if [ "$nvmrc_node_version" = "N/A" ]; then
-      nvm install
-    elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
-      nvm use --silent
-    fi
-  elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
-    nvm use default --silent
+  [[ -f .nvmrc ]] || return
+  _load_nvm 2>/dev/null
+  local nvmrc_node_version=$(nvm version "$(cat .nvmrc)")
+  if [ "$nvmrc_node_version" = "N/A" ]; then
+    nvm install
+  elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
+    nvm use --silent
   fi
 }
 add-zsh-hook chpwd load-nvmrc

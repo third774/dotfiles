@@ -2,15 +2,7 @@ export ZSH=~/.oh-my-zsh
 
 bindkey -v
 
-plugins=(
-  aws
-  kubectl
-  git
-  docker
-  node
-  npm
-  fzf
-)
+plugins=()
 
 source $ZSH/oh-my-zsh.sh
 source /opt/homebrew/opt/zsh-syntax-highlighting/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -19,7 +11,8 @@ source /opt/homebrew/opt/zsh-autosuggestions/share/zsh-autosuggestions/zsh-autos
 source /opt/homebrew/opt/zsh-history-substring-search/share/zsh-history-substring-search/zsh-history-substring-search.zsh
 
 eval "$(zoxide init zsh)"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source /opt/homebrew/opt/fzf/shell/completion.zsh
+source /opt/homebrew/opt/fzf/shell/key-bindings.zsh
 
 export EDITOR=nvim
 

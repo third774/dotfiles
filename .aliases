@@ -16,7 +16,8 @@ alias gp="git push -u origin HEAD"
 alias grs1="git reset --soft HEAD~1"
 # Fix typo when I'm trying to open VS Code in the current folder
 alias code.="code ."
-# Create new branch
+# Git
+alias gco="git checkout"
 alias gcb='gco -b'
 alias chrome="Google\ Chrome"
 alias gl="git log --oneline --decorate --graph | fzf | awk '{print \$2}' | pbcopy"

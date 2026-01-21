@@ -29,29 +29,29 @@ EOF
 # Parse arguments
 while [[ $# -gt 0 ]]; do
   case $1 in
-    --prd)
-      PRD_FILE="$2"
-      shift 2
-      ;;
-    --progress)
-      PROGRESS_FILE="$2"
-      shift 2
-      ;;
-    --feedback)
-      FEEDBACK_PATH="$2"
-      shift 2
-      ;;
-    --model)
-      MODEL="$2"
-      shift 2
-      ;;
-    -h|--help)
-      usage
-      ;;
-    *)
-      echo "Unknown option: $1"
-      usage
-      ;;
+  --prd)
+    PRD_FILE="$2"
+    shift 2
+    ;;
+  --progress)
+    PROGRESS_FILE="$2"
+    shift 2
+    ;;
+  --feedback)
+    FEEDBACK_PATH="$2"
+    shift 2
+    ;;
+  --model)
+    MODEL="$2"
+    shift 2
+    ;;
+  -h | --help)
+    usage
+    ;;
+  *)
+    echo "Unknown option: $1"
+    usage
+    ;;
   esac
 done
 
@@ -110,11 +110,14 @@ You are Ralph. Work through the PRD one task at a time.
 
 7. Commit with a conventional commit message (skip commit if task was skipped)
 
-RULES:
-- Work on ONE task only
-- Do NOT commit if any feedback loop fails
-- If a task requires human decision or input you cannot provide, skip it with detailed context
-- If ALL items have "passes": true OR "skipped" set, output <promise>COMPLETE</promise>
+RULES (RFC 2119):
+- You MUST work on exactly ONE task per iteration
+- You MUST NOT commit if any feedback loop fails
+- You MUST NOT skip a task because it is difficult or tedious
+- You MAY skip a task only when: missing info you cannot infer, requires human decision, blocked by external dependency, or PRD/feedback explicitly permits skipping
+- You MUST honor user-provided skip criteria in PRD or feedback instructions
+- You MUST run git status before committing to verify all intended changes are staged
+- You MUST output <promise>COMPLETE</promise> when your ONE task is either skipped or finished, validated, and committed
 EOF
 
 # Build opencode command
@@ -133,5 +136,8 @@ if ! jq empty "$PRD_FILE" 2>/dev/null; then
   echo "Warning: ${PRD_FILE} is malformed after run, restoring from git"
   git checkout -- "$PRD_FILE" 2>/dev/null || echo "Could not restore from git"
 fi
+
+# Discard any uncommitted changes (AI should have committed if task succeeded)
+git checkout -- . 2>/dev/null || true
 
 exit $RESULT

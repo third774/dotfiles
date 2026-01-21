@@ -30,4 +30,6 @@ alias y="yazi"
 alias oc="opencode"
 alias cdgr="cd $(git rev-parse --show-toplevel)"
 alias vim="nvim"
+alias ralph="~/.dotfiles/scripts/ralph/ralph.sh"
+alias ralph-once="~/.dotfiles/scripts/ralph/ralph-once.sh"
 

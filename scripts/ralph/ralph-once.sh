@@ -95,7 +95,12 @@ You are Ralph. Work through the PRD one task at a time.
 
 5. Update ${PRD_FILE} for the item:
    - If completed successfully: set "passes": true
-   - If blocked and needs human input: set "skipped": "<reason why human input is needed>"
+   - If blocked and needs human input: set "skipped" to a detailed string containing:
+     * Why the task cannot be completed
+     * Specific questions for the human to answer
+     * Any relevant context discovered during investigation
+     * Suggestions or partial progress that might help
+     This field serves as a handoff to human-in-the-loop or future AI agents.
 
 6. Append to ${PROGRESS_FILE}:
    - Task completed/skipped + PRD item reference
@@ -108,7 +113,7 @@ You are Ralph. Work through the PRD one task at a time.
 RULES:
 - Work on ONE task only
 - Do NOT commit if any feedback loop fails
-- If a task requires human decision or input you cannot provide, skip it with a reason
+- If a task requires human decision or input you cannot provide, skip it with detailed context
 - If ALL items have "passes": true OR "skipped" set, output <promise>COMPLETE</promise>
 EOF
 
@@ -128,8 +133,5 @@ if ! jq empty "$PRD_FILE" 2>/dev/null; then
   echo "Warning: ${PRD_FILE} is malformed after run, restoring from git"
   git checkout -- "$PRD_FILE" 2>/dev/null || echo "Could not restore from git"
 fi
-
-# Notify completion
-fin
 
 exit $RESULT

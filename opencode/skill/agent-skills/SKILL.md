@@ -14,11 +14,25 @@ Agent Skills are folders of instructions, scripts, and resources that agents dis
 - Reviewing skill quality before sharing
 - Reorganizing skill content for better progressive disclosure
 
+## RFC 2119 Keywords
+
+This skill and skills created with it use RFC 2119 keywords to indicate requirement levels.
+
+| Keyword | Meaning |
+|---------|---------|
+| **MUST**, **REQUIRED**, **SHALL** | Absolute requirement. No exceptions. |
+| **MUST NOT**, **SHALL NOT** | Absolute prohibition. No exceptions. |
+| **SHOULD**, **RECOMMENDED** | Strong recommendation. Valid reasons to deviate may exist, but understand implications first. |
+| **SHOULD NOT**, **NOT RECOMMENDED** | Strong discouragement. Valid reasons to do it may exist, but understand implications first. |
+| **MAY**, **OPTIONAL** | Truly optional. Implement if useful for your context. |
+
+Reference: [RFC 2119](https://datatracker.ietf.org/doc/html/rfc2119)
+
 ## Specification Quick Reference
 
 ### Required Frontmatter
 
-Every `SKILL.md` must start with YAML frontmatter containing `name` and `description`:
+Every `SKILL.md` MUST start with YAML frontmatter containing `name` and `description`:
 
 ```yaml
 ---
@@ -29,25 +43,25 @@ description: What this skill does and when to use it.
 
 ### Name Field Rules
 
-The `name` field must:
+The `name` field:
 
-- Be 1-64 characters
-- Use only lowercase alphanumeric characters and hyphens (`a-z`, `0-9`, `-`)
-- Not start or end with a hyphen
-- Not contain consecutive hyphens (`--`)
-- Match the parent directory name exactly
+- MUST be 1-64 characters
+- MUST use only lowercase alphanumeric characters and hyphens (`a-z`, `0-9`, `-`)
+- MUST NOT start or end with a hyphen
+- MUST NOT contain consecutive hyphens (`--`)
+- MUST match the parent directory name exactly
 
 Valid: `pdf-processing`, `code-review`, `data-analysis`
 Invalid: `PDF-Processing`, `-pdf`, `pdf--processing`, `my_skill`
 
 ### Description Field Rules
 
-The `description` field must:
+The `description` field:
 
-- Be 1-1024 characters
-- Be written in third person (not "I can help you" or "You can use this")
-- Include both what the skill does AND when to use it
-- Contain specific keywords that help agents identify relevant tasks
+- MUST be 1-1024 characters
+- SHOULD be written in third person (not "I can help you" or "You can use this")
+- SHOULD include both what the skill does AND when to use it
+- SHOULD contain specific keywords that help agents identify relevant tasks
 
 **Good:**
 ```yaml
@@ -61,6 +75,8 @@ description: Helps with PDFs.
 
 ### Optional Frontmatter Fields
 
+These fields are all OPTIONAL (MAY include):
+
 | Field | Purpose |
 |-------|---------|
 | `license` | License name or reference to bundled LICENSE file |
@@ -70,27 +86,29 @@ description: Helps with PDFs.
 
 ## Directory Structure
 
-A skill is a directory containing at minimum a `SKILL.md` file:
+A skill is a directory that MUST contain a `SKILL.md` file:
 
 ```
 skill-name/
-├── SKILL.md          # Required - main instructions
-├── scripts/          # Optional - executable code
-├── references/       # Optional - additional documentation
-└── assets/           # Optional - static resources (templates, images, data)
+├── SKILL.md          # REQUIRED - main instructions
+├── scripts/          # MAY include - executable code
+├── references/       # MAY include - additional documentation
+└── assets/           # MAY include - static resources (templates, images, data)
 ```
 
 ### When to Add References
 
-Add separate reference files when:
+You SHOULD add separate reference files when:
 
 - SKILL.md exceeds ~300 lines
 - Content applies to specific contexts (language-specific patterns, domain-specific schemas)
 - Details are needed only for certain tasks (advanced features, edge cases)
 
-Keep references one level deep from SKILL.md. Avoid nested reference chains.
+References MUST be one level deep from SKILL.md. Nested reference chains (SKILL.md → ref1.md → ref2.md) are NOT RECOMMENDED.
 
 ## Best Practices
+
+The following are RECOMMENDED practices. They represent strong guidance with valid reasons to deviate in specific contexts.
 
 ### Conciseness is Key
 
@@ -100,17 +118,17 @@ The context window is shared with conversation history, system prompts, and othe
 - Can the agent be assumed to know this?
 - Does this paragraph justify its token cost?
 
-**Target:** Keep SKILL.md body under 500 lines. Move detailed reference material to separate files.
+**Target:** You SHOULD keep SKILL.md body under 500 lines. Move detailed reference material to separate files.
 
 ### Progressive Disclosure
 
-Structure skills for efficient context usage:
+Skills SHOULD be structured for efficient context usage:
 
 1. **Metadata** (~100 tokens): `name` and `description` loaded at startup for all skills
 2. **Instructions** (<5000 tokens): Full SKILL.md loaded when skill activates
 3. **Resources** (as needed): Reference files loaded only when required
 
-SKILL.md serves as an overview that points to detailed materials. Like a table of contents.
+SKILL.md SHOULD serve as an overview that points to detailed materials. Like a table of contents.
 
 ### Degrees of Freedom
 
@@ -124,7 +142,7 @@ Match specificity to task fragility:
 
 ### Workflow Checklists
 
-For multi-step processes, provide a checklist the agent can copy and track:
+For multi-step processes, you SHOULD provide a checklist the agent can copy and track:
 
 ```
 Task Progress:
@@ -136,7 +154,7 @@ Task Progress:
 
 ### Feedback Loops
 
-Include validation steps for quality-critical tasks:
+Quality-critical tasks SHOULD include validation steps:
 
 1. Perform action
 2. Run validation
@@ -160,15 +178,45 @@ Skill Authoring Progress:
 
 ### Writing Effective Descriptions
 
-The description enables skill discovery. Include:
+The description enables skill discovery. It SHOULD include:
 
 1. **What it does**: Core capabilities in active voice
 2. **When to use it**: Specific triggers and keywords
 3. **Third person**: "Extracts text from PDFs" not "I extract text from PDFs"
 
+### Using RFC 2119 in Skills
+
+Skills created with this skill SHOULD use RFC 2119 keywords to indicate requirement levels.
+
+**Choosing the right keyword:**
+
+| Use This | When |
+|----------|------|
+| MUST / MUST NOT | Hard constraint. A validator could check this. Breaking it causes failure. |
+| SHOULD / SHOULD NOT | Strong recommendation. Valid exceptions exist, but they're rare. |
+| MAY | Truly optional. No preference either way. |
+
+**Example transformations:**
+
+```markdown
+# Before (ambiguous)
+Keep SKILL.md under 500 lines.
+The name field must match the directory.
+Consider adding a checklist for multi-step tasks.
+
+# After (precise)
+SKILL.md SHOULD be under 500 lines.
+The name field MUST match the directory.
+Multi-step tasks MAY include a checklist for tracking.
+```
+
+**Guideline:** If you're unsure between MUST and SHOULD, ask: "Would breaking this rule cause the skill to malfunction, or just be suboptimal?" Malfunction → MUST. Suboptimal → SHOULD.
+
 ## Common Anti-Patterns
 
 ### Vague Descriptions
+
+Descriptions SHOULD NOT be vague or generic:
 
 ```yaml
 # Bad - agent can't determine when to use this
@@ -179,6 +227,8 @@ description: Extract text and tables from PDF files, fill PDF forms, merge multi
 ```
 
 ### Over-Explaining Common Knowledge
+
+Skills SHOULD NOT explain concepts agents already know:
 
 ```yaml
 # Bad - agent knows what PDFs are
@@ -195,6 +245,8 @@ with pdfplumber.open("file.pdf") as pdf:
 
 ### Deeply Nested References
 
+Reference chains MUST NOT exceed one level:
+
 ```markdown
 # Bad - agent may partially read nested files
 SKILL.md → references/advanced.md → references/details.md
@@ -205,6 +257,8 @@ SKILL.md → references/details.md
 ```
 
 ### Time-Sensitive Information
+
+Skills SHOULD NOT include time-sensitive information:
 
 ```markdown
 # Bad - becomes outdated
@@ -223,6 +277,8 @@ The v1 API used: `api.example.com/v1/messages`
 
 ### Too Many Options Without Defaults
 
+Skills SHOULD NOT present options without clear defaults:
+
 ```markdown
 # Bad - decision paralysis
 You can use pypdf, or pdfplumber, or PyMuPDF, or pdf2image...
@@ -234,7 +290,7 @@ For scanned PDFs requiring OCR, use pdf2image with pytesseract instead.
 
 ### Inconsistent Terminology
 
-Pick one term and use it throughout:
+Skills SHOULD NOT mix synonyms. Pick one term and use it throughout:
 
 - Always "API endpoint" (not mixing with "URL", "route", "path")
 - Always "field" (not mixing with "box", "element", "control")

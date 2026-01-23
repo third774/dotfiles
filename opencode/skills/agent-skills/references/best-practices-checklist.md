@@ -5,7 +5,7 @@ Use this checklist when creating, modifying, or reviewing Agent Skills.
 ## Core Quality
 
 - [ ] **Description is specific** - Includes key terms and specific capabilities
-- [ ] **Description includes triggers** - States both what the skill does AND when to use it
+- [ ] **Description has "Use when..." clause (MUST)** - States what the skill does AND includes "Use when..." with trigger conditions
 - [ ] **Description uses third person** - "Processes files" not "I process files"
 - [ ] **SKILL.md body under 500 lines** - Move details to reference files if longer
 - [ ] **No time-sensitive information** - Or placed in "old patterns" section with details tag

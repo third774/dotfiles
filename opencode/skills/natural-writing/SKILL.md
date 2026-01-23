@@ -1,6 +1,6 @@
 ---
 name: natural-writing
-description: Write like a human, not a language model. Avoid AI-tell vocabulary, formulaic structures, and hollow emphasis. Apply to ALL written output including prose, documentation, comments, and communication.
+description: Write like a human, not a language model. Avoid AI-tell vocabulary, formulaic structures, and hollow emphasis. Apply to ALL written output including prose, documentation, comments, and communication. Use when drafting prose, documentation, comments, or any written output that should sound human.
 ---
 
 # Natural Writing

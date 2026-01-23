@@ -60,7 +60,7 @@ The `description` field:
 
 - MUST be 1-1024 characters
 - SHOULD be written in third person (not "I can help you" or "You can use this")
-- SHOULD include both what the skill does AND when to use it
+- MUST include a "Use when..." clause specifying trigger conditions
 - SHOULD contain specific keywords that help agents identify relevant tasks
 
 **Good:**
@@ -183,6 +183,17 @@ The description enables skill discovery. It SHOULD include:
 1. **What it does**: Core capabilities in active voice
 2. **When to use it**: Specific triggers and keywords
 3. **Third person**: "Extracts text from PDFs" not "I extract text from PDFs"
+
+### Required "Use when..." Clause
+
+Every description MUST include a "Use when..." sentence. This phrase signals trigger conditions to agents scanning skill metadata.
+
+**Pattern**: `[What it does]. Use when [trigger conditions].`
+
+**Example**:
+```yaml
+description: Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when the user mentions PDFs, forms, or document extraction.
+```
 
 ### Using RFC 2119 in Skills
 

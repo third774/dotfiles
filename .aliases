@@ -14,22 +14,25 @@ alias gfph="git push origin HEAD --force-with-lease"
 alias gp="git push -u origin HEAD"
 # Undo last commit without losing the changes
 alias grs1="git reset --soft HEAD~1"
-# Fix typo when I'm trying to open VS Code in the current folder
-alias code.="code ."
 # Git
 alias gco="git checkout"
 alias gcb='gco -b'
 alias chrome="Google\ Chrome"
 alias gl="git log --oneline --decorate --graph | fzf | awk '{print \$2}' | pbcopy"
-alias lg="lazygit"
 alias pull="git pull"
 alias scripts="cat package.json | jq --color-output '.scripts'"
 alias ls="eza --long --color=always --git --icons=always"
 alias clean_lazyvim="rm -rf ~/.cache/nvim ~/.local/share/nvim ~/.local/state/nvim"
-alias y="yazi"
-alias oc="opencode"
 alias cdgr="cd $(git rev-parse --show-toplevel)"
-alias vim="nvim"
 alias ralph="~/.dotfiles/scripts/ralph/ralph.sh"
 alias ralph-once="~/.dotfiles/scripts/ralph/ralph-once.sh"
 
+# shorthand
+alias y="yazi"
+alias oc="opencode"
+alias lg="lazygit"
+
+# typos
+alias vim="nvim"
+alias tmxu="tmux"
+alias code.="code ."

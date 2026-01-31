@@ -12,23 +12,26 @@ Generate a markdown PR description based on the current conversation context and
 **Raw arguments:** $ARGUMENTS
 
 Parse the arguments to extract an optional base branch:
+
 - If arguments start with `--base <branch>`, use `<branch>` as the base branch and treat the remainder as the developer's intent
 - Otherwise, auto-detect the base branch and treat the full arguments as the developer's intent
 
 **Auto-detected default base:** !`git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || echo "main"`
 
 Based on parsing above, determine:
+
 - **Base branch:** (use `--base` value if provided, otherwise use auto-detected default)
 - **Developer's intent:** (remainder after `--base <branch>` extraction, or full arguments if no `--base`)
 
 ## Developer's Intent
 
 Use the parsed developer's intent as the primary guide for the "Context" section. The developer has provided a brief, informal description of the motivation. Your job is to:
+
 - Expand on this intent using evidence from the diffs and conversation
 - Clean up the language so it reads naturally and professionally
 - Connect it to the specific changes visible in the code
-
-If no intent is provided, infer the "why" from the conversation history and changes.
+- If the intent is already clear and concise, preserve it rather than expanding. Making small edits for grammar/spelling is fine. Avoid over-justification.
+- If no intent is provided, infer the "why" from the conversation history and changes.
 
 ## Git Context
 

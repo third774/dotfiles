@@ -84,5 +84,9 @@
       "type": "local",
       "command": ["npx", "-y", "chrome-devtools-mcp@latest"],
     },
+    "xcodebuild-mcp": {
+      "type": "local",
+      "command": ["npx", "-y", "xcodebuildmcp@beta", "mcp"],
+    },
   },
 }

@@ -5,16 +5,16 @@
       "model": "anthropic/claude-haiku-4-5"
     },
     "oracle": {
-      "model": "anthropic/claude-opus-4-5"
+      "model": "anthropic/claude-opus-4-6"
     },
     "frontend-ui-ux-engineer": {
-      "model": "anthropic/claude-opus-4-5"
+      "model": "anthropic/claude-opus-4-6"
     },
     "document-writer": {
-      "model": "anthropic/claude-opus-4-5"
+      "model": "anthropic/claude-opus-4-6"
     },
     "multimodal-looker": {
-      "model": "anthropic/claude-opus-4-5"
+      "model": "anthropic/claude-opus-4-6"
     }
   }
 }

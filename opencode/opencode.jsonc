@@ -77,7 +77,7 @@
   },
   "plugin": [
     "@franlol/opencode-md-table-formatter@0.0.3",
-    "oh-my-opencode@3.2.2",
+    "oh-my-opencode@3.2.4",
   ],
   "mcp": {
     "chrome-devtools": {

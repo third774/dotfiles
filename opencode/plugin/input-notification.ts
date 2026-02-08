@@ -28,7 +28,7 @@ export const InputNotificationPlugin: Plugin = async ({ $, client }) => {
           await $`osascript -e 'display notification "OpenCode is waiting for your input" with title "OpenCode"'`;
 
           // Voice announcement for audio feedback (suppress stderr diagnostics)
-          await $`say "OpenCode is waiting for input" 2>/dev/null`;
+          await $`say -v Samantha "OpenCode is waiting for input" 2>/dev/null`;
         } catch (error) {
           console.error("Failed to send notification:", error);
         }

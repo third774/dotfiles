@@ -3,3 +3,4 @@ export PATH=/opt/homebrew/opt/sqlite/bin:$PATH
 export PATH=$PATH:~/.kit/bin/kit
 export PATH="/Applications/Google Chrome.app/Contents/MacOS:$PATH"
 export PATH=$PATH:~/github.com/jnsahaj/lumen/target/release
+export PATH=$PATH:~/.cargo/bin

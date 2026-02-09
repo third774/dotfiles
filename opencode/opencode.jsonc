@@ -86,7 +86,7 @@
     },
     "xcodebuild-mcp": {
       "type": "local",
-      "command": ["npx", "-y", "xcodebuildmcp@beta", "mcp"],
+      "command": ["npx", "-y", "xcodebuildmcp@latest", "mcp"],
     },
   },
 }

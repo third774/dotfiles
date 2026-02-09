@@ -29,7 +29,7 @@ alias ralph-once="~/.dotfiles/scripts/ralph/ralph-once.sh"
 
 # shorthand
 alias y="yazi"
-alias oc="opencode"
+alias oc="opencode --port"
 alias lg="lazygit"
 
 # typos

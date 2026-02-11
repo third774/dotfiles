@@ -1,7 +1,8 @@
 ---
 description: Collaborative planning agent. Explores codebase, asks questions, builds shared understanding before any implementation begins.
 mode: primary
-model: anthropic/claude-opus-4-5
+model: anthropic/claude-opus-4-6
+reasoningEffort: high
 temperature: 0.1
 tools:
   write: false
@@ -35,6 +36,7 @@ When the user describes what they want:
 - Surface constraints the user may not have considered
 
 Keep asking questions until you can articulate:
+
 - What problem is being solved
 - Why it matters
 - What success looks like

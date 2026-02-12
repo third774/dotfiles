@@ -14,6 +14,53 @@ fin() {
   fi
 }
 
+# Convert markdown (file or stdin) to rich HTML on the clipboard,
+# with raw markdown as the plain-text fallback.
+# Usage: md2clip file.md
+#        cat file.md | md2clip
+md2clip() {
+  if ! command -v pandoc &>/dev/null; then
+    echo "md2clip: pandoc is required but not installed (brew install pandoc)" >&2
+    return 1
+  fi
+
+  local md
+  if [[ -n "$1" ]]; then
+    if [[ ! -f "$1" ]]; then
+      echo "md2clip: file not found: $1" >&2
+      return 1
+    fi
+    md=$(<"$1")
+  elif [[ ! -t 0 ]]; then
+    md=$(cat)
+  else
+    echo "md2clip: pass a markdown file or pipe via stdin" >&2
+    return 1
+  fi
+
+  local html
+  html=$(printf '%s' "$md" | pandoc -f markdown -t html)
+
+  MD2CLIP_HTML="$html" MD2CLIP_PLAIN="$md" osascript -l JavaScript -e '
+    ObjC.import("AppKit");
+    var env = $.NSProcessInfo.processInfo.environment;
+    var html = ObjC.unwrap(env.objectForKey("MD2CLIP_HTML"));
+    var plain = ObjC.unwrap(env.objectForKey("MD2CLIP_PLAIN"));
+    var pb = $.NSPasteboard.generalPasteboard;
+    pb.clearContents;
+    pb.setDataForType(
+      $.NSString.alloc.initWithUTF8String(html).dataUsingEncoding($.NSUTF8StringEncoding),
+      $.NSPasteboardTypeHTML
+    );
+    pb.setDataForType(
+      $.NSString.alloc.initWithUTF8String(plain).dataUsingEncoding($.NSUTF8StringEncoding),
+      $.NSPasteboardTypeString
+    );
+  '
+
+  echo "md2clip: copied as HTML"
+}
+
 gu() {
   branch="$1"
   git checkout "$branch"

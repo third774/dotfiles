@@ -68,6 +68,12 @@ gu() {
   git checkout -
 }
 
+gr() {
+  branch="$1"
+  gu "$branch"
+  git rebase "$branch"
+}
+
 gch() {
   git checkout "$(git branch | fzf | tr -d '[:space:]')"
 }

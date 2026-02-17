@@ -1,7 +1,7 @@
 ---
 description: Code reviewer. Analyzes diffs for bugs, security issues, and maintainability concerns.
 mode: subagent
-model: anthropic/claude-opus-4-6
+model: anthropic/claude-opus-4-5
 temperature: 0.2
 tools:
   write: false

@@ -1,7 +1,7 @@
 ---
 description: Poke holes in plans, designs, or ideas before committing. Finds real flaws, risks, and unstated assumptions.
 mode: subagent
-model: anthropic/claude-opus-4-6
+model: anthropic/claude-opus-4-5
 reasoningEffort: high
 temperature: 0.2
 color: error

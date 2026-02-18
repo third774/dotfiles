@@ -1,7 +1,7 @@
 ---
 description: Orchestrates parallel code reviews and synthesizes findings into condensed report.
 mode: subagent
-model: anthropic/claude-opus-4-5
+model: anthropic/claude-opus-4-6
 temperature: 0.2
 tools:
   write: false

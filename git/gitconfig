@@ -35,5 +35,8 @@
     features = mantis-shrimp
     syntax-theme = ansi
 
+[rebase]
+	updateRefs = true
+
 [rerere]
 	enabled = true

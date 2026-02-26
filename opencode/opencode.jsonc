@@ -1,9 +1,5 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "theme": "system",
-  "keybinds": {
-    "leader": "ctrl+o",
-  },
   "permission": {
     "bash": {
       // Generic shell commands

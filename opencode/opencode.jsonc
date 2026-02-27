@@ -76,10 +76,12 @@
     "chrome-devtools": {
       "type": "local",
       "command": ["npx", "-y", "chrome-devtools-mcp@latest"],
+      "enabled": false,
     },
     "xcodebuild-mcp": {
       "type": "local",
       "command": ["npx", "-y", "xcodebuildmcp@latest", "mcp"],
+      "enabled": false,
     },
   },
 }

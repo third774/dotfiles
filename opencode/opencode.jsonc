@@ -56,6 +56,23 @@
       "gh pr merge *": "ask",
       "gh pr review *": "ask",
 
+      // agent-browser
+      "agent-browser": "allow",
+      "agent-browser *": "allow",
+      "agent-browser auth *": "ask",
+      "agent-browser state *": "ask",
+      "agent-browser eval *": "ask",
+      "agent-browser set credentials *": "ask",
+      "agent-browser cookies *": "ask",
+      "agent-browser download *": "ask",
+      "agent-browser upload *": "ask",
+      "agent-browser --allow-file-access *": "ask",
+      "agent-browser open file://*": "ask",
+
+      // npx agent-browser
+      "npx agent-browser *": "ask",
+      "npx -y agent-browser@* *": "ask",
+
       // Node.js / npm
       "bun install": "ask",
       "bun publish *": "deny",

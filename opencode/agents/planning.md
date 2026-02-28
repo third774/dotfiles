@@ -1,7 +1,7 @@
 ---
 description: Collaborative planning agent. Explores codebase, asks questions, builds shared understanding before any implementation begins.
 mode: primary
-model: anthropic/claude-opus-4-6
+model: openai/gpt-5.3-codex
 reasoningEffort: high
 temperature: 0.1
 tools:

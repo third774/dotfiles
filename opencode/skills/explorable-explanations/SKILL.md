@@ -66,7 +66,7 @@ Technical terminology SHOULD appear after the reader already has intuition for t
 
 ### Single HTML File with Vue 3
 
-Output MUST be a single `.html` file with no build step. Use Vue 3 via CDN for reactivity and component structure.
+Output MUST be a single `.html` file with no build step. Use Vue 3 via CDN for reactivity/component structure, and Tailwind CSS via CDN for styling.
 
 ```html
 <!DOCTYPE html>
@@ -75,9 +75,10 @@ Output MUST be a single `.html` file with no build step. Use Vue 3 via CDN for r
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Explorable: [Topic]</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
   <style>
-    /* All styles inline */
+    /* Optional fallback CSS only when Tailwind utilities are insufficient */
   </style>
 </head>
 <body>
@@ -97,6 +98,16 @@ Output MUST be a single `.html` file with no build step. Use Vue 3 via CDN for r
 </body>
 </html>
 ```
+
+### Styling: Tailwind CDN First
+
+- Prefer standard Tailwind utility classes for layout, spacing, typography, color, and states.
+- Use custom CSS classes in `<style>` only as a fallback when a style cannot be expressed cleanly with available utility classes.
+- Keep fallback CSS small and local to the explorable.
+
+**Hard rule:** Tailwind arbitrary values (`[...]`) are NOT available in this single-file HTML + no-build-step + CDN setup and MUST NOT be used.
+
+Reference: https://tailwindcss.com/docs/adding-custom-styles#using-arbitrary-values
 
 **For very simple explorables** (one or two sliders, no animation), vanilla JS is acceptable. Use Vue when there are multiple reactive controls, animated state, or component-like sections.
 
@@ -243,11 +254,12 @@ For scroll-driven explorables, use a two-column layout with sticky visualization
 
 ### Styling Defaults
 
-- Dark background (`#1a1a2e` or similar) — visualizations pop against dark
-- System font stack for text: `-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`
+- Tailwind utility classes SHOULD be the default styling mechanism
+- Use a clear high-contrast palette (dark or light) so the visualization remains legible
 - Generous padding around the visualization — it's the centerpiece, give it room
 - Controls SHOULD look touchable — rounded corners, visible affordances
 - Max-width the content area (~900px) — don't let it sprawl on wide screens
+- If Tailwind utilities are insufficient, add a small fallback custom class in `<style>`
 
 ## Workflow
 
@@ -275,6 +287,7 @@ Build Progress:
 | Controls that don't visibly affect anything | Breaks the feedback loop; reader loses trust |
 | Technical jargon before intuition | Terms without grounding don't stick |
 | Clamping everything to "safe" ranges | Robs the reader of discovering edge cases |
+| Tailwind arbitrary value classes (e.g., `w-[37rem]`, `text-[#4a9eff]`) | Not available in single-file CDN/no-build setup; use standard utilities or fallback custom CSS |
 | Static diagram where interaction would help | If the reader can't manipulate it, it's not an explorable |
 
 <IMPORTANT>

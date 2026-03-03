@@ -16,6 +16,12 @@ Before writing code, plan the progression:
 
 ## Annotated Structure
 
+This example uses Tailwind utility classes from CDN for styling, with custom CSS reserved as fallback only.
+
+**Hard rule:** Tailwind arbitrary values (`[...]`) are not available in this single-file HTML + no-build-step + CDN setup and must not be used.
+
+Reference: https://tailwindcss.com/docs/adding-custom-styles#using-arbitrary-values
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -23,81 +29,28 @@ Before writing code, plan the progression:
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Explorable: Spring Physics</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
   <style>
-    * { margin: 0; box-sizing: border-box; }
-    body {
-      background: #1a1a2e;
-      color: #e0e0e0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      line-height: 1.6;
-    }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-
-    /* ── Visualization ── */
-    .viz {
-      background: #16213e;
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin: 1.5rem 0;
-    }
-    svg { display: block; width: 100%; }
-
-    /* ── Controls ── */
-    .control-group {
-      margin: 1rem 0;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .control-group label {
-      min-width: 120px;
-      font-size: 0.9rem;
-    }
-    .control-group input[type="range"] {
-      flex: 1;
-      accent-color: #4a9eff;
-    }
-    .control-group .value {
-      min-width: 3rem;
-      text-align: right;
-      font-variant-numeric: tabular-nums;
-      color: #4a9eff;
-    }
-
-    /* ── Text sections ── */
-    .explanation {
-      max-width: 600px;
-      margin: 1.5rem 0;
-      color: #a0a0b8;
-      font-size: 0.95rem;
-    }
-    .term {
-      color: #fbbf24;
-      font-weight: 600;
-    }
+    /* Optional fallback CSS only when Tailwind utilities are insufficient. */
   </style>
 </head>
-<body>
+<body class="bg-slate-950 text-slate-100 antialiased">
 <div id="app">
-  <div class="container">
-    <h1>How Springs Move</h1>
+  <div class="mx-auto max-w-4xl px-6 py-8">
+    <h1 class="text-3xl font-semibold tracking-tight">How Springs Move</h1>
 
     <!-- ─── SECTION 1: Ground the reader ─── -->
     <!--
       Start with the phenomenon. No controls, no explanation.
       Just a ball on a spring that the reader can flick.
     -->
-    <p class="explanation">
+    <p class="my-6 max-w-2xl text-sm leading-6 text-slate-300">
       Click the ball and drag it. Let go and watch what happens.
     </p>
 
-    <div class="viz">
-      <svg viewBox="0 0 800 200">
+    <div class="my-6 rounded-xl bg-slate-900 p-6 ring-1 ring-slate-700">
+      <svg class="block w-full" viewBox="0 0 800 200">
         <!-- Spring coil visualization -->
         <!-- Ball that can be dragged -->
         <!-- Equilibrium line (dashed) -->
@@ -109,38 +62,38 @@ Before writing code, plan the progression:
       After the reader has seen the basic bounce, introduce ONE control.
       Label it with what it MEANS, not what it IS.
     -->
-    <p class="explanation">
+    <p class="my-6 max-w-2xl text-sm leading-6 text-slate-300">
       How strongly does the spring pull the ball back toward center?
     </p>
 
-    <div class="control-group">
-      <label>Pull strength</label>
-      <input type="range" v-model.number="stiffness" min="10" max="500" step="10">
-      <span class="value">{{ stiffness }}</span>
+    <div class="my-4 flex items-center gap-4">
+      <label class="w-32 text-sm text-slate-200">Pull strength</label>
+      <input class="flex-1 accent-blue-400" type="range" v-model.number="stiffness" min="10" max="500" step="10">
+      <span class="w-12 text-right tabular-nums text-blue-400">{{ stiffness }}</span>
     </div>
 
     <!--
       Only AFTER the reader has developed intuition
       do we name the property.
     -->
-    <p class="explanation">
-      This property is called <span class="term">stiffness</span>.
+    <p class="my-6 max-w-2xl text-sm leading-6 text-slate-300">
+      This property is called <span class="font-semibold text-amber-300">stiffness</span>.
       Higher stiffness means a stronger restoring force.
     </p>
 
     <!-- ─── SECTION 3: Second knob — damping ─── -->
-    <p class="explanation">
+    <p class="my-6 max-w-2xl text-sm leading-6 text-slate-300">
       Now — what slows the bouncing down? Try dragging this.
     </p>
 
-    <div class="control-group">
-      <label>Friction</label>
-      <input type="range" v-model.number="damping" min="0" max="40" step="0.5">
-      <span class="value">{{ damping }}</span>
+    <div class="my-4 flex items-center gap-4">
+      <label class="w-32 text-sm text-slate-200">Friction</label>
+      <input class="flex-1 accent-blue-400" type="range" v-model.number="damping" min="0" max="40" step="0.5">
+      <span class="w-12 text-right tabular-nums text-blue-400">{{ damping }}</span>
     </div>
 
-    <p class="explanation">
-      This is <span class="term">damping</span> — energy lost per oscillation.
+    <p class="my-6 max-w-2xl text-sm leading-6 text-slate-300">
+      This is <span class="font-semibold text-amber-300">damping</span> — energy lost per oscillation.
       Push it to zero: the ball bounces forever.
       Crank it high: it crawls back without any bounce at all.
     </p>
@@ -151,8 +104,8 @@ Before writing code, plan the progression:
       The graph and the ball animation are linked — scrubbing
       the graph moves the ball, and vice versa.
     -->
-    <div class="viz">
-      <svg viewBox="0 0 800 300">
+    <div class="my-6 rounded-xl bg-slate-900 p-6 ring-1 ring-slate-700">
+      <svg class="block w-full" viewBox="0 0 800 300">
         <!-- Top half: animated ball -->
         <!-- Bottom half: position vs time graph -->
         <!-- Vertical line on graph synced with ball position -->
@@ -164,11 +117,11 @@ Before writing code, plan the progression:
       Now that the reader has SEEN all three motion types,
       give them names. The terms label existing intuition.
     -->
-    <p class="explanation">
+    <p class="my-6 max-w-2xl text-sm leading-6 text-slate-300">
       Physicists name these motion profiles:<br>
-      Low damping → <span class="term">underdamped</span> (bouncy)<br>
-      Just right → <span class="term">critically damped</span> (fastest return, no bounce)<br>
-      High damping → <span class="term">overdamped</span> (slow crawl back)
+      Low damping → <span class="font-semibold text-amber-300">underdamped</span> (bouncy)<br>
+      Just right → <span class="font-semibold text-amber-300">critically damped</span> (fastest return, no bounce)<br>
+      High damping → <span class="font-semibold text-amber-300">overdamped</span> (slow crawl back)
     </p>
   </div>
 </div>

@@ -20,6 +20,7 @@ Start with something concrete and familiar. Before explaining how a hash table w
 - Open with a visible, interactive element — not a wall of text
 - The initial state SHOULD already demonstrate the concept at its simplest
 - Use meaningful defaults that teach something on their own
+- Signal that the page is interactive — readers often assume static content. A visual cue like an animated down-arrow for scroll-driven explorables, a pulsing "drag me" hint on a draggable element, or a brief intro line ("try moving the slider") helps set the expectation that this is something to play with, not just read
 
 ### 2. One Knob at a Time
 

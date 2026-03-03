@@ -44,6 +44,11 @@ Reference: https://tailwindcss.com/docs/adding-custom-styles#using-arbitrary-val
     <!--
       Start with the phenomenon. No controls, no explanation.
       Just a ball on a spring that the reader can flick.
+
+      Signal interactivity: the prompt below ("Click the ball and drag it")
+      plus a subtle visual cue (e.g., a pulsing highlight on the ball, or
+      an animated down-arrow for scroll-driven layouts) tells the reader
+      this page is meant to be played with, not just read.
     -->
     <p class="my-6 max-w-2xl text-sm leading-6 text-slate-300">
       Click the ball and drag it. Let go and watch what happens.

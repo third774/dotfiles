@@ -57,6 +57,10 @@ Using the parsed base branch from above:
 # Context
 
 <Explain WHY these changes were made - the motivation, problem being solved, or feature being added>
+
+# How to Validate
+
+<Step-by-step QA instructions a reviewer can follow to verify the changes work correctly>
 ```
 
 4. **Copy to clipboard** using pbcopy
@@ -69,3 +73,16 @@ Using the parsed base branch from above:
 - Include any breaking changes or migration notes if applicable
 - Reference any related issues or discussions mentioned in the conversation
 - The "Context" section should flow naturally from the developer's intent argument, expanded with specific details from the code changes
+
+### How to Validate guidelines
+
+The "How to Validate" section must give a reviewer or QA engineer everything they need to verify the change without guesswork:
+
+- **Setup steps first** — list any env vars, feature flags, seed data, or config that must be in place before testing
+- **Happy path** — numbered steps to exercise the primary success scenario; be specific (exact UI interactions, CLI commands, API calls, test files to run)
+- **Edge cases and negative paths** — at least one scenario that should *not* work or should fail gracefully (invalid input, missing permissions, boundary values)
+- **Automated tests** — if the branch adds or modifies tests, name the exact command to run them (e.g. `pnpm test -- src/foo.test.ts`)
+- **Regression check** — call out any adjacent behaviour that could have broken and how to confirm it still works
+- **Expected outcome** — end each step or group of steps with a clear statement of what "passing" looks like
+
+If there is not enough context to fill a category, omit it rather than writing a placeholder.

@@ -89,7 +89,10 @@
       "yarn publish": "deny",
     },
   },
-  "plugin": ["@franlol/opencode-md-table-formatter@0.0.3"],
+  "plugin": [
+    "@franlol/opencode-md-table-formatter@0.0.3",
+    "@plannotator/opencode@latest",
+  ],
   "mcp": {
     "chrome-devtools": {
       "type": "local",

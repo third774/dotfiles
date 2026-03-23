@@ -3,6 +3,6 @@
   "theme": "system",
   "keybinds": {
     "leader": "ctrl+o",
-    "model_cycle_favorite": "ctrl+m"
+    "model_cycle_favorite": "ctrl+s"
   }
 }

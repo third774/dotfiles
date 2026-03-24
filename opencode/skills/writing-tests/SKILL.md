@@ -144,7 +144,15 @@ wait_for(lambda: result == expected)
 
 ## Assertion Strategy
 
-**Principle:** Assert on observable outputs, not internal state.
+**The Golden Rule of Assertions:** A test must fail if, and only if, the intention behind the system is not met.
+
+This rule is bidirectional. A test is broken when it:
+1. **Doesn't fail** when the intention is actually broken
+2. **Does fail** when the intention is perfectly fine (implementation detail changed, external service unreachable, etc.)
+
+**Before merging any test, ask: "When will this test fail?"** If the answer includes anything other than "when the behavior this test describes is broken," the test needs work.
+
+### Assert on observable outputs, not internal state
 
 | Context | Assert On                                             | Avoid                                 |
 | ------- | ----------------------------------------------------- | ------------------------------------- |
@@ -154,6 +162,14 @@ wait_for(lambda: result == expected)
 | Library | Return values, documented side effects                | Private methods, internal state       |
 
 **Why:** Tests that assert on implementation details break when you refactor, even if behavior is unchanged.
+
+### Respect test boundaries
+
+A test that makes a real network request doesn't just test your function -- it tests DNS resolution, network connectivity, server uptime, and response timing. When any of those fail, your test fails even though your code is fine. That violates the Golden Rule.
+
+**Fix:** Mock at the boundary of what you don't own or control. The function under test isn't responsible for the server's validity -- it's responsible for making the right request and handling the response correctly. Use API mocking (e.g., MSW, respx, httpmock) to make external interactions fixed, predictable givens.
+
+**This is not a contradiction with "default: don't mock."** Internal modules stay real. External boundaries (network, third-party services) get mocked so your test only fails when *your* code's intention is broken.
 
 ## Test Data Management
 
@@ -264,6 +280,7 @@ Before completing tests, verify:
 - [ ] Edge cases considered
 - [ ] Real dependencies used (minimal mocking)
 - [ ] Async waiting uses conditions, not arbitrary timeouts
+- [ ] Golden Rule: test fails if and only if the intention is broken
 - [ ] Tests survive refactoring (no implementation details)
 - [ ] No test-only methods added to production code
 - [ ] No assertions on mock existence or call counts

@@ -50,6 +50,9 @@ Using the parsed base branch from above:
 4. **Generate a PR description** in the following format:
 
 ```markdown
+> [!NOTE]
+> This PR description was generated with AI assistance
+
 # Description
 
 <Summarize WHAT changed - be specific about files, features, or fixes>
@@ -80,7 +83,7 @@ The "How to Validate" section must give a reviewer or QA engineer everything the
 
 - **Setup steps first** — list any env vars, feature flags, seed data, or config that must be in place before testing
 - **Happy path** — numbered steps to exercise the primary success scenario; be specific (exact UI interactions, CLI commands, API calls, test files to run)
-- **Edge cases and negative paths** — at least one scenario that should *not* work or should fail gracefully (invalid input, missing permissions, boundary values)
+- **Edge cases and negative paths** — at least one scenario that should _not_ work or should fail gracefully (invalid input, missing permissions, boundary values)
 - **Automated tests** — if the branch adds or modifies tests, name the exact command to run them (e.g. `pnpm test -- src/foo.test.ts`)
 - **Regression check** — call out any adjacent behaviour that could have broken and how to confirm it still works
 - **Expected outcome** — end each step or group of steps with a clear statement of what "passing" looks like

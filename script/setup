@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 # Setup git configuration
 setup_git_config() {
@@ -42,31 +43,34 @@ setup_git_config
 
 touch ~/.dotfiles/.localProfile
 
-echo 'installing oh-my-zsh'
-curl https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -fsSL | sh
+if [ ! -d ~/.oh-my-zsh ]; then
+  echo 'installing oh-my-zsh'
+  curl https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -fsSL | sh
+else
+  echo 'oh-my-zsh already installed'
+fi
 
 echo 'copying dotfiles to user directory'
 cp ~/.dotfiles/.zshrc ~/.zshrc
-cp ~/.dotfiles/.vimrc ~/.vimrc
 
-echo 'cloning night owl theme for iTerm'
-rm -rf ~/repos/iterm2-night-owl
-git clone https://github.com/nickcernis/iterm2-night-owl.git ~/repos/iterm2-night-owl
-
-ln -s ${HOME}/.dotfiles/karabiner ${HOME}/.config/karabiner
-ln -s ${HOME}/.dotfiles/raycast ${HOME}
-ln -s ${HOME}/.dotfiles/lazygit ${HOME}/.config/lazygit
-ln -s ${HOME}/.dotfiles/nvm/default-packages ${HOME}/.nvm/default-packages
-ln -s ${HOME}/.dotfiles/.nirc ${HOME}/.nirc
-ln -s ${HOME}/.dotfiles/ghostty ${HOME}/.config/ghostty
-ln -s ${HOME}/.dotfiles/.claude ${HOME}/.claude
-ln -s ${HOME}/.dotfiles/opencode ${HOME}/.config
-ln -s ${HOME}/.dotfiles/alacritty ${HOME}/.config
-ln -s ${HOME}/.dotfiles/config/lumen ${HOME}/.config
+ln -sf ${HOME}/.dotfiles/karabiner ${HOME}/.config/karabiner
+ln -sf ${HOME}/.dotfiles/raycast ${HOME}/raycast
+ln -sf ${HOME}/.dotfiles/lazygit ${HOME}/.config/lazygit
+ln -sf ${HOME}/.dotfiles/nvm/default-packages ${HOME}/.nvm/default-packages
+ln -sf ${HOME}/.dotfiles/.nirc ${HOME}/.nirc
+ln -sf ${HOME}/.dotfiles/ghostty ${HOME}/.config/ghostty
+ln -sf ${HOME}/.dotfiles/.claude ${HOME}/.claude
+ln -sf ${HOME}/.dotfiles/opencode ${HOME}/.config/opencode
+ln -sf ${HOME}/.dotfiles/alacritty ${HOME}/.config/alacritty
+ln -sf ${HOME}/.dotfiles/config/lumen ${HOME}/.config/lumen
 
 # Setup tmux
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-ln -s ${HOME}/.dotfiles/.tmux.conf ${HOME}/.tmux.conf
+if [ ! -d ~/.tmux/plugins/tpm ]; then
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+else
+  echo 'tpm already installed'
+fi
+ln -sf ${HOME}/.dotfiles/.tmux.conf ${HOME}/.tmux.conf
 
 cd ~/.dotfiles
 brew bundle

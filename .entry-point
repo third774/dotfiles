@@ -4,4 +4,4 @@ source ~/.dotfiles/.zsh
 source ~/.dotfiles/.nvm-setup
 source ~/.dotfiles/.aliases
 source ~/.dotfiles/utils.sh
-source ~/.dotfiles/.localProfile
+[[ -f ~/.dotfiles/.localProfile ]] && source ~/.dotfiles/.localProfile

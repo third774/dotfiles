@@ -2,6 +2,10 @@ resource() {
   source ${HOME}/.zshrc
 }
 
+function cdgr {
+  cd "$(git rev-parse --show-toplevel)"
+}
+
 fin() {
   if [ $? -eq 0 ]; then
     # Redirect stdout and stderr of 'say' to /dev/null
@@ -79,19 +83,22 @@ gch() {
 }
 
 function gs() {
+  local selected
   selected=$( (
     git diff --name-only --diff-filter=ACDMRTUXB
     git ls-files --others --exclude-standard
     git diff --name-only --diff-filter=D
   ) | fzf --multi)
   if [ -n "$selected" ]; then
-    git add $(echo $selected | xargs)
+    while IFS= read -r file; do
+      git add "$file"
+    done <<< "$selected"
   fi
 }
 
 function t {
-  mkdir -p $(dirname $1)
-  touch $1
+  mkdir -p "$(dirname "$1")"
+  touch "$1"
 }
 
 function grecent() {
@@ -103,12 +110,7 @@ function grecent() {
 }
 
 function newpost() {
-  echo '---\n{\n  "title": "",\n  "description": ""\n}\n---\n' >>src/content/blog/new-post.md
-}
-
-function ub() {
-  branch=$1
-  git checkout $branch && git pull && git checkout -
+  printf '---\n{\n  "title": "",\n  "description": ""\n}\n---\n' >> src/content/blog/new-post.md
 }
 
 function commit() {

@@ -32,11 +32,9 @@ interface ProtectionPatterns {
   message_template: string;
 }
 
-interface ProtectionResult {
-  isProtected: boolean;
-  reason: string | null;
-  category: string | null;
-}
+type ProtectionResult =
+  | { isProtected: true; reason: string; category: string }
+  | { isProtected: false; reason: null; category: null };
 
 // ===== CONFIGURATION LOADING =====
 
@@ -258,7 +256,7 @@ export const FileProtection: Plugin = async ({ project, client, $, directory, wo
         if (filePath) {
           const protection = isProtectedFile(filePath);
           if (protection.isProtected) {
-            const errorMsg = generateErrorMessage(filePath, protection.reason!);
+            const errorMsg = generateErrorMessage(filePath, protection.reason);
             log(`Blocked read: ${filePath} (${protection.category})`);
             throw new Error(errorMsg);
           }
@@ -281,7 +279,7 @@ export const FileProtection: Plugin = async ({ project, client, $, directory, wo
         if (searchPath) {
           const protection = isProtectedFile(searchPath);
           if (protection.isProtected) {
-            const errorMsg = generateErrorMessage(searchPath, protection.reason!);
+            const errorMsg = generateErrorMessage(searchPath, protection.reason);
             log(`Blocked grep: ${searchPath} (${protection.category})`);
             throw new Error(errorMsg);
           }
@@ -294,7 +292,7 @@ export const FileProtection: Plugin = async ({ project, client, $, directory, wo
         if (listPath) {
           const protection = isProtectedFile(listPath);
           if (protection.isProtected) {
-            const errorMsg = generateErrorMessage(listPath, protection.reason!);
+            const errorMsg = generateErrorMessage(listPath, protection.reason);
             log(`Blocked list: ${listPath} (${protection.category})`);
             throw new Error(errorMsg);
           }

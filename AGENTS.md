@@ -17,7 +17,7 @@ macOS dotfiles: Zsh (oh-my-zsh + p10k), symlink-based config management, Homebre
 ├── .zsh                 # oh-my-zsh plugins + syntax highlighting
 ├── .aliases             # Git shortcuts, eza/yazi/lazygit
 ├── utils.sh             # Functions: commit(), gch(), grecent(), fin()
-├── .path                # PATH: go, sqlite, cargo, lumen
+├── .path                # PATH: go, sqlite, cargo
 ├── .nvm-setup           # NVM with auto .nvmrc loading
 ├── .localProfile        # Machine-specific (GITIGNORED)
 ├── git/gitconfig        # Delta pager, rerere, zdiff3
@@ -63,7 +63,7 @@ macOS dotfiles: Zsh (oh-my-zsh + p10k), symlink-based config management, Homebre
 - `T` or `C-space`: sesh session picker
 - `|` / `-`: split panes (33%)
 - `h/j/k/l`: vim-style pane navigation
-- Plugins: catppuccin, vim-tmux-navigator, resurrect, continuum
+- Plugins: catppuccin, vim-tmux-navigator
 
 ### Naming
 
@@ -89,7 +89,7 @@ cd ~/.dotfiles/script && ./setup
 Setup does:
 1. Creates `~/.gitconfig.local` (prompts for email)
 2. Installs oh-my-zsh
-3. Copies `.zshrc`, `.vimrc` to home
+3. Copies `.zshrc` to home
 4. Creates symlinks: karabiner, raycast, lazygit, ghostty, alacritty, opencode, .claude
 5. Installs TPM (tmux plugins)
 6. Runs `brew bundle`

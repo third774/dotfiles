@@ -16,7 +16,7 @@
 [core]
 	editor = nvim
 	excludesfile = ~/.dotfiles/git/gitignore_global
-  pager = delta
+	pager = delta
 
 [branch]
 	autosetuprebase = always
@@ -25,18 +25,25 @@
 	rebase = true
 
 [merge]
-    conflictStyle = zdiff3
+	conflictStyle = zdiff3
 
 [interactive]
-    diffFilter = delta --color-only
+	diffFilter = delta --color-only
 
 [delta]
-    navigate = true  # use n and N to move between diff sections
-    features = mantis-shrimp
-    syntax-theme = ansi
+	navigate = true  # use n and N to move between diff sections
+	features = mantis-shrimp
+	syntax-theme = ansi
 
 [rebase]
 	updateRefs = true
 
 [rerere]
 	enabled = true
+
+[fetch]
+	prune = true
+	pruneTags = true
+
+[diff]
+	algorithm = histogram

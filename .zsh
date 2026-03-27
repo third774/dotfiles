@@ -2,6 +2,10 @@ export ZSH=~/.oh-my-zsh
 
 bindkey -v
 
+HISTSIZE=100000
+SAVEHIST=100000
+setopt HIST_IGNORE_ALL_DUPS HIST_SAVE_NO_DUPS SHARE_HISTORY EXTENDED_HISTORY
+
 plugins=()
 
 source $ZSH/oh-my-zsh.sh

@@ -28,6 +28,7 @@ alias ralph-once="~/.dotfiles/scripts/ralph/ralph-once.sh"
 alias y="yazi"
 alias oc="opencode --port"
 alias lg="lazygit"
+alias nv="nvim"
 
 # typos
 alias vim="nvim"

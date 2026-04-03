@@ -24,6 +24,9 @@
     "external_directory": {
       "~/github.com/**": "allow",
     },
+    "edit": {
+      "~/cf/stratus/**": "allow",
+    },
     "question": "deny",
     "bash": {
       // Generic shell commands
@@ -79,6 +82,9 @@
       "gh pr create *": "ask",
       "gh pr merge *": "ask",
       "gh pr review *": "ask",
+
+      // Gitlab CLI
+      "glab mr note *": "ask",
 
       // agent-browser
       "agent-browser": "allow",

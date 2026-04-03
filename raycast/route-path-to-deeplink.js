@@ -25,7 +25,9 @@ function writeClipboard(text) {
 }
 
 function replacePlaceholders(value) {
-  return value.replaceAll(":accountId", ":account").replaceAll(":zoneName", ":zone");
+  return value
+    .replaceAll(":accountId", ":account")
+    .replaceAll(":zoneName", ":zone");
 }
 
 function isLikelyUrl(token) {
@@ -42,7 +44,9 @@ function isRouteLikeToken(token) {
 }
 
 function toDeeplink(pathToken) {
-  const normalizedPath = pathToken.startsWith("/") ? pathToken : `/${pathToken}`;
+  const normalizedPath = pathToken.startsWith("/")
+    ? pathToken
+    : `/${pathToken}`;
   return `${DASHBOARD_ORIGIN}/?to=${normalizedPath}`;
 }
 

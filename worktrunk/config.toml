@@ -1,3 +1,16 @@
 [commit.generation]
-command = "opencode run -m anthropic/claude-sonnet-4.6"
+command = "opencode run -m anthropic/claude-haiku-4-5 --variant fast"
 
+template = """
+Write a commit message for this diff. Use conventional commits. If something that looks like a ticket number is in the branch name, include that in the commit message.
+For example if the branch name is kkipp/UI-4958-fix-ci, the commit message might look something like:
+
+fix(UI-4958): Add missing dependency
+
+Branch: {{ branch }}
+Diff:
+{{ git_diff }}
+"""
+
+[list]
+summary = true

@@ -61,6 +61,7 @@ ln -sf ${HOME}/.dotfiles/.nirc ${HOME}/.nirc
 ln -sf ${HOME}/.dotfiles/ghostty ${HOME}/.config/ghostty
 ln -sf ${HOME}/.dotfiles/.claude ${HOME}/.claude
 ln -sf ${HOME}/.dotfiles/opencode ${HOME}/.config/opencode
+ln -sf ${HOME}/.dotfiles/worktrunk ${HOME}/.config/worktrunk
 ln -sf ${HOME}/.dotfiles/alacritty ${HOME}/.config/alacritty
 ln -sf ${HOME}/.dotfiles/config/lumen ${HOME}/.config/lumen
 

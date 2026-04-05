@@ -125,7 +125,7 @@
   "mcp": {
     "chrome-devtools": {
       "type": "local",
-      "command": ["npx", "-y", "chrome-devtools-mcp@latest"],
+      "command": ["npx", "-y", "chrome-devtools-mcp@latest", "--autoConnect"],
       "enabled": false,
     },
     "xcodebuild-mcp": {

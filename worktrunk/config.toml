@@ -14,3 +14,11 @@ Diff:
 
 [list]
 summary = true
+
+[switch]
+cd = false
+
+[post-start]
+trust_local_nvim = "echo \"\\nf3bf898f0a6de1eae582c2e38d6b6ad4af7a2d1aaad4ad9d8b0ea3ac264fec68 {{ worktree_path }}/.nvim.lua\" >> ~/.local/state/nvim/trust"
+switch_tmux_session = "tmux new-session -d -s {{ repo }}_{{ branch }} -c {{ worktree_path }} 2>/dev/null; tmux switch-client -t {{ repo }}_{{ branch }}"
+

@@ -1,7 +1,3 @@
-resource() {
-  source ${HOME}/.zshrc
-}
-
 function cdgr {
   cd "$(git rev-parse --show-toplevel)"
 }

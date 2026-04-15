@@ -1,3 +1,7 @@
+resource() {
+  source ${HOME}/.zshrc
+}
+
 source ~/.dotfiles/.path
 source ~/.dotfiles/.p10k.zsh
 source ~/.dotfiles/.zsh

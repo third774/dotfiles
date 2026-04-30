@@ -53,6 +53,9 @@ fi
 echo 'copying dotfiles to user directory'
 cp ~/.dotfiles/.zshrc ~/.zshrc
 
+# Ensure parent directories exist before creating symlinks
+mkdir -p ${HOME}/.config ${HOME}/.nvm ${HOME}/.tmux/plugins
+
 ln -sf ${HOME}/.dotfiles/karabiner ${HOME}/.config/karabiner
 ln -sf ${HOME}/.dotfiles/raycast ${HOME}/raycast
 ln -sf ${HOME}/.dotfiles/lazygit ${HOME}/.config/lazygit

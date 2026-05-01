@@ -23,17 +23,17 @@ EOF
   echo "Checking ~/.gitconfig for required includes..."
 
   # Check if shared config include exists
-  if ! grep -q "path = ~/.dotfiles/git/gitconfig" ~/.gitconfig 2>/dev/null; then
+  if ! git config --global --get-all include.path 2>/dev/null | grep -Fxq "${HOME}/.dotfiles/git/gitconfig"; then
     echo "Adding shared git config include..."
-    git config --global include.path ~/.dotfiles/git/gitconfig
+    git config --global --add include.path "${HOME}/.dotfiles/git/gitconfig"
   else
     echo "Shared git config include already exists"
   fi
 
   # Check if local config include exists
-  if ! grep -q "path = ~/.gitconfig.local" ~/.gitconfig 2>/dev/null; then
+  if ! git config --global --get-all include.path 2>/dev/null | grep -Fxq "${HOME}/.gitconfig.local"; then
     echo "Adding local git config include..."
-    git config --global include.path ~/.gitconfig.local
+    git config --global --add include.path "${HOME}/.gitconfig.local"
   else
     echo "Local git config include already exists"
   fi
@@ -41,9 +41,9 @@ EOF
 
 setup_git_config
 
-touch ~/.dotfiles/.localProfile
+touch "${HOME}/.dotfiles/.localProfile"
 
-if [ ! -d ~/.oh-my-zsh ]; then
+if [ ! -d "${HOME}/.oh-my-zsh" ]; then
   echo 'installing oh-my-zsh'
   curl https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -fsSL | sh
 else
@@ -51,33 +51,33 @@ else
 fi
 
 echo 'copying dotfiles to user directory'
-cp ~/.dotfiles/.zshrc ~/.zshrc
+cp "${HOME}/.dotfiles/.zshrc" "${HOME}/.zshrc"
 
 # Ensure parent directories exist before creating symlinks
-mkdir -p ${HOME}/.config ${HOME}/.nvm ${HOME}/.tmux/plugins
+mkdir -p "${HOME}/.config" "${HOME}/.nvm" "${HOME}/.tmux/plugins"
 
-ln -sf ${HOME}/.dotfiles/karabiner ${HOME}/.config/karabiner
-ln -sf ${HOME}/.dotfiles/raycast ${HOME}/raycast
-ln -sf ${HOME}/.dotfiles/lazygit ${HOME}/.config/lazygit
-ln -sf ${HOME}/.dotfiles/nvm/default-packages ${HOME}/.nvm/default-packages
-ln -sf ${HOME}/.dotfiles/.nirc ${HOME}/.nirc
-ln -sf ${HOME}/.dotfiles/ghostty ${HOME}/.config/ghostty
-ln -sf ${HOME}/.dotfiles/.claude ${HOME}/.claude
-ln -sf ${HOME}/.dotfiles/opencode ${HOME}/.config/opencode
-ln -sf ${HOME}/.dotfiles/worktrunk ${HOME}/.config/worktrunk
-ln -sf ${HOME}/.dotfiles/alacritty ${HOME}/.config/alacritty
-ln -sf ${HOME}/.dotfiles/nvim ${HOME}/.config/nvim
-ln -sf ${HOME}/.dotfiles/config/lumen ${HOME}/.config/lumen
+ln -sfn "${HOME}/.dotfiles/karabiner" "${HOME}/.config/karabiner"
+ln -sfn "${HOME}/.dotfiles/raycast" "${HOME}/raycast"
+ln -sfn "${HOME}/.dotfiles/lazygit" "${HOME}/.config/lazygit"
+ln -sfn "${HOME}/.dotfiles/nvm/default-packages" "${HOME}/.nvm/default-packages"
+ln -sfn "${HOME}/.dotfiles/.nirc" "${HOME}/.nirc"
+ln -sfn "${HOME}/.dotfiles/ghostty" "${HOME}/.config/ghostty"
+ln -sfn "${HOME}/.dotfiles/.claude" "${HOME}/.claude"
+ln -sfn "${HOME}/.dotfiles/opencode" "${HOME}/.config/opencode"
+ln -sfn "${HOME}/.dotfiles/worktrunk" "${HOME}/.config/worktrunk"
+ln -sfn "${HOME}/.dotfiles/alacritty" "${HOME}/.config/alacritty"
+ln -sfn "${HOME}/.dotfiles/nvim" "${HOME}/.config/nvim"
+ln -sfn "${HOME}/.dotfiles/config/lumen" "${HOME}/.config/lumen"
 
 # Setup tmux
-if [ ! -d ~/.tmux/plugins/tpm ]; then
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+if [ ! -d "${HOME}/.tmux/plugins/tpm" ]; then
+  git clone https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
 else
   echo 'tpm already installed'
 fi
-ln -sf ${HOME}/.dotfiles/.tmux.conf ${HOME}/.tmux.conf
+ln -sfn "${HOME}/.dotfiles/.tmux.conf" "${HOME}/.tmux.conf"
 
-cd ~/.dotfiles
+cd "${HOME}/.dotfiles"
 
 # Install Homebrew if not present, and ensure it's in PATH
 if ! command -v brew &>/dev/null; then
@@ -87,3 +87,5 @@ if ! command -v brew &>/dev/null; then
 fi
 
 brew bundle
+
+"${HOME}/.tmux/plugins/tpm/bin/install_plugins"

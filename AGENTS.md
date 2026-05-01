@@ -45,6 +45,13 @@ macOS dotfiles: Zsh (oh-my-zsh + p10k), symlink-based config management, Homebre
 
 ## CONVENTIONS
 
+### Bootstrap Reliability
+
+- Keep `script/setup` up to date whenever adding packages, config directories, symlinks, plugins, or machine setup assumptions.
+- Treat `script/setup` as the source of truth for setting up a fresh machine; a clean clone plus `./script/setup` should produce a usable environment.
+- Setup steps must be idempotent: rerunning the script should not create nested symlinks, duplicate config entries, or fail because something already exists.
+- Prefer guarded installs, `ln -sfn` for symlink updates, and append-only config writes only after checking for an existing exact value.
+
 ### Shell Config
 
 - Entry point chain: `~/.zshrc` -> `.entry-point` -> modular sources
@@ -91,8 +98,9 @@ Setup does:
 2. Installs oh-my-zsh
 3. Copies `.zshrc` to home
 4. Creates symlinks: karabiner, raycast, lazygit, ghostty, alacritty, opencode, .claude
-5. Installs TPM (tmux plugins)
+5. Installs TPM
 6. Runs `brew bundle`
+7. Installs TPM-managed tmux plugins
 
 ## COMMANDS
 

@@ -18,3 +18,16 @@ lazygit/state.yml
 .claude/debug
 .claude/telemetry
 .claude/transcripts
+/karabiner/.yarn/cache
+
+# nvim
+nvim/tt.*
+nvim/.tests
+nvim/doc/tags
+nvim/debug
+nvim/.repro
+nvim/foo.*
+nvim/*.log
+nvim/data
+nvim/lua/plugins/local.lua
+nvim/binaries

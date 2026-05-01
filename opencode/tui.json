@@ -4,5 +4,13 @@
   "keybinds": {
     "leader": "ctrl+o",
     "model_cycle_favorite": "ctrl+s"
-  }
+  },
+  "plugin": [
+    [
+      "@ishaksebsib/opencode-tree",
+      {
+        "storageScope": "global"
+      }
+    ]
+  ]
 }

@@ -1,0 +1,70 @@
+{
+  "interface": {
+    "prefix": "inter",
+    "body": ["interface $1 {", "  $2", "}"]
+  },
+  "localize": {
+    "prefix": "lz",
+    "body": ["\\$localize`$2`"]
+  },
+  "@ts-expect-error": {
+    "prefix": "tsee",
+    "body": ["@ts-expect-error"]
+  },
+  "effect generator": {
+    "prefix": "efg",
+    "body": ["Effect.gen(function* () {", "  $2", "})"]
+  },
+  "effect function": {
+    "prefix": "eff",
+    "body": ["Effect.fn(\"$1\")(function* ($2) {", "  $3", "})"]
+  },
+  "effect error": {
+    "prefix": "efe",
+    "body": [
+      "export class ${1:CustomEffectError} extends Data.TaggedError(\"$1\")<{",
+      "  cause?: unknown;",
+      "  message?: string;",
+      "}> {}"
+    ]
+  },
+  "effect log": {
+    "prefix": "efc",
+    "body": ["yield* Console.log($1)"]
+  },
+  "yield*": {
+    "prefix": "ys",
+    "body": ["yield* "]
+  },
+  "filename": {
+    "prefix": "fn",
+    "body": ["${TM_FILENAME/^([^.]+).*/$1/}"]
+  },
+  "React Router Action": {
+    "prefix": "rra",
+    "body": [
+      "export const action = async ({$1}: Route.ActionArgs) => {",
+      "  $2",
+      "}"
+    ]
+  },
+  "React Router Loader": {
+    "prefix": "rrl",
+    "body": [
+      "export const loader = async ({$1}: Route.LoaderArgs) => {",
+      "  $2",
+      "}"
+    ]
+  },
+  "React Router Component": {
+    "prefix": "rrc",
+    "body": [
+      "export default function ${1:Component}({$2}: Route.ComponentProps) {",
+      "  $3",
+      "  return (",
+      "    <div>$1</div>",
+      "  );",
+      "}"
+    ]
+  }
+}

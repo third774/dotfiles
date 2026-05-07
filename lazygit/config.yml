@@ -1,9 +1,9 @@
 os:
   editPreset: "nvim"
 git:
-  paging:
-    colorArg: always
-    pager: delta --paging=never --line-numbers
+  pagers:
+    - colorArg: always
+      pager: delta --paging=never --line-numbers
 services:
   "gitlab.cfdata.org": "gitlab:gitlab.cfdata.org"
 customCommands:

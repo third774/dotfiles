@@ -9,9 +9,15 @@ Build interactive single-file HTML pages that teach concepts through direct mani
 
 **Core belief:** People learn through experimentation. A slider that lets you *feel* how frequency affects pitch teaches more than a paragraph explaining it.
 
+## Complexity Budget
+
+Match interaction complexity to concept complexity. A concept that needs one slider and one visualization should not ship with a transport bar, scroll-driven progression, and multiple linked representations. Every control, view, and animation frame you add costs the reader attention — spend only what the concept demands.
+
+Before building, ask: what is the *minimum* interaction that gives the reader the intuition they need? Start there. Add more only when a simpler version falls short.
+
 ## Pedagogical Framework
 
-Every explorable MUST follow this structure. The order matters — each layer builds on the previous one.
+Draw from these layers as the concept demands. Not every explorable needs all six — skip steps that don't earn their weight. The order is a sensible default, not a mandate.
 
 ### 1. Ground the Reader
 
@@ -38,14 +44,15 @@ Every input change MUST produce an immediately visible output change.
 - If computation is expensive, show a degraded/simplified preview during interaction and refine on release
 - The visual response should feel directly connected to the control — no indirection, no delay
 
-### 4. Multiple Representations
+### 4. Multiple Representations (When It Helps)
 
-Show the same concept from different angles simultaneously.
+Some concepts click when the reader sees them from two angles at once — a wave as motion *and* as a graph, a matrix transform as numbers *and* as geometry. When this applies, linked representations are extremely effective:
 
 - Pair an animation with a graph
 - Show both the spatial view and the mathematical view
 - Highlight the connection between representations (e.g., a dot on the graph that moves in sync with the animated element)
-- Linked representations are the highest-value teaching tool — when you drag a slider and both views update, the relationship clicks
+
+Not every concept benefits from this. An explorable about easing functions, color mixing, or grid layout doesn't need a second view — the primary visualization *is* the explanation. Add a second representation only when it reveals a relationship that one view alone cannot.
 
 ### 5. Let Them Break It
 
@@ -65,9 +72,13 @@ Technical terminology SHOULD appear after the reader already has intuition for t
 
 ## Technical Approach
 
-### Single HTML File with Vue 3
+### Single HTML File
 
-Output MUST be a single `.html` file with no build step. Use Vue 3 via CDN for reactivity/component structure, and Tailwind CSS via CDN for styling.
+Output MUST be a single `.html` file with no build step. Use Tailwind CSS via CDN for styling.
+
+**Start with vanilla JS.** Event listeners, `requestAnimationFrame`, and direct DOM updates handle most explorables cleanly. Reach for Vue 3 (via CDN) only when the complexity genuinely warrants it — roughly when you have 5+ reactive bindings that depend on each other, or component-like sections that benefit from Vue's template syntax.
+
+Vanilla baseline:
 
 ```html
 <!DOCTYPE html>
@@ -77,9 +88,8 @@ Output MUST be a single `.html` file with no build step. Use Vue 3 via CDN for r
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Explorable: [Topic]</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
   <style>
-    /* Optional fallback CSS only when Tailwind utilities are insufficient */
+    /* Fallback CSS only when Tailwind utilities are insufficient */
   </style>
 </head>
 <body>
@@ -87,17 +97,26 @@ Output MUST be a single `.html` file with no build step. Use Vue 3 via CDN for r
     <!-- Template here -->
   </div>
   <script>
-    const { createApp, ref, computed, onMounted, onUnmounted, watch } = Vue
-
-    createApp({
-      setup() {
-        // Reactive state, computed properties, animation loops
-        return { /* template bindings */ }
-      }
-    }).mount('#app')
+    // Direct DOM refs, event listeners, requestAnimationFrame
   </script>
 </body>
 </html>
+```
+
+When Vue is warranted, add the CDN script and use the Composition API:
+
+```html
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+<script>
+  const { createApp, ref, computed, onMounted, onUnmounted, watch } = Vue
+
+  createApp({
+    setup() {
+      // Reactive state, computed properties, animation loops
+      return { /* template bindings */ }
+    }
+  }).mount('#app')
+</script>
 ```
 
 ### Styling: Tailwind CDN First
@@ -110,8 +129,6 @@ Output MUST be a single `.html` file with no build step. Use Vue 3 via CDN for r
 
 Reference: https://tailwindcss.com/docs/adding-custom-styles#using-arbitrary-values
 
-**For very simple explorables** (one or two sliders, no animation), vanilla JS is acceptable. Use Vue when there are multiple reactive controls, animated state, or component-like sections.
-
 ### Visualization: SVG vs Canvas
 
 | Use SVG when | Use Canvas when |
@@ -121,7 +138,7 @@ Reference: https://tailwindcss.com/docs/adding-custom-styles#using-arbitrary-val
 | Mostly shapes, lines, text | Particle systems, complex animation |
 | Interactivity on individual elements | Performance-critical rendering |
 
-**Default to SVG.** It composes well with Vue's template syntax and handles most explorable needs.
+**Default to SVG.** It's declarative, inspectable in devtools, and handles most explorable needs. It also composes well with Vue's template syntax if you're using Vue.
 
 ### Animation Loop Pattern
 
@@ -184,14 +201,15 @@ displayValue.value += (targetValue.value - displayValue.value) * 0.1
 
 ### Playback Controls
 
-Animated explorables SHOULD include:
+Animated explorables need *some* way for the reader to control time. Pick from this menu based on what the concept requires — don't include controls the reader won't use:
 
-- **Play/Pause toggle**
-- **Speed slider** (0.25x to 4x range is reasonable)
-- **Step button** (advance one frame while paused)
-- **Reset button** (return to initial state)
+- **Play/Pause toggle** — the baseline for any animation
+- **Reset button** — useful when the reader can get lost in a long-running state
+- **Speed slider** (0.25x to 4x) — helpful when the concept benefits from slow-motion observation
+- **Step button** (advance one frame while paused) — valuable for discrete/algorithmic concepts where each tick matters
+- **Timeline scrubber** — sometimes a single slider replacing play/pause/step is the cleanest option
 
-Group these visually as a "transport bar" — readers recognize this pattern from media players.
+A simple looping animation might only need play/pause. A sorting algorithm walkthrough might need step + reset. Let the concept decide.
 
 ### Parameter Controls
 
@@ -207,7 +225,7 @@ For long-form explorables that tell a story:
 - Each scroll section introduces one new concept or control
 - Use `IntersectionObserver` to trigger state changes as sections enter the viewport
 
-This is the most powerful structure for pedagogical explorables — it enforces the "one knob at a time" principle through the scroll itself.
+This structure works well for long-form explorables that build up a complex concept over many steps. For simpler concepts, a single viewport with everything visible is often better — the reader can cross-reference controls and output without losing context to scrolling.
 
 ## Layout and Styling
 

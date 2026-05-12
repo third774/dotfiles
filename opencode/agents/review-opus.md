@@ -10,7 +10,9 @@ permission:
   edit: deny
 ---
 
-You will receive a diff and optional focus areas. Load and apply the `adversarial-code-review` skill.
+You will receive `Original /review arguments`, a diff, and optional parsed focus areas. Load and apply the `adversarial-code-review` skill.
+
+Treat the original arguments as authoritative user intent. If they mention files, commits, modules, or specific concerns, keep that context in mind even when the parsed focus areas are sparse.
 
 **Before reviewing, explore surrounding context:**
 

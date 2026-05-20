@@ -123,6 +123,8 @@
   },
   "plugin": [
     "@plannotator/opencode@latest",
+    ["@ishaksebsib/opencode-tree", { "storageScope": "local" }],
+    "github:third774/opencode-plugin-react-router-source#3f2212126f64fec359c7f57bd351acf48a31320c"
   ],
   "mcp": {
     "chrome-devtools": {

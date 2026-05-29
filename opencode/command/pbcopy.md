@@ -10,6 +10,6 @@ Copy content to the clipboard using pbcopy.
 ## Behavior
 
 - If instruction provided: Follow it to determine what content from this conversation should be copied
-- If no instruction: Copy your last response (before this command was invoked) verbatim
+- If no instruction: Copy your last response (before this command was invoked) verbatim. Do not wrap it in a fenced code block.
 
 Pipe the content to `pbcopy`.

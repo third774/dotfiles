@@ -1,7 +1,8 @@
 ---
 description: Code reviewer (Opus). Analyzes diffs for bugs, security issues, and maintainability concerns.
 mode: subagent
-model: anthropic/claude-opus-4-8
+model: anthropic/claude-opus-4-7
+variant: max
 tools:
   write: false
   edit: false

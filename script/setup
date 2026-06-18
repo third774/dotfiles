@@ -68,6 +68,7 @@ ln -sfn "${HOME}/.dotfiles/worktrunk" "${HOME}/.config/worktrunk"
 ln -sfn "${HOME}/.dotfiles/alacritty" "${HOME}/.config/alacritty"
 ln -sfn "${HOME}/.dotfiles/nvim" "${HOME}/.config/nvim"
 ln -sfn "${HOME}/.dotfiles/config/lumen" "${HOME}/.config/lumen"
+ln -sfn "${HOME}/.dotfiles/config/herdr" "${HOME}/.config/herdr"
 
 # Setup tmux
 if [ ! -d "${HOME}/.tmux/plugins/tpm" ]; then

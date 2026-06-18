@@ -1,0 +1,34 @@
+onboarding = false
+
+[theme]
+name = "tokyo-night"
+
+[ui]
+agent_panel_scope = "all"
+show_agent_labels_on_pane_borders = true
+
+[keys]
+goto = "prefix+shift+k"
+# tmux-style bindings (prefix is the leader, default ctrl+b)
+split_vertical = "prefix+%"
+split_horizontal = 'prefix+"'
+detach = "prefix+d"
+
+# leader+s opens the workspace ("spaces") picker (settings moves off prefix+s to make room)
+workspace_picker = "prefix+s"
+settings = "prefix+shift+s"
+
+# vim-style j/k move the selection up/down inside the spaces picker
+# (frees pane up/down in navigate mode; use arrows or ctrl+b j/k for pane focus)
+navigate_workspace_up = "k"
+navigate_workspace_down = "j"
+navigate_pane_up = ""
+navigate_pane_down = ""
+
+# leader+. / leader+, step to the next / previous agent in the panel
+next_agent = "prefix+."
+previous_agent = "prefix+,"
+
+# leader+a focuses the agent panel for keyboard browsing
+# (j/k to move, enter to jump, esc to leave) — needs the rebuilt binary
+agent_picker = "prefix+a"

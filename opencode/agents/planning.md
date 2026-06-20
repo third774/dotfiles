@@ -1,8 +1,8 @@
 ---
 description: Collaborative planning agent. Explores codebase, asks questions, builds shared understanding before any implementation begins.
 mode: primary
-model: openai/gpt-5.3-codex
-reasoningEffort: high
+model: openai/gpt-5.5
+reasoningEffort: xhigh
 temperature: 0.1
 tools:
   write: false

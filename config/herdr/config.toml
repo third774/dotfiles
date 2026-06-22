@@ -10,8 +10,7 @@ show_agent_labels_on_pane_borders = true
 [keys]
 goto = "prefix+shift+k"
 # tmux-style bindings (prefix is the leader, default ctrl+b)
-split_vertical = "prefix+%"
-split_horizontal = 'prefix+"'
+split_vertical = "prefix+|"
 detach = "prefix+d"
 
 # leader+s opens the workspace ("spaces") picker (settings moves off prefix+s to make room)
@@ -32,3 +31,4 @@ previous_agent = "prefix+,"
 # leader+a focuses the agent panel for keyboard browsing
 # (j/k to move, enter to jump, esc to leave) — needs the rebuilt binary
 agent_picker = "prefix+a"
+last_workspace = "ctrl+\\"

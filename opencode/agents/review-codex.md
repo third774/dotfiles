@@ -1,8 +1,8 @@
 ---
 description: Code reviewer (Codex). Analyzes diffs for bugs, security issues, and maintainability concerns.
 mode: subagent
-model: openai/gpt-5.5
-variant: xhigh
+model: openai/gpt-5.6-sol
+variant: high
 tools:
   write: false
   edit: false

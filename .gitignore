@@ -34,3 +34,4 @@ nvim/binaries
 /config/herdr/herdr-server.log
 /config/herdr/release-notes.json
 /config/herdr/session.json
+/config/herdr/plugins.json

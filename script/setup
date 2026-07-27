@@ -89,4 +89,6 @@ fi
 
 brew bundle
 
+herdr plugin link "${HOME}/.dotfiles/config/herdr/plugins/default-workspace-layout"
+
 "${HOME}/.tmux/plugins/tpm/bin/install_plugins"

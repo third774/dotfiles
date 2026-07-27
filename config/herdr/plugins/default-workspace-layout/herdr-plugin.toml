@@ -1,0 +1,10 @@
+id = "third774.default-workspace-layout"
+name = "Default Workspace Layout"
+version = "0.1.0"
+min_herdr_version = "0.7.0"
+description = "Provision each new workspace with an editor and OpenCode panes."
+platforms = ["macos"]
+
+[[events]]
+on = "workspace.created"
+command = ["./apply-layout.sh"]

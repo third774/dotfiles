@@ -14,10 +14,6 @@ show_agent_labels_on_pane_borders = true
 split_vertical = "prefix+|"
 detach = "prefix+d"
 
-# leader+s opens the workspace ("spaces") picker (settings moves off prefix+s to make room)
-workspace_picker = "prefix+s"
-settings = "prefix+shift+s"
-
 # vim-style j/k move the selection up/down inside the spaces picker
 # (frees pane up/down in navigate mode; use arrows or ctrl+b j/k for pane focus)
 navigate_workspace_up = "k"

@@ -1,0 +1,6 @@
+single_file_view = true
+comment_vim = true
+username = "kkipp"
+diff_view = "side-by-side"
+relative_line_numbers = true
+comment_tab_width = 2

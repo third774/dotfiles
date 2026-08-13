@@ -1,4 +1,4 @@
-onboarding = false
+onboarding  false
 
 # Default workspace panes are provisioned by plugins/default-workspace-layout.
 
@@ -34,3 +34,10 @@ key = "ctrl+\\"
 type = "plugin_action"
 command = "third774.last-workspace.toggle"
 description = "last workspace"
+
+[[keys.command]]
+key = "prefix+s"
+type = "plugin_action"
+command = "third774.sidepulse.toggle"
+description = "toggle SidePulse"
+

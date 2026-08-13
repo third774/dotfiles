@@ -1,4 +1,4 @@
-onboarding  false
+onboarding = false
 
 # Default workspace panes are provisioned by plugins/default-workspace-layout.
 

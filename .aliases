@@ -35,3 +35,5 @@ alias vim="nvim"
 alias tmxu="tmux"
 alias code.="code ."
 
+alias mdview="npx -y mdts@latest"
+

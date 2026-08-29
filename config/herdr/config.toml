@@ -25,9 +25,14 @@ navigate_pane_down = ""
 next_agent = "prefix+."
 previous_agent = "prefix+,"
 
-# leader+a focuses the agent panel for keyboard browsing
-# (j/k to move, enter to jump, esc to leave) — needs the rebuilt binary
-agent_picker = "prefix+a"
+close_workspace = "prefix+shift+w"
+remove_worktree = "prefix+shift+d"
+
+[[keys.command]]
+key = "prefix+shift+k"
+type = "plugin_action"
+command = "herdr-navigator.open"
+description = "jump to anything"
 
 [[keys.command]]
 key = "ctrl+\\"
@@ -40,4 +45,36 @@ key = "prefix+s"
 type = "plugin_action"
 command = "third774.sidepulse.toggle"
 description = "toggle SidePulse"
+
+[[keys.command]]
+key = "prefix+e"
+type = "plugin_action"
+command = "chmarax.herdr-nvim.toggle"
+description = "nvim sidebar"
+
+[[keys.command]]
+key = "prefix+o"
+type = "plugin_action"
+command = "chmarax.herdr-nvim.pick-file"
+description = "open file from agent output"
+
+[[keys.command]]
+key = "ctrl+h"
+type = "plugin_action"
+command = "herdr-splits.nav-left"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "plugin_action"
+command = "herdr-splits.nav-down"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "plugin_action"
+command = "herdr-splits.nav-up"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "plugin_action"
+command = "herdr-splits.nav-right"
 

@@ -1,6 +1,8 @@
 os:
   editPreset: "nvim"
 git:
+  commit:
+    noVerify: true
   pagers:
     - colorArg: always
       pager: delta --paging=never --line-numbers

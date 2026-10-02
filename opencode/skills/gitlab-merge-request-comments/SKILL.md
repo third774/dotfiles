@@ -70,7 +70,7 @@ node "$HOME/.config/opencode/skills/gitlab-merge-request-comments/scripts/gitlab
 
 Posting rereads and validates the exact JSON file. It also revalidates every comment immediately before its POST. A stale inline position stops the command before GitLab receives that post.
 
-Posts use `glab api .../discussions` with multipart form fields. Inline responses must be `DiffNote`s with matching non-null new-side positions. Top-level responses must not be `DiffNote`s and must not have a position. If a response does not match its requested type, the script deletes the created note when possible and stops. It never changes an inline request into a top-level request, or the reverse.
+Posts use `glab api .../discussions` with multipart form fields. Inline responses must be `DiffNote`s with matching non-null new-side positions. Top-level responses must not be `DiffNote`s and must not have a position. If a response does not match its requested type, the script deletes the created note when possible and stops. It never changes an inline request into a top-level request, or the reverse. After every comment posts successfully, it deletes the JSON payload. If posting fails, it keeps the payload for recovery.
 
 ## Review Rules
 

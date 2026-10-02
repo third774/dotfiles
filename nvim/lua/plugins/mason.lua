@@ -9,7 +9,7 @@ return {
       "graphql-language-service-cli",
       "prettier",
       "terraform-ls",
-      "vtsls",
+      "tsc",
     },
   },
 }

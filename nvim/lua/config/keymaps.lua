@@ -28,10 +28,6 @@ vim.keymap.set("n", "<M-Down>", ":m .+1<CR>==", { desc = "Move line down" })
 vim.keymap.set("i", "<M-Up>", "<Esc>:m .-2<CR>==gi", { desc = "Move line up" })
 vim.keymap.set("i", "<M-Down>", "<Esc>:m .+1<CR>==gi", { desc = "Move line down" })
 
--- For use with vtsls
--- vim.keymap.set("n", "<leader>co", "<cmd>VtsExec organize_imports<CR>", { desc = "Organize Imports" })
--- vim.keymap.set("n", "<leader>cx", "<cmd>VtsExec fix_all<CR>", { desc = "Fix All" })
-
 -- https://github.com/LunarVim/LunarVim/issues/1857
 vim.keymap.del("i", "<A-j>")
 vim.keymap.del("i", "<A-k>")

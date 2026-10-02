@@ -3,18 +3,9 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        vtsls = {
-          settings = {
-            typescript = {
-              tsserver = {
-                maxTsServerMemory = 8192,
-              },
-              preferences = {
-                importModuleSpecifierPreference = "non-relative",
-              },
-            },
-          },
-        },
+        tsc = { enabled = true },
+        tsgo = { enabled = false },
+        vtsls = { enabled = false },
       },
     },
   },

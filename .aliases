@@ -37,3 +37,5 @@ alias code.="code ."
 
 alias mdview="npx -y mdts@latest"
 
+alias gitpull=git\ pull
+alias nivm=nvim

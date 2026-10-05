@@ -1,5 +1,5 @@
 import { execFile } from 'node:child_process';
-import { readFile, unlink } from 'node:fs/promises';
+import { readFile, realpath, unlink } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { promisify } from 'node:util';
 import { pathToFileURL } from 'node:url';
@@ -251,7 +251,10 @@ const main = async () => {
   console.log(`Deleted posted payload ${filePath}.`);
 };
 
-if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href)
+const isMainModule = async () =>
+  process.argv[1] !== undefined && import.meta.url === pathToFileURL(await realpath(resolve(process.argv[1]))).href;
+
+if (await isMainModule())
   main().catch(error => {
     console.error(error instanceof Error ? error.message : error);
     process.exitCode = 1;

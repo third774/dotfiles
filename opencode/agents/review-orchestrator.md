@@ -1,7 +1,7 @@
 ---
 description: Orchestrates parallel code reviews and synthesizes findings into condensed report.
 mode: subagent
-model: anthropic/claude-opus-4-6
+model: openai/gpt-5.6-terra
 temperature: 0.2
 tools:
   write: false

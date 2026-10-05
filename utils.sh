@@ -88,7 +88,7 @@ function gs() {
   if [ -n "$selected" ]; then
     while IFS= read -r file; do
       git add "$file"
-    done <<< "$selected"
+    done <<<"$selected"
   fi
 }
 
@@ -106,7 +106,7 @@ function grecent() {
 }
 
 function newpost() {
-  printf '---\n{\n  "title": "",\n  "description": ""\n}\n---\n' >> src/content/blog/new-post.md
+  printf '---\n{\n  "title": "",\n  "description": ""\n}\n---\n' >>src/content/blog/new-post.md
 }
 
 function commit() {
@@ -157,4 +157,29 @@ gar() {
     echo "Error: Failed to add remote '$username' (may already exist)"
     return 1
   fi
+}
+
+meant() {
+  emulate -L zsh
+
+  local aliases_file="$HOME/.dotfiles/.aliases"
+  local typo expansion
+
+  # Get the immediately preceding history command.
+  typo="$(fc -ln -1)" || return 1
+  expansion="$*"
+
+  # Require the prior command to be one bare command name.
+  if [[ -z "$typo" || "$typo" == *[[:space:]\;\|\&\(\)\<\>\`]* ]]; then
+    print -u2 -- "meant: previous command is not a single command name: $typo"
+    return 1
+  fi
+
+  printf 'alias %q=%q\n' "$typo" "$expansion" >>"$aliases_file"
+  alias "$typo=$expansion"
+
+  print -- "Added alias: $typo → $expansion"
+
+  # Execute the intended command immediately.
+  "$@"
 }

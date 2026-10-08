@@ -50,6 +50,9 @@
     { "action": "shell", "resource": "curl -X POST *", "effect": "ask" },
     { "action": "shell", "resource": "curl -X PUT *", "effect": "ask" },
 
+    // Cloudflare cf CLI
+    { "action": "shell", "resource": "cf deploy *", "effect": "ask" },
+
     // Git
     { "action": "shell", "resource": "git blame *", "effect": "allow" },
     { "action": "shell", "resource": "git diff *", "effect": "allow" },

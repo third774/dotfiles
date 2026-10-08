@@ -1,6 +1,5 @@
 ---
 description: Reimplement current branch with clean, narrative-quality git history
-allowed-tools: Bash(git:*)
 model: anthropic/claude-opus-4-6
 ---
 

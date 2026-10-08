@@ -1,144 +1,46 @@
 # Keybinds
 
-Customize keyboard shortcuts.
-
-## Leader Key
-
-Most keybinds require pressing a leader key first. Default: `ctrl+x`
+Configure terminal keybinds in `~/.config/opencode/cli.json`, not in
+`opencode.json(c)`.
 
 ```jsonc
 {
   "keybinds": {
-    "leader": "ctrl+o"  // Change leader to ctrl+o
-  }
+    "leader": "ctrl+space",
+    "command.palette.show": "ctrl+k",
+    "app.exit": ["ctrl+c", "ctrl+d"],
+    "app.debug": false,
+  },
+  "leader": { "timeout": 1500 },
 }
 ```
 
-Usage: Press leader, then the action key (e.g., `ctrl+o` then `n` for new session).
-
-## Disable a Keybind
-
-Set to `"none"`:
+Use one string, a comma-separated string, or an array for alternatives. Disable
+a keybind with `"none"` or `false`. Use an object when browser or terminal event
+handling needs control:
 
 ```jsonc
 {
   "keybinds": {
-    "session_compact": "none",
-    "scrollbar_toggle": "none"
-  }
+    "prompt.paste": { "key": "ctrl+v", "preventDefault": false },
+  },
 }
 ```
 
-## Multiple Bindings
+The default leader is `ctrl+x`; use `<leader>` inside other bindings. Unknown
+command IDs are rejected.
 
-Comma-separated:
+## Common command IDs
 
-```jsonc
-{
-  "keybinds": {
-    "app_exit": "ctrl+c,ctrl+d,<leader>q"
-  }
-}
-```
+| Area | IDs and defaults |
+| --- | --- |
+| Application | `app.exit` (`ctrl+c,ctrl+d,<leader>q`), `command.palette.show` (`ctrl+p`), `opencode.settings` (`none`) |
+| Appearance | `prompt.editor` (`<leader>e`), `session.sidebar.toggle` (`<leader>b`), `terminal.toggle` (`<leader>t`), `opencode.status` (`<leader>s`) |
+| Sessions | `session.new` (`<leader>n`), `session.list` (`<leader>l`), `session.interrupt` (`escape`), `session.compact` (`<leader>c`), `session.timeline` (`<leader>g`) |
+| Models and agents | `model.list` (`<leader>m`), `model.cycle_recent` (`f2`), `agent.list` (`<leader>a`), `agent.cycle` (`shift+tab`), `variant.cycle` (`ctrl+t`) |
+| Session navigation | `session.page.up`, `session.page.down`, `session.first`, `session.last`, `messages.copy` (`<leader>y`), `session.undo` (`<leader>u`), `session.redo` (`<leader>r`) |
+| Prompt and input | `prompt.queue` (`<leader>return`), `prompt.clear` (`ctrl+c`), `input.submit` (`return`), `input.newline` (`shift+return,ctrl+return,alt+return,ctrl+j`) |
+| Terminal | `terminal.suspend` (`ctrl+z`), `plugins.list` (`none`), `mcp.list` (`none`) |
 
-## Key Actions
-
-### App
-
-| Action | Default | Description |
-|--------|---------|-------------|
-| `app_exit` | `ctrl+c,ctrl+d,<leader>q` | Exit OpenCode |
-| `terminal_suspend` | `ctrl+z` | Suspend to background |
-
-### Session
-
-| Action | Default | Description |
-|--------|---------|-------------|
-| `session_new` | `<leader>n` | New session |
-| `session_list` | `<leader>l` | List sessions |
-| `session_interrupt` | `escape` | Stop generation |
-| `session_compact` | `<leader>c` | Compact context |
-| `session_export` | `<leader>x` | Export session |
-| `session_timeline` | `<leader>g` | View timeline |
-| `session_child_cycle` | `<leader>right` | Cycle to child session |
-| `session_child_cycle_reverse` | `<leader>left` | Cycle to parent session |
-| `session_parent` | `<leader>up` | Go to parent session |
-
-### Messages
-
-| Action | Default | Description |
-|--------|---------|-------------|
-| `messages_page_up` | `pageup,ctrl+alt+b` | Page up |
-| `messages_page_down` | `pagedown,ctrl+alt+f` | Page down |
-| `messages_first` | `ctrl+g,home` | Go to first message |
-| `messages_last` | `ctrl+alt+g,end` | Go to last message |
-| `messages_copy` | `<leader>y` | Copy messages |
-| `messages_undo` | `<leader>u` | Undo last change |
-| `messages_redo` | `<leader>r` | Redo change |
-| `messages_toggle_conceal` | `<leader>h` | Toggle tool output |
-
-### Model/Agent
-
-| Action | Default | Description |
-|--------|---------|-------------|
-| `model_list` | `<leader>m` | Select model |
-| `model_cycle_recent` | `f2` | Cycle recent models |
-| `agent_list` | `<leader>a` | Select agent |
-| `agent_cycle` | `tab` | Cycle primary agents |
-| `agent_cycle_reverse` | `shift+tab` | Cycle agents reverse |
-
-### UI
-
-| Action | Default | Description |
-|--------|---------|-------------|
-| `editor_open` | `<leader>e` | Open in editor |
-| `theme_list` | `<leader>t` | Select theme |
-| `sidebar_toggle` | `<leader>b` | Toggle sidebar |
-| `status_view` | `<leader>s` | View status |
-| `command_list` | `ctrl+p` | Command palette |
-
-### Input
-
-| Action | Default | Description |
-|--------|---------|-------------|
-| `input_clear` | `ctrl+c` | Clear input |
-| `input_paste` | `ctrl+v` | Paste |
-| `input_submit` | `return` | Submit message |
-| `input_newline` | `shift+return,ctrl+j` | Insert newline |
-| `input_undo` | `ctrl+-,super+z` | Undo input |
-| `input_redo` | `ctrl+.,super+shift+z` | Redo input |
-
-## Full Default Config
-
-```jsonc
-{
-  "keybinds": {
-    "leader": "ctrl+x",
-    "app_exit": "ctrl+c,ctrl+d,<leader>q",
-    "session_new": "<leader>n",
-    "session_list": "<leader>l",
-    "session_interrupt": "escape",
-    "agent_cycle": "tab",
-    "model_list": "<leader>m",
-    "input_submit": "return",
-    "input_newline": "shift+return,ctrl+return,alt+return,ctrl+j"
-  }
-}
-```
-
-## Shift+Enter in Windows Terminal
-
-Add to `settings.json`:
-
-```json
-{
-  "actions": [{
-    "command": { "action": "sendInput", "input": "\u001b[13;2u" },
-    "id": "User.sendInput.ShiftEnterCustom"
-  }],
-  "keybindings": [{
-    "keys": "shift+enter",
-    "id": "User.sendInput.ShiftEnterCustom"
-  }]
-}
-```
+The full current command-ID list is in the OpenCode V2 keybind reference. Do
+not use V1 underscore IDs such as `session_new`, `app_exit`, or `model_list`.

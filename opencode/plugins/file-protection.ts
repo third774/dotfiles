@@ -8,7 +8,7 @@
  * instructing the user to manually inspect the file and provide necessary context.
  */
 
-import type { Plugin } from "@opencode-ai/plugin";
+import { Plugin } from "@opencode/plugin";
 import { readFileSync } from "fs";
 import { join, dirname, basename, extname, normalize, sep } from "path";
 import { fileURLToPath } from "url";
@@ -42,11 +42,53 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const PATTERNS_FILE = join(__dirname, "protection-patterns.json");
 
+const isStringArray = (value: unknown): value is string[] =>
+  Array.isArray(value) && value.every((item) => typeof item === "string");
+
+const property = (value: object, key: string): unknown =>
+  Object.getOwnPropertyDescriptor(value, key)?.value;
+
+const isProtectionCategory = (value: unknown): value is ProtectionCategory => {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+
+  return (
+    typeof property(value, "description") === "string" &&
+    typeof property(value, "enabled") === "boolean" &&
+    (property(value, "extensions") === undefined || isStringArray(property(value, "extensions"))) &&
+    (property(value, "filenames") === undefined || isStringArray(property(value, "filenames"))) &&
+    (property(value, "patterns") === undefined || isStringArray(property(value, "patterns"))) &&
+    (property(value, "paths") === undefined || isStringArray(property(value, "paths"))) &&
+    (property(value, "directories") === undefined || isStringArray(property(value, "directories"))) &&
+    (property(value, "exceptions") === undefined || isStringArray(property(value, "exceptions")))
+  );
+};
+
+const isProtectionPatterns = (value: unknown): value is ProtectionPatterns => {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+
+  const patterns = property(value, "patterns");
+  if (
+    typeof property(value, "description") !== "string" ||
+    typeof property(value, "message_template") !== "string" ||
+    !patterns ||
+    typeof patterns !== "object" ||
+    Array.isArray(patterns)
+  ) {
+    return false;
+  }
+
+  return Object.values(patterns).every(isProtectionCategory);
+};
+
 let CONFIG: ProtectionPatterns;
 
 try {
   const patternsContent = readFileSync(PATTERNS_FILE, "utf8");
-  CONFIG = JSON.parse(patternsContent) as ProtectionPatterns;
+  const parsed: unknown = JSON.parse(patternsContent);
+  if (!isProtectionPatterns(parsed)) {
+    throw new Error("Protection patterns have an invalid format");
+  }
+  CONFIG = parsed;
 } catch (error) {
   throw new Error(`Failed to load protection patterns: ${error}`);
 }
@@ -240,19 +282,34 @@ function globTargetsSensitiveFiles(pattern: string): boolean {
 
 // ===== PLUGIN IMPLEMENTATION =====
 
-export const FileProtection: Plugin = async ({ project, client, $, directory, worktree }) => {
-  const log = (message: string) =>
-    client.app.log({ service: "file-protection", level: "info", message });
+const record = (value: unknown): object | undefined => {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return undefined;
+  return value;
+};
 
-  log(`Initialized for directory: ${directory || "unknown"}`);
+const stringProperty = (value: unknown, ...keys: string[]): string | undefined => {
+  const properties = record(value);
+  if (!properties) return undefined;
 
-  return {
-    "tool.execute.before": async (input, output) => {
-      const toolName = input.tool;
+  for (const key of keys) {
+    const valueAtKey = property(properties, key);
+    if (typeof valueAtKey === "string") return valueAtKey;
+  }
+};
+
+export default Plugin.define({
+  id: "file-protection",
+  async setup(ctx) {
+    const log = (message: string) => console.info(`[file-protection] ${message}`);
+
+    log(`Initialized for directory: ${ctx.location.directory}`);
+
+    await ctx.tool.hook("execute.before", (event) => {
+      const toolName = event.tool;
 
       // Intercept file reading tools
       if (toolName === "read") {
-        const filePath = output.args?.filePath || output.args?.file_path;
+        const filePath = stringProperty(event.input, "filePath", "file_path");
         if (filePath) {
           const protection = isProtectedFile(filePath);
           if (protection.isProtected) {
@@ -265,7 +322,7 @@ export const FileProtection: Plugin = async ({ project, client, $, directory, wo
 
       // Intercept glob patterns that might target sensitive files
       if (toolName === "glob") {
-        const pattern = output.args?.pattern;
+        const pattern = stringProperty(event.input, "pattern");
         if (pattern && globTargetsSensitiveFiles(pattern)) {
           const errorMsg = `🔒 Access Denied: Glob pattern blocked\n\nThe pattern '${pattern}' appears to target sensitive files.\n\nIf you need to search for files, please:\n1. Use a more specific pattern that excludes sensitive files\n2. Or manually list the files you need and I can help with those specifically`;
           log(`Blocked glob: ${pattern}`);
@@ -275,7 +332,7 @@ export const FileProtection: Plugin = async ({ project, client, $, directory, wo
 
       // Intercept grep searches in protected paths
       if (toolName === "grep") {
-        const searchPath = output.args?.path;
+        const searchPath = stringProperty(event.input, "path");
         if (searchPath) {
           const protection = isProtectedFile(searchPath);
           if (protection.isProtected) {
@@ -288,7 +345,7 @@ export const FileProtection: Plugin = async ({ project, client, $, directory, wo
 
       // Intercept list operations on protected directories
       if (toolName === "list") {
-        const listPath = output.args?.path;
+        const listPath = stringProperty(event.input, "path");
         if (listPath) {
           const protection = isProtectedFile(listPath);
           if (protection.isProtected) {
@@ -298,13 +355,21 @@ export const FileProtection: Plugin = async ({ project, client, $, directory, wo
           }
         }
       }
-    },
+    });
 
-    // Log when sessions start
-    event: async ({ event }) => {
-      if (event.type === "session.created") {
-        log("Session started - file protection active");
+    const controller = new AbortController();
+    void (async () => {
+      for await (const event of ctx.event.subscribe({ signal: controller.signal })) {
+        if (event.type === "session.created") {
+          log("Session started - file protection active");
+        }
       }
-    },
-  };
-};
+    })().catch((error) => {
+      if (!controller.signal.aborted) {
+        console.error("[file-protection] event subscription failed:", error);
+      }
+    });
+
+    return () => controller.abort();
+  },
+});

@@ -1,6 +1,5 @@
 ---
 description: Copy content to clipboard
-allowed-tools: Bash(pbcopy:*)
 ---
 
 Copy content to the clipboard using pbcopy.

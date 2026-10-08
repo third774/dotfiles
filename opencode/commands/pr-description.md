@@ -1,6 +1,5 @@
 ---
 description: Generate a PR description from context and branch changes, copy to clipboard
-allowed-tools: Bash(git:*), Bash(pbcopy:*), Bash(osascript:*)
 ---
 
 # Generate PR Description

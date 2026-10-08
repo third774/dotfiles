@@ -1,14 +1,11 @@
 ---
 description: Code reviewer (Codex). Analyzes diffs for bugs, security issues, and maintainability concerns.
 mode: subagent
-model: openai/gpt-5.6-terra
-variant: high
-tools:
-  write: false
-  edit: false
-  todowrite: false
-permission:
-  edit: deny
+model: openai/gpt-5.6-terra#high
+permissions:
+  - action: edit
+    resource: "*"
+    effect: deny
 ---
 
 You will receive `Original /review arguments`, a diff, and optional parsed focus areas. Load and apply the `adversarial-code-review` skill.

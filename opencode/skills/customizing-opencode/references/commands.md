@@ -1,110 +1,83 @@
 # Commands
 
-Custom slash commands for repetitive prompts.
+Custom slash commands expand a prompt template. Put global commands in
+`~/.config/opencode/commands/` and project commands in `.opencode/commands/`.
+Only Markdown files are discovered. Nested paths become slash-separated command
+names. The singular `command/` directories are legacy-compatible; use
+`commands/` for new files.
 
-## Define via Markdown
-
-Place in `~/.config/opencode/commands/` (global) or `.opencode/commands/` (project).
-
-Filename becomes command name (e.g., `test.md` creates `/test` command).
-
-```markdown
+```md
+<!-- .opencode/commands/review.md -->
 ---
-description: Run tests with coverage
-agent: build
-model: anthropic/claude-sonnet-4-5
+description: Review code for correctness
+agent: plan
+model: anthropic/claude-sonnet-4-5#high
 ---
 
-Run the full test suite with coverage report.
-Focus on failing tests and suggest fixes.
+Review $ARGUMENTS. Report bugs first.
 ```
 
-## Define via JSON
+The Markdown body is the template. Do not put `template` in frontmatter.
+
+## JSON configuration
 
 ```jsonc
 {
-  "command": {
-    "test": {
-      "template": "Run the full test suite with coverage.\nFocus on failing tests.",
-      "description": "Run tests with coverage",
-      "agent": "build",
-      "model": "anthropic/claude-sonnet-4-5"
-    }
-  }
+  "commands": {
+    "review": {
+      "description": "Review code for correctness",
+      "template": "Review $ARGUMENTS. Report bugs first.",
+    },
+  },
 }
 ```
 
-## Options
+| Field | Required | Description |
+| --- | --- | --- |
+| `template` | JSON only | Prompt template. |
+| `description` | No | Text for command lists and discovery. |
+| `agent` | No | Agent to select. |
+| `model` | No | `provider/model` or `provider/model#variant` override. |
+| `subagent` | No | `true` uses a background child session; `false` uses the current session. |
+| `subtask` | No | Deprecated alias for `subagent`. |
 
-| Option | Type | Description |
-|--------|------|-------------|
-| `template` | string | **Required (JSON).** The prompt text |
-| `description` | string | Shown in TUI autocomplete |
-| `agent` | string | Agent to execute command |
-| `model` | string | Override model for this command |
-| `subtask` | boolean | Force subagent invocation |
+## Arguments
 
-## Template Syntax
+`$ARGUMENTS` is the complete argument string. `$1`, `$2`, and later positions
+are parsed arguments; quotes group words and are removed. The highest-numbered
+position receives all remaining text. If a template has no placeholder,
+OpenCode appends supplied arguments after a blank line.
 
-### Arguments
-
-`$ARGUMENTS` - All arguments passed to the command.
-
-```markdown
-Create a React component named $ARGUMENTS with TypeScript.
+```md
+Compare $1 with $2.
 ```
 
-```
-/component Button
-```
+`/compare api "stable branch"` becomes `Compare api with stable branch.`
 
-### Positional Arguments
+## Shell blocks
 
-`$1`, `$2`, `$3`, etc.
+Use `!` followed by backticks to insert shell output. Arguments expand first.
 
-```markdown
-Create file $1 in directory $2 with content: $3
-```
+```md
+Review this diff:
 
-```
-/create-file config.json src "{ \"key\": \"value\" }"
+!`git diff --stat && git diff`
 ```
 
-### Shell Output
+Shell blocks run outside the agent tool-permission flow. Do not interpolate
+untrusted arguments into them.
 
-`` !`command` `` - Inject command output into prompt.
+Templates do not expand `@path`. Add files through the composer when invoking a
+command to attach them.
 
-```markdown
-Here are the test results:
-!`npm test`
+## Execution and precedence
 
-Analyze failures and suggest fixes.
-```
+Commands run in the current session by default. With `subagent: true`, OpenCode
+uses a background child session and reports the result to the parent. When it
+is omitted, a command selects a child only if its agent has `mode: subagent`.
+Command model selection takes precedence over the selected agent's model, which
+takes precedence over the current session model.
 
-```markdown
-Recent commits:
-!`git log --oneline -10`
-
-Review these changes.
-```
-
-### File References
-
-`@filepath` - Include file contents.
-
-```markdown
-Review the component in @src/components/Button.tsx.
-Check for performance issues.
-```
-
-## Usage
-
-```
-/test
-/component MyButton
-/review @src/utils.ts
-```
-
-## Built-in Commands
-
-Custom commands can override built-ins: `/init`, `/undo`, `/redo`, `/share`, `/help`, `/theme`, `/connect`
+Markdown and JSON commands share one registry. Later sources replace commands
+with the same name. Project definitions override global ones and a custom
+command can override a built-in command. Changes reload automatically.

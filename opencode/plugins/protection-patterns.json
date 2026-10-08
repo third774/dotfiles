@@ -139,5 +139,5 @@
       ]
     }
   },
-  "message_template": "🔒 Access Denied: Cannot read '{filepath}'\n\nReason: {reason}\n\nThis file contains sensitive information and has been blocked by file protection.\n\n📋 To help me understand what you need:\n1. Manually inspect the file yourself\n2. Tell me what specific information you need from it (without sharing secrets)\n3. I can help you work with the information once you provide context\n\nAlternatively, if this file should not be protected, you can update the protection patterns in:\n~/.config/opencode/plugin/protection-patterns.json"
+  "message_template": "🔒 Access Denied: Cannot read '{filepath}'\n\nReason: {reason}\n\nThis file contains sensitive information and has been blocked by file protection.\n\n📋 To help me understand what you need:\n1. Manually inspect the file yourself\n2. Tell me what specific information you need from it (without sharing secrets)\n3. I can help you work with the information once you provide context\n\nAlternatively, if this file should not be protected, you can update the protection patterns in:\n~/.config/opencode/plugins/protection-patterns.json"
 }

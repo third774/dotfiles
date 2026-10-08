@@ -11,6 +11,6 @@
     "noEmit": true,
     "types": ["bun-types"]
   },
-  "include": ["plugin/**/*"],
+  "include": ["plugins/**/*"],
   "exclude": ["node_modules"]
 }

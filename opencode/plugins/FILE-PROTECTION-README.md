@@ -54,11 +54,11 @@ This plugin intercepts file access operations before they execute and blocks acc
 
 ## Installation
 
-The plugin is automatically loaded by OpenCode when placed in the `~/.config/opencode/plugin/` directory.
+The plugin is automatically loaded by OpenCode when placed in the `~/.config/opencode/plugins/` directory.
 
 1. Ensure the plugin files are in place:
    ```
-   ~/.config/opencode/plugin/
+   ~/.config/opencode/plugins/
    ├── file-protection.ts
    ├── protection-patterns.json
    └── README.md
@@ -175,7 +175,7 @@ This file contains sensitive information and has been blocked by file protection
 3. I can help you work with the information once you provide context
 
 Alternatively, if this file should not be protected, you can update the protection patterns in:
-~/.config/opencode/plugin/protection-patterns.json
+~/.config/opencode/plugins/protection-patterns.json
 ```
 
 ## Workflow Example
@@ -211,7 +211,7 @@ You should see the protection error message.
 ## Troubleshooting
 
 ### Plugin not loading
-- Check that the file is in `~/.config/opencode/plugin/` or `.opencode/plugin/`
+- Check that the file is in `~/.config/opencode/plugins/` or `.opencode/plugins/`
 - Run `npm run check` to verify TypeScript compilation
 - Check console logs when OpenCode starts
 

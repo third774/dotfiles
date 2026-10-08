@@ -1,157 +1,142 @@
-# Config Schema
+# Configuration
 
-OpenCode configuration via JSON/JSONC files.
-
-## Format
+OpenCode server and project configuration uses JSON or JSONC. This is separate
+from terminal-client settings in `cli.json`.
 
 ```jsonc
 {
   "$schema": "https://opencode.ai/config.json",
-  "theme": "opencode",
   "model": "anthropic/claude-sonnet-4-5",
-  // Comments allowed in .jsonc
 }
 ```
 
-## Locations & Precedence
+Use JSONC for comments and trailing commas.
 
-1. **Remote** `.well-known/opencode` (organizational defaults)
-2. **Global** `~/.config/opencode/opencode.json`
-3. **Custom** `$OPENCODE_CONFIG` env var path
-4. **Project** `./opencode.json` (highest priority)
+## Locations and precedence
 
-Configs merge; later sources override conflicting keys only.
+Global configuration is `~/.config/opencode/opencode.json` or
+`~/.config/opencode/opencode.jsonc`.
 
-## Core Options
+Project configuration can be either `opencode.json(c)` or
+`.opencode/opencode.json(c)`. OpenCode searches from the current directory to
+the filesystem root. It merges direct files from the farthest directory to the
+closest, then `.opencode` files in the same order. A discovered `.opencode`
+file therefore overrides a direct config file at the same or a higher level.
 
-| Option | Type | Description |
-|--------|------|-------------|
-| `theme` | string | Theme name or `"system"` |
-| `model` | string | Default model (`provider/model-id`) |
-| `small_model` | string | Model for lightweight tasks (title generation) |
-| `autoupdate` | boolean/`"notify"` | Auto-download updates |
-| `default_agent` | string | Default primary agent (`"build"`, `"plan"`, or custom) |
-| `share` | `"manual"`/`"auto"`/`"disabled"` | Conversation sharing mode |
-
-## Provider Config
+## Common settings
 
 ```jsonc
 {
-  "provider": {
-    "anthropic": {
-      "options": {
-        "apiKey": "{env:ANTHROPIC_API_KEY}",
-        "timeout": 600000,
-        "setCacheKey": true
-      }
-    }
+  "$schema": "https://opencode.ai/config.json",
+  "shell": "/bin/zsh",
+  "model": "anthropic/claude-sonnet-4-5",
+  "default_agent": "build",
+  "update": "notify",
+  "snapshots": true,
+  "formatter": true,
+  "watcher": {
+    "ignore": ["dist/**", "coverage/**"],
   },
-  "disabled_providers": ["openai"],
-  "enabled_providers": ["anthropic", "gemini"]
+  "tool_output": {
+    "max_lines": 2000,
+    "max_bytes": 51200,
+  },
 }
 ```
 
-## Tools
+`update` is global-only and accepts `"disable"`, `"notify"`, or `"auto"`.
+It defaults to `"notify"`. `share`, `username`, and `instructions` are accepted,
+but they do not currently change session behavior; use `AGENTS.md` for project
+instructions.
 
-Enable/disable built-in tools globally:
+## Providers, agents, commands, and plugins
+
+Use the V2 plural fields:
 
 ```jsonc
 {
-  "tools": {
-    "write": true,
-    "bash": true,
-    "webfetch": false
-  }
+  "providers": {
+    "openai": {
+      "models": {
+        "team-model": {
+          "modelID": "gpt-5.2",
+          "name": "Team model",
+          "limit": { "context": 200000, "output": 32000 },
+        },
+      },
+    },
+  },
+  "agents": {},
+  "commands": {},
+  "plugins": [],
+  "permissions": [],
 }
 ```
 
-Built-in tools: `bash`, `edit`, `write`, `read`, `grep`, `glob`, `list`, `patch`, `skill`, `todowrite`, `todoread`, `webfetch`, `question`, `lsp` (experimental)
+Use `providers`, not `provider`; `commands`, not `command`; and ordered
+`permissions`, not `permission`. See the dedicated references for the shapes
+of those fields.
 
-## Instructions
+## MCP servers
 
-Load additional rule files:
+Put named server definitions under `mcp.servers`:
 
 ```jsonc
 {
-  "instructions": [
-    "CONTRIBUTING.md",
-    "docs/guidelines.md",
-    ".cursor/rules/*.md",
-    "https://example.com/rules.md"
-  ]
+  "mcp": {
+    "timeout": { "startup": 45000 },
+    "servers": {
+      "playwright": {
+        "type": "local",
+        "command": ["bunx", "@playwright/mcp"],
+      },
+    },
+  },
 }
 ```
 
-## Compaction
+See [MCP Servers](./mcp-servers.md) for complete server configuration.
+
+## Compaction and web search
 
 ```jsonc
 {
   "compaction": {
-    "auto": true,   // Auto-compact when context full
-    "prune": true   // Remove old tool outputs
-  }
+    "auto": true,
+    "keep": { "tokens": 15000 },
+    "buffer": 20000,
+  },
+  "websearch": {
+    "provider": "random",
+  },
 }
 ```
 
-## Watcher
+Set `compaction.auto` to `false` to stop new automatic compaction. Configure
+provider-native compaction under the provider or model `settings` object.
 
-Ignore patterns for file watcher:
+## Other configuration
+
+`skills`, `references`, `worktree`, `media`, `warming`, `lsp`, and `formatter`
+have dedicated V2 documentation. Use `cli.json` for themes, keybinds, and other
+terminal settings; do not put `theme`, `tui`, or keybind settings in
+`opencode.json(c)`.
+
+## Variable substitution
+
+Use `{env:NAME}` to load an environment variable. Keep secrets outside config:
 
 ```jsonc
 {
-  "watcher": {
-    "ignore": ["node_modules/**", "dist/**"]
-  }
+  "mcp": {
+    "servers": {
+      "private-api": {
+        "type": "remote",
+        "url": "https://mcp.example.com/mcp",
+        "oauth": false,
+        "headers": { "Authorization": "Bearer {env:MCP_API_KEY}" },
+      },
+    },
+  },
 }
 ```
-
-## TUI Options
-
-```jsonc
-{
-  "tui": {
-    "scroll_speed": 3,
-    "scroll_acceleration": { "enabled": true },
-    "diff_style": "auto"  // or "stacked"
-  }
-}
-```
-
-## Server Options
-
-For `opencode serve` and `opencode web`:
-
-```jsonc
-{
-  "server": {
-    "port": 4096,
-    "hostname": "0.0.0.0",
-    "mdns": true,
-    "cors": ["http://localhost:5173"]
-  }
-}
-```
-
-## Variable Substitution
-
-| Syntax | Description |
-|--------|-------------|
-| `{env:VAR_NAME}` | Environment variable (empty string if unset) |
-| `{file:path}` | File contents (relative to config or absolute) |
-
-```jsonc
-{
-  "model": "{env:OPENCODE_MODEL}",
-  "provider": {
-    "openai": {
-      "options": {
-        "apiKey": "{file:~/.secrets/openai-key}"
-      }
-    }
-  }
-}
-```
-
-## Full Schema
-
-https://opencode.ai/config.json

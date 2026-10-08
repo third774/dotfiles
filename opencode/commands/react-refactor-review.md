@@ -1,6 +1,5 @@
 ---
 description: Review React refactoring changes for behavior preservation, prop interfaces, and idiomatic patterns
-allowed-tools: Bash(git:*), Read, Grep, Glob
 ---
 
 # React Refactoring Code Review

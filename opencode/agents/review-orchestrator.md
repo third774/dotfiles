@@ -2,13 +2,13 @@
 description: Orchestrates parallel code reviews and synthesizes findings into condensed report.
 mode: subagent
 model: openai/gpt-5.6-terra
-temperature: 0.2
-tools:
-  write: false
-  edit: false
-  todowrite: false
-permission:
-  edit: deny
+request:
+  body:
+    temperature: 0.2
+permissions:
+  - action: edit
+    resource: "*"
+    effect: deny
 ---
 
 You coordinate code reviews. Your job: interpret the target, fetch the diff, spawn reviewers, synthesize, validate, return condensed results.

@@ -1,159 +1,88 @@
 # Agents
 
-Specialized AI assistants with custom prompts, models, and tool access.
+Agents are reusable assistant profiles with a system prompt, model, mode, and
+ordered permissions.
 
-## Types
+## Locations
 
-| Type | Description | Switch |
-|------|-------------|--------|
-| **Primary** | Main agents you interact with directly | `Tab` key cycles |
-| **Subagent** | Invoked by primary agents or via `@mention` | `@agent-name` in prompt |
+Save global agents in `~/.config/opencode/agents/`. Save project agents in
+`.opencode/agents/`. The filename becomes the agent ID.
 
-## Built-in Agents
+## Markdown agent
 
-| Agent | Mode | Description |
-|-------|------|-------------|
-| `build` | primary | Default agent, all tools enabled |
-| `plan` | primary | Analysis mode, file edits require approval |
-| `general` | subagent | Multi-step tasks, full tool access |
-| `explore` | subagent | Fast read-only codebase exploration |
-
-## Define via Markdown
-
-Place in `~/.config/opencode/agents/` (global) or `.opencode/agents/` (project).
-
-Filename becomes agent name (e.g., `review.md` creates `review` agent).
-
-```markdown
+```md
 ---
-description: Reviews code for best practices
+description: Reviews code without changing files
 mode: subagent
-model: anthropic/claude-sonnet-4-5
-temperature: 0.1
-tools:
-  write: false
-  edit: false
-  bash: false
-permission:
-  edit: deny
+model: anthropic/claude-sonnet-4-5#high
+permissions:
+  - action: edit
+    resource: "*"
+    effect: deny
+  - action: shell
+    resource: "*"
+    effect: deny
 ---
 
-You are a code reviewer. Focus on:
-- Security vulnerabilities
-- Performance issues
-- Maintainability
+Review the changes. Report findings in severity order.
 ```
 
-## Define via JSON
+The Markdown body is the agent system prompt.
+
+## JSON configuration
 
 ```jsonc
 {
-  "agent": {
+  "agents": {
     "code-reviewer": {
-      "description": "Reviews code for best practices",
+      "description": "Reviews code without changing files",
       "mode": "subagent",
-      "model": "anthropic/claude-sonnet-4-5",
-      "prompt": "You are a code reviewer...",
-      "tools": {
-        "write": false,
-        "edit": false
-      }
-    }
-  }
+      "model": "anthropic/claude-sonnet-4-5#high",
+      "system": "Review the changes. Report findings in severity order.",
+      "permissions": [
+        { "action": "edit", "resource": "*", "effect": "deny" },
+      ],
+    },
+  },
 }
 ```
 
 ## Options
 
-| Option | Type | Description |
-|--------|------|-------------|
-| `description` | string | **Required.** What the agent does |
-| `mode` | `"primary"`/`"subagent"`/`"all"` | How agent can be used (default: `"all"`) |
-| `model` | string | Override model (`provider/model-id`) |
-| `prompt` | string | System prompt (or `{file:./prompt.txt}`) |
-| `temperature` | number | 0.0-1.0 (lower = more deterministic) |
-| `maxSteps` | number | Max agentic iterations before forced response |
-| `tools` | object | Enable/disable tools (`true`/`false`) |
-| `permission` | object | Tool permissions (`"allow"`/`"ask"`/`"deny"`) |
-| `hidden` | boolean | Hide from `@` autocomplete (subagents only) |
-| `disable` | boolean | Disable the agent |
+| Field | Description |
+| --- | --- |
+| `description` | Explains a subagent's purpose. |
+| `mode` | `primary`, `subagent`, or `all`. |
+| `model` | `provider/model`, with an optional `#variant`. |
+| `system` | System prompt in JSON configuration. |
+| `permissions` | Ordered action, resource, and effect rules. |
+| `steps` | Positive limit for model steps. |
+| `hidden` | Hides the agent from normal listings. |
+| `color` | Six-digit hex color for the agent UI. |
+| `disabled` | Removes an agent from configuration. |
+| `request` | Request header and body overlays. |
 
-## Tool Control
+## Subagent permissions
 
-```jsonc
-{
-  "agent": {
-    "readonly": {
-      "tools": {
-        "write": false,
-        "edit": false,
-        "bash": false,
-        "mymcp_*": false  // Glob pattern
-      }
-    }
-  }
-}
-```
-
-## Task Permissions
-
-Control which subagents an agent can invoke:
+Use the `subagent` action to control which child agents an agent can start.
+The last matching rule wins. A child uses its own configured permissions, not a
+subset of its parent's permissions.
 
 ```jsonc
 {
-  "agent": {
+  "agents": {
     "orchestrator": {
-      "permission": {
-        "task": {
-          "*": "deny",
-          "helper-*": "allow",
-          "expensive-agent": "ask"
-        }
-      }
-    }
-  }
+      "permissions": [
+        { "action": "subagent", "resource": "*", "effect": "deny" },
+        { "action": "subagent", "resource": "reviewer", "effect": "allow" },
+      ],
+    },
+  },
 }
 ```
 
-Last matching rule wins.
+## Request settings
 
-## Bash Permissions per Agent
-
-```jsonc
-{
-  "agent": {
-    "safe-agent": {
-      "permission": {
-        "bash": {
-          "*": "ask",
-          "git status*": "allow",
-          "git log*": "allow"
-        }
-      }
-    }
-  }
-}
-```
-
-## Additional Provider Options
-
-Pass provider-specific options directly:
-
-```jsonc
-{
-  "agent": {
-    "deep-thinker": {
-      "model": "openai/gpt-5",
-      "reasoningEffort": "high"  // Passed to provider
-    }
-  }
-}
-```
-
-## Create Interactively
-
-```bash
-opencode agent create
-```
-
-Prompts for location, description, tools, and generates the agent file.
+Put provider-specific settings in `request.body`. The current V2 session
+runner preserves these values but does not send them with model requests. Use
+provider, model, or model-variant settings for active request behavior.

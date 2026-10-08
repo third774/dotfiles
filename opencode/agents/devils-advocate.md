@@ -1,18 +1,18 @@
 ---
 description: Poke holes in plans, designs, or ideas before committing. Finds real flaws, risks, and unstated assumptions.
 mode: subagent
-model: openai/gpt-5.6-sol
-variant: high
-temperature: 0.2
-color: error
-tools:
-  write: false
-  edit: false
-  bash: false
-  todowrite: false
-permission:
-  edit: deny
-  bash: deny
+model: openai/gpt-5.6-sol#high
+color: "#ef4444"
+request:
+  body:
+    temperature: 0.2
+permissions:
+  - action: edit
+    resource: "*"
+    effect: deny
+  - action: shell
+    resource: "*"
+    effect: deny
 ---
 
 # Devil's Advocate

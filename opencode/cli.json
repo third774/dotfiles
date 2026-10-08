@@ -1,0 +1,22 @@
+{
+  "$schema": "https://opencode.ai/v2/cli.json",
+  "theme": {
+    "name": "system",
+    "mode": "dark"
+  },
+  "keybinds": {
+    "leader": "ctrl+o",
+    "model.cycle_favorite": "ctrl+s"
+  },
+  "plugins": [],
+  "diffs": {
+    "wrap": "word",
+    "single": true
+  },
+  "session": {
+    "sidebar": "auto",
+    "scrollbar": false,
+    "thinking": "hide"
+  },
+  "animations": true
+}

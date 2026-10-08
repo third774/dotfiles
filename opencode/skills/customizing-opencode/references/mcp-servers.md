@@ -1,187 +1,100 @@
 # MCP Servers
 
-Add external tools via Model Context Protocol.
+Configure Model Context Protocol servers under `mcp.servers`. Use the CLI when
+possible because it preserves unrelated configuration:
 
-## Local Server
+```sh
+opencode mcp add context7 --global --url https://mcp.context7.com/mcp
+opencode mcp list
+```
 
-Starts a local process:
+Remote servers use OAuth by default. When authentication is required, use
+`/mcps` in OpenCode to select the server and sign in.
+
+## Local server
 
 ```jsonc
 {
   "mcp": {
-    "my-server": {
-      "type": "local",
-      "command": ["npx", "-y", "my-mcp-command"],
-      "enabled": true,
-      "environment": {
-        "API_KEY": "{env:MY_API_KEY}"
+    "servers": {
+      "everything": {
+        "type": "local",
+        "command": ["npx", "-y", "@modelcontextprotocol/server-everything"],
+        "cwd": ".",
+        "environment": { "MCP_API_KEY": "{env:MCP_API_KEY}" },
       },
-      "timeout": 5000
-    }
-  }
-}
-```
-
-| Option | Type | Description |
-|--------|------|-------------|
-| `type` | `"local"` | Required |
-| `command` | string[] | Command and arguments |
-| `environment` | object | Environment variables |
-| `enabled` | boolean | Enable on startup |
-| `timeout` | number | Tool fetch timeout (ms, default 5000) |
-
-## Remote Server
-
-Connects to HTTP endpoint:
-
-```jsonc
-{
-  "mcp": {
-    "my-remote": {
-      "type": "remote",
-      "url": "https://mcp.example.com",
-      "enabled": true,
-      "headers": {
-        "Authorization": "Bearer {env:API_KEY}"
-      }
-    }
-  }
-}
-```
-
-| Option | Type | Description |
-|--------|------|-------------|
-| `type` | `"remote"` | Required |
-| `url` | string | Server URL |
-| `headers` | object | Request headers |
-| `oauth` | object/false | OAuth config or `false` to disable |
-| `enabled` | boolean | Enable on startup |
-| `timeout` | number | Tool fetch timeout (ms) |
-
-## OAuth
-
-Auto-detected for most servers. Pre-registered credentials:
-
-```jsonc
-{
-  "mcp": {
-    "my-oauth-server": {
-      "type": "remote",
-      "url": "https://mcp.example.com",
-      "oauth": {
-        "clientId": "{env:CLIENT_ID}",
-        "clientSecret": "{env:CLIENT_SECRET}",
-        "scope": "tools:read tools:execute"
-      }
-    }
-  }
-}
-```
-
-### OAuth CLI
-
-```bash
-opencode mcp auth my-server    # Authenticate
-opencode mcp list              # List servers + auth status
-opencode mcp logout my-server  # Remove credentials
-opencode mcp debug my-server   # Debug connection
-```
-
-## Enable/Disable
-
-```jsonc
-{
-  "mcp": {
-    "my-server": {
-      "type": "local",
-      "command": ["..."],
-      "enabled": false  // Disabled but configured
-    }
-  }
-}
-```
-
-Override remote defaults by setting `enabled: true` locally.
-
-## Global Tool Control
-
-Disable MCP tools globally:
-
-```jsonc
-{
-  "tools": {
-    "my-mcp*": false  // Glob pattern
-  }
-}
-```
-
-## Per-Agent Control
-
-Enable MCP only for specific agents:
-
-```jsonc
-{
-  "tools": {
-    "expensive-mcp*": false
+    },
   },
-  "agent": {
-    "specialist": {
-      "tools": {
-        "expensive-mcp*": true
-      }
-    }
-  }
 }
 ```
 
-## Tool Naming
+| Field | Description |
+| --- | --- |
+| `command` | Required executable and arguments. |
+| `cwd` | Optional process directory; defaults to the workspace. |
+| `environment` | Additional string environment variables. |
+| `disabled` | Prevent connection when `true`. |
+| `codemode` | Defaults to `true`; set `false` for direct provider tools. |
+| `timeout` | Per-server timeout overrides. |
+| `protocol` | `legacy`, `auto`, or `2026-07-28`. |
 
-MCP tools are prefixed with server name: `myserver_toolname`
-
-Glob patterns: `myserver_*` matches all tools from `myserver`.
-
-## Examples
-
-### Context7 (docs search)
+## Remote server
 
 ```jsonc
 {
   "mcp": {
-    "context7": {
-      "type": "remote",
-      "url": "https://mcp.context7.com/mcp"
-    }
-  }
+    "servers": {
+      "context7": {
+        "type": "remote",
+        "url": "https://mcp.context7.com/mcp",
+        "oauth": false,
+        "headers": { "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}" },
+      },
+    },
+  },
 }
 ```
 
-### Sentry
+Remote servers require an absolute Streamable HTTP URL. `oauth: false` is for
+API-key or other header authentication only. OAuth credentials remain outside
+the configuration file.
+
+## OAuth, timeouts, and protocol
+
+OAuth client fields use snake_case: `client_id`, `client_secret`, `scope`,
+`callback_port`, `redirect_uri`, and `auth_server_metadata_url`.
 
 ```jsonc
 {
   "mcp": {
-    "sentry": {
-      "type": "remote",
-      "url": "https://mcp.sentry.dev/mcp",
-      "oauth": {}
-    }
-  }
+    "timeout": { "startup": 45000, "catalog": 30000, "execution": 600000 },
+    "servers": {
+      "modern": {
+        "type": "remote",
+        "url": "https://mcp.example.com/mcp",
+        "protocol": "auto",
+      },
+    },
+  },
 }
 ```
 
-### Chrome DevTools
+Timeouts are positive milliseconds. Defaults are 30 seconds for startup and
+catalog requests, and 12 hours for execution. `legacy` is the default protocol;
+use `auto` only for servers that need the 2026-07-28 MCP protocol.
+
+## Permissions
+
+OpenCode normalizes an MCP tool name to `<server>_<tool>`. Control it with
+permissions without disconnecting the server:
 
 ```jsonc
 {
-  "mcp": {
-    "chrome-devtools": {
-      "type": "local",
-      "command": ["npx", "-y", "chrome-devtools-mcp@latest"]
-    }
-  }
+  "permissions": [
+    { "action": "context7_*", "resource": "*", "effect": "deny" },
+  ],
 }
 ```
 
-## Prompting
-
-Reference MCP by name: `use the context7 tool to search docs`
+Higher-precedence config replaces a server object with the same name. Repeat
+all required fields when overriding a server.

@@ -1,14 +1,11 @@
 ---
 description: Code reviewer (Opus). Analyzes diffs for bugs, security issues, and maintainability concerns.
 mode: subagent
-model: anthropic/claude-sonnet-5
-variant: max
-tools:
-  write: false
-  edit: false
-  todowrite: false
-permission:
-  edit: deny
+model: anthropic/claude-sonnet-5#max
+permissions:
+  - action: edit
+    resource: "*"
+    effect: deny
 ---
 
 You will receive `Original /review arguments`, a diff, and optional parsed focus areas. Load and apply the `adversarial-code-review` skill.

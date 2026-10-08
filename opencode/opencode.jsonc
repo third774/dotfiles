@@ -1,7 +1,7 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "model": "openai/gpt-5.6-terra",
-  "provider": {
+  "providers": {
     "anthropic": {
       "models": {
         "claude-sonnet-4-6": {
@@ -23,121 +23,103 @@
       },
     },
   },
-  "permission": {
-    "external_directory": {
-      "~/github.com/**": "allow",
-      "~/cf/**": "allow",
-    },
-    "edit": {
-      "~/cf/stratus/**": "allow",
-    },
-    "question": "deny",
-    "bash": {
-      // Generic shell commands
-      "cat *": "allow",
-      "echo *": "allow",
-      "find *": "allow",
-      "grep *": "allow",
-      "head *": "allow",
-      "ls *": "allow",
-      "ls": "allow",
-      "pwd": "allow",
-      "rg *": "allow",
-      "sg *": "allow",
-      "rm *": "deny",
-      "trash *": "ask",
-      "which *": "allow",
-      "whoami": "allow",
+  "permissions": [
+    { "action": "external_directory", "resource": "~/github.com/**", "effect": "allow" },
+    { "action": "external_directory", "resource": "~/cf/**", "effect": "allow" },
+    { "action": "edit", "resource": "~/cf/stratus/**", "effect": "allow" },
+    { "action": "question", "resource": "*", "effect": "deny" },
 
-      // curl
-      "curl -X DELETE *": "ask",
-      "curl -X PATCH *": "ask",
-      "curl -X POST *": "ask",
-      "curl -X PUT *": "ask",
+    // Generic shell commands
+    { "action": "shell", "resource": "cat *", "effect": "allow" },
+    { "action": "shell", "resource": "echo *", "effect": "allow" },
+    { "action": "shell", "resource": "find *", "effect": "allow" },
+    { "action": "shell", "resource": "grep *", "effect": "allow" },
+    { "action": "shell", "resource": "head *", "effect": "allow" },
+    { "action": "shell", "resource": "ls *", "effect": "allow" },
+    { "action": "shell", "resource": "pwd", "effect": "allow" },
+    { "action": "shell", "resource": "rg *", "effect": "allow" },
+    { "action": "shell", "resource": "sg *", "effect": "allow" },
+    { "action": "shell", "resource": "rm *", "effect": "deny" },
+    { "action": "shell", "resource": "trash *", "effect": "ask" },
+    { "action": "shell", "resource": "which *", "effect": "allow" },
+    { "action": "shell", "resource": "whoami", "effect": "allow" },
 
-      // Git
-      "git blame *": "allow",
-      "git diff *": "allow",
-      "git diff": "allow",
-      "git log *": "allow",
-      "git log": "allow",
-      "git push *": "ask",
-      "git push": "ask",
-      "git show *": "allow",
-      "git show": "allow",
-      "git status *": "allow",
-      "git status": "allow",
+    // curl
+    { "action": "shell", "resource": "curl -X DELETE *", "effect": "ask" },
+    { "action": "shell", "resource": "curl -X PATCH *", "effect": "ask" },
+    { "action": "shell", "resource": "curl -X POST *", "effect": "ask" },
+    { "action": "shell", "resource": "curl -X PUT *", "effect": "ask" },
 
-      // Github CLI
-      "gh api --method DELETE *": "ask",
-      "gh api --method PATCH *": "ask",
-      "gh api --method POST *": "ask",
-      "gh api --method PUT *": "ask",
-      "gh api -X DELETE *": "ask",
-      "gh api -X PATCH *": "ask",
-      "gh api -X POST *": "ask",
-      "gh api -X PUT *": "ask",
-      "gh issue close *": "ask",
-      "gh issue comment *": "ask",
-      "gh issue create *": "ask",
-      "gh issue edit *": "ask",
-      "gh pr close *": "ask",
-      "gh pr comment *": "ask",
-      "gh pr create *": "ask",
-      "gh pr merge *": "ask",
-      "gh pr review *": "ask",
+    // Git
+    { "action": "shell", "resource": "git blame *", "effect": "allow" },
+    { "action": "shell", "resource": "git diff *", "effect": "allow" },
+    { "action": "shell", "resource": "git log *", "effect": "allow" },
+    { "action": "shell", "resource": "git push *", "effect": "ask" },
+    { "action": "shell", "resource": "git show *", "effect": "allow" },
+    { "action": "shell", "resource": "git status *", "effect": "allow" },
 
-      // Gitlab CLI
-      "glab mr note *": "ask",
+    // GitHub CLI
+    { "action": "shell", "resource": "gh api --method DELETE *", "effect": "ask" },
+    { "action": "shell", "resource": "gh api --method PATCH *", "effect": "ask" },
+    { "action": "shell", "resource": "gh api --method POST *", "effect": "ask" },
+    { "action": "shell", "resource": "gh api --method PUT *", "effect": "ask" },
+    { "action": "shell", "resource": "gh api -X DELETE *", "effect": "ask" },
+    { "action": "shell", "resource": "gh api -X PATCH *", "effect": "ask" },
+    { "action": "shell", "resource": "gh api -X POST *", "effect": "ask" },
+    { "action": "shell", "resource": "gh api -X PUT *", "effect": "ask" },
+    { "action": "shell", "resource": "gh issue close *", "effect": "ask" },
+    { "action": "shell", "resource": "gh issue comment *", "effect": "ask" },
+    { "action": "shell", "resource": "gh issue create *", "effect": "ask" },
+    { "action": "shell", "resource": "gh issue edit *", "effect": "ask" },
+    { "action": "shell", "resource": "gh pr close *", "effect": "ask" },
+    { "action": "shell", "resource": "gh pr comment *", "effect": "ask" },
+    { "action": "shell", "resource": "gh pr create *", "effect": "ask" },
+    { "action": "shell", "resource": "gh pr merge *", "effect": "ask" },
+    { "action": "shell", "resource": "gh pr review *", "effect": "ask" },
 
-      // agent-browser
-      "agent-browser": "allow",
-      "agent-browser *": "allow",
-      "agent-browser auth *": "ask",
-      "agent-browser state *": "ask",
-      "agent-browser eval *": "ask",
-      "agent-browser set credentials *": "ask",
-      "agent-browser cookies *": "ask",
-      "agent-browser download *": "ask",
-      "agent-browser upload *": "ask",
-      "agent-browser --allow-file-access *": "ask",
-      "agent-browser open file://*": "ask",
+    // GitLab CLI
+    { "action": "shell", "resource": "glab mr note *", "effect": "ask" },
 
-      // npx agent-browser
-      "npx agent-browser *": "ask",
-      "npx -y agent-browser@* *": "ask",
+    // agent-browser
+    { "action": "shell", "resource": "agent-browser *", "effect": "allow" },
+    { "action": "shell", "resource": "agent-browser auth *", "effect": "ask" },
+    { "action": "shell", "resource": "agent-browser state *", "effect": "ask" },
+    { "action": "shell", "resource": "agent-browser eval *", "effect": "ask" },
+    { "action": "shell", "resource": "agent-browser set credentials *", "effect": "ask" },
+    { "action": "shell", "resource": "agent-browser cookies *", "effect": "ask" },
+    { "action": "shell", "resource": "agent-browser download *", "effect": "ask" },
+    { "action": "shell", "resource": "agent-browser upload *", "effect": "ask" },
+    { "action": "shell", "resource": "agent-browser --allow-file-access *", "effect": "ask" },
+    { "action": "shell", "resource": "agent-browser open file://*", "effect": "ask" },
 
-      // Node.js / npm
-      "bun install": "ask",
-      "bun publish *": "deny",
-      "bun publish": "deny",
-      "npm install": "ask",
-      "npm publish *": "deny",
-      "npm publish": "deny",
-      "pnpm install": "ask",
-      "pnpm publish *": "deny",
-      "pnpm publish": "deny",
-      "yarn install": "ask",
-      "yarn publish *": "deny",
-      "yarn publish": "deny",
-    },
-  },
-  "plugin": [
-    "@plannotator/opencode@latest",
-    ["@ishaksebsib/opencode-tree", { "storageScope": "local" }],
-    "github:third774/opencode-plugin-react-router-source#3f2212126f64fec359c7f57bd351acf48a31320c",
-    "opencode-context-canary@0.1.0"
+    // npx agent-browser
+    { "action": "shell", "resource": "npx agent-browser *", "effect": "ask" },
+    { "action": "shell", "resource": "npx -y agent-browser@* *", "effect": "ask" },
+
+    // Node.js / npm
+    { "action": "shell", "resource": "bun install", "effect": "ask" },
+    { "action": "shell", "resource": "bun publish *", "effect": "deny" },
+    { "action": "shell", "resource": "npm install", "effect": "ask" },
+    { "action": "shell", "resource": "npm publish *", "effect": "deny" },
+    { "action": "shell", "resource": "pnpm install", "effect": "ask" },
+    { "action": "shell", "resource": "pnpm publish *", "effect": "deny" },
+    { "action": "shell", "resource": "yarn install", "effect": "ask" },
+    { "action": "shell", "resource": "yarn publish *", "effect": "deny" },
+
   ],
+  "plugins": ["@plannotator/opencode@latest", "github:eli0shin/opencode-tree"],
   "mcp": {
-    "chrome-devtools": {
-      "type": "local",
-      "command": ["npx", "-y", "chrome-devtools-mcp@latest"],
-      "enabled": false,
-    },
-    "xcodebuild-mcp": {
-      "type": "local",
-      "command": ["npx", "-y", "xcodebuildmcp@latest", "mcp"],
-      "enabled": false,
+    "servers": {
+      "chrome-devtools": {
+        "type": "local",
+        "command": ["npx", "-y", "chrome-devtools-mcp@latest"],
+        "disabled": true,
+      },
+      "xcodebuild-mcp": {
+        "type": "local",
+        "command": ["npx", "-y", "xcodebuildmcp@latest", "mcp"],
+        "disabled": true,
+      },
     },
   },
 }

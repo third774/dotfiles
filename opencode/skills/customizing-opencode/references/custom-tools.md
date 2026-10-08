@@ -1,184 +1,64 @@
 # Custom Tools
 
-Define functions the LLM can call during conversations.
+OpenCode V2 custom tools are registered by a server plugin. There is no
+standalone `.opencode/tools/` directory.
 
-## Location
+```ts
+import { Plugin } from "@opencode/plugin"
 
-- `~/.config/opencode/tools/` (global)
-- `.opencode/tools/` (project)
+function queryFrom(input: unknown): string | undefined {
+  if (typeof input !== "object" || input === null) return undefined
+  if (!("query" in input)) return undefined
 
-Filename becomes tool name (e.g., `database.ts` creates `database` tool).
-
-## Basic Structure
-
-```typescript
-import { tool } from "@opencode-ai/plugin"
-
-export default tool({
-  description: "Query the project database",
-  args: {
-    query: tool.schema.string().describe("SQL query to execute")
-  },
-  async execute(args) {
-    // Implementation
-    return `Result: ${args.query}`
-  }
-})
-```
-
-## Multiple Tools per File
-
-Each export becomes a tool named `<filename>_<export>`:
-
-```typescript
-// math.ts -> math_add, math_multiply
-import { tool } from "@opencode-ai/plugin"
-
-export const add = tool({
-  description: "Add two numbers",
-  args: {
-    a: tool.schema.number().describe("First number"),
-    b: tool.schema.number().describe("Second number")
-  },
-  async execute(args) {
-    return args.a + args.b
-  }
-})
-
-export const multiply = tool({
-  description: "Multiply two numbers",
-  args: {
-    a: tool.schema.number(),
-    b: tool.schema.number()
-  },
-  async execute(args) {
-    return args.a * args.b
-  }
-})
-```
-
-## Arguments with Zod
-
-`tool.schema` is Zod. Full schema support:
-
-```typescript
-import { tool } from "@opencode-ai/plugin"
-
-export default tool({
-  description: "Process data",
-  args: {
-    name: tool.schema.string().min(1).describe("Item name"),
-    count: tool.schema.number().int().positive().optional(),
-    tags: tool.schema.array(tool.schema.string()),
-    type: tool.schema.enum(["a", "b", "c"])
-  },
-  async execute(args) {
-    return JSON.stringify(args)
-  }
-})
-```
-
-Or import Zod directly:
-
-```typescript
-import { z } from "zod"
-
-export default {
-  description: "My tool",
-  args: {
-    param: z.string()
-  },
-  async execute(args, context) {
-    return "result"
-  }
+  const query = input.query
+  return typeof query === "string" ? query : undefined
 }
-```
 
-## Context
+export default Plugin.define({
+  id: "company.tools",
+  async setup(ctx) {
+    await ctx.tool.transform((editor) => {
+      editor.namespace({
+        name: "company",
+        description: "Company tools",
+      })
+      editor.add({
+        name: "database_query",
+        description: "Query the project database",
+        input: {
+          type: "object",
+          properties: { query: { type: "string" } },
+          required: ["query"],
+          additionalProperties: false,
+        },
+        async execute(input, context) {
+          const query = queryFrom(input)
+          if (!query) return { content: "A query is required." }
 
-Access session info in execute:
-
-```typescript
-export default tool({
-  description: "Get session info",
-  args: {},
-  async execute(args, context) {
-    const { agent, sessionID, messageID } = context
-    return `Agent: ${agent}, Session: ${sessionID}`
-  }
-})
-```
-
-## Invoking Other Languages
-
-Tool definitions must be TypeScript/JavaScript, but can invoke any language:
-
-### Python Example
-
-`.opencode/tools/add.py`:
-```python
-import sys
-a = int(sys.argv[1])
-b = int(sys.argv[2])
-print(a + b)
-```
-
-`.opencode/tools/python-add.ts`:
-```typescript
-import { tool } from "@opencode-ai/plugin"
-
-export default tool({
-  description: "Add numbers using Python",
-  args: {
-    a: tool.schema.number(),
-    b: tool.schema.number()
+          await context.progress({ status: "Querying database" })
+          return { content: `Session ${context.sessionID} submitted: ${query}` }
+        },
+      })
+    })
   },
-  async execute(args) {
-    const result = await Bun.$`python3 .opencode/tools/add.py ${args.a} ${args.b}`.text()
-    return result.trim()
-  }
 })
 ```
 
-### Shell Script Example
+Define `input` with JSON Schema and validate the received `unknown` input at the
+tool boundary. The executor context includes the session, agent, message,
+progress reporting, and an abort signal. Pass `context.signal` to cancellable
+work such as `fetch`.
 
-```typescript
-import { tool } from "@opencode-ai/plugin"
-
-export default tool({
-  description: "Run custom script",
-  args: {
-    input: tool.schema.string()
-  },
-  async execute(args) {
-    const result = await Bun.$`./scripts/process.sh ${args.input}`.text()
-    return result
-  }
-})
-```
-
-## Permissions
-
-Control tool access via config:
+The effective name includes the namespace: `company_database_query`. Dots and
+unsupported characters become `_`. Use that name in transforms and permissions:
 
 ```jsonc
 {
-  "permission": {
-    "mytool": "ask"  // allow, ask, deny
-  }
+  "permissions": [
+    { "action": "company_database_query", "resource": "*", "effect": "ask" },
+  ],
 }
 ```
 
-Or per-agent:
-
-```jsonc
-{
-  "agent": {
-    "restricted": {
-      "tools": {
-        "dangerous-tool": false
-      }
-    }
-  }
-}
-```
+Use `ctx.tool.reload()` after changing data captured by a transform callback.
+It replays transforms but does not rerun plugin setup.

@@ -1,14 +1,11 @@
 ---
 description: Code reviewer (Gemini). Analyzes diffs for bugs, security issues, and maintainability concerns.
 mode: subagent
-model: google/gemini-3.5-flash
-variant: high
-tools:
-  write: false
-  edit: false
-  todowrite: false
-permission:
-  edit: deny
+model: google/gemini-3.5-flash#high
+permissions:
+  - action: edit
+    resource: "*"
+    effect: deny
 ---
 
 You will receive `Original /review arguments`, a diff, and optional parsed focus areas. Load and apply the `adversarial-code-review` skill.

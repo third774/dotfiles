@@ -1,187 +1,82 @@
 # Plugins
 
-Extend OpenCode with custom hooks and integrations.
+Plugins extend OpenCode server behavior. OpenCode automatically discovers
+global plugin files in `~/.config/opencode/plugins/` and project plugin files
+in `.opencode/plugins/`. It loads direct `.ts` and `.js` files and immediate
+package directories.
 
-## Loading Plugins
-
-### Local Files
-
-Place TypeScript/JavaScript in:
-- `~/.config/opencode/plugins/` (global)
-- `.opencode/plugins/` (project)
-
-### NPM Packages
+Load a package or another local path with `plugins` in `opencode.json(c)`:
 
 ```jsonc
 {
-  "plugin": [
-    "opencode-helicone-session",
-    "@my-org/custom-plugin"
-  ]
+  "plugins": [
+    "@acme/opencode-plugin",
+    "./plugins/company",
+    { "package": "./plugins/strict", "options": { "strict": true } },
+  ],
 }
 ```
 
-Packages auto-installed via Bun at startup.
+Relative paths resolve from the config file that declares them. Plugin arrays
+from applicable configuration files append in precedence order.
 
-## Load Order
+## Plugin structure
 
-1. Global config plugins
-2. Project config plugins
-3. Global plugin directory
-4. Project plugin directory
+```ts
+import { Plugin } from "@opencode/plugin"
 
-## Plugin Structure
-
-```typescript
-import type { Plugin } from "@opencode-ai/plugin"
-
-export const MyPlugin: Plugin = async ({ project, client, $, directory, worktree }) => {
-  // Initialization code
-  
-  return {
-    // Hook implementations
-  }
-}
-```
-
-### Context Object
-
-| Property | Description |
-|----------|-------------|
-| `project` | Current project info |
-| `directory` | Current working directory |
-| `worktree` | Git worktree path |
-| `client` | OpenCode SDK client |
-| `$` | Bun shell API |
-
-## Event Hooks
-
-Subscribe to events by returning handlers:
-
-```typescript
-export const MyPlugin: Plugin = async (ctx) => {
-  return {
-    event: async ({ event }) => {
-      if (event.type === "session.idle") {
-        // Session completed
-      }
-    }
-  }
-}
-```
-
-### Event Types
-
-**Session**: `session.created`, `session.updated`, `session.deleted`, `session.idle`, `session.error`, `session.compacted`, `session.status`, `session.diff`
-
-**Message**: `message.updated`, `message.removed`, `message.part.updated`, `message.part.removed`
-
-**Tool**: `tool.execute.before`, `tool.execute.after`
-
-**File**: `file.edited`, `file.watcher.updated`
-
-**Permission**: `permission.updated`, `permission.replied`
-
-**Other**: `command.executed`, `todo.updated`, `lsp.updated`, `lsp.client.diagnostics`, `server.connected`, `installation.updated`
-
-**TUI**: `tui.prompt.append`, `tui.command.execute`, `tui.toast.show`
-
-## Tool Hooks
-
-Intercept tool execution:
-
-```typescript
-export const MyPlugin: Plugin = async (ctx) => {
-  return {
-    "tool.execute.before": async (input, output) => {
-      if (input.tool === "read" && output.args.filePath.includes(".env")) {
-        throw new Error("Cannot read .env files")
-      }
-    },
-    "tool.execute.after": async (input, output) => {
-      // Process tool result
-    }
-  }
-}
-```
-
-## Custom Tools via Plugin
-
-```typescript
-import { type Plugin, tool } from "@opencode-ai/plugin"
-
-export const MyPlugin: Plugin = async (ctx) => {
-  return {
-    tool: {
-      mytool: tool({
-        description: "My custom tool",
-        args: {
-          input: tool.schema.string()
-        },
-        async execute(args, ctx) {
-          return `Processed: ${args.input}`
-        }
-      })
-    }
-  }
-}
-```
-
-## Compaction Hook
-
-Customize context during compaction:
-
-```typescript
-export const MyPlugin: Plugin = async (ctx) => {
-  return {
-    "experimental.session.compacting": async (input, output) => {
-      // Add context
-      output.context.push("## Important State\n- Current task: ...")
-      
-      // Or replace entire prompt
-      output.prompt = "Custom compaction instructions..."
-    }
-  }
-}
-```
-
-## Dependencies
-
-For local plugins needing npm packages, create `.opencode/package.json`:
-
-```json
-{
-  "dependencies": {
-    "shescape": "^2.1.0"
-  }
-}
-```
-
-OpenCode runs `bun install` at startup.
-
-## Logging
-
-Use structured logging instead of `console.log`:
-
-```typescript
-await client.app.log({
-  service: "my-plugin",
-  level: "info",  // debug, info, warn, error
-  message: "Plugin initialized",
-  extra: { foo: "bar" }
+export default Plugin.define({
+  id: "company.example",
+  setup(ctx) {
+    console.log(`Loaded OpenCode ${ctx.app.version}`)
+    const strict = ctx.options.strict === true
+    return () => console.log(`Unloaded strict=${strict}`)
+  },
 })
 ```
 
-## Example: Notifications
+`setup` can return cleanup logic. Use `ctx.options` for options supplied by the
+object form of `plugins`.
 
-```typescript
-export const NotificationPlugin: Plugin = async ({ $ }) => {
-  return {
-    event: async ({ event }) => {
-      if (event.type === "session.idle") {
-        await $`osascript -e 'display notification "Done!" with title "OpenCode"'`
-      }
-    }
-  }
-}
+## Transforms and hooks
+
+Use transforms to register or change tools, agents, commands, providers, MCP
+servers, references, skills, and worktree strategies. Transforms are synchronous
+edits to their domain state. Load external data before a callback, then call the
+domain's `reload()` method after that data changes.
+
+Use session hooks to change an operation as it runs:
+
+```ts
+await ctx.session.hook("context", (event) => {
+  event.system.push({ type: "text", text: "Focus on correctness." })
+  delete event.tools.write
+})
 ```
+
+`context` changes agent-loop model requests. Use `prompt`, `compaction`,
+`generate`, or `title` for those specific flows. Use `model.request`,
+`http.request`, or `http.response` only when provider-level request control is
+required.
+
+## Package management
+
+```sh
+opencode plugin add @acme/opencode-plugin@latest
+opencode plugin list
+opencode plugin check
+opencode plugin update
+opencode plugin remove @acme/opencode-plugin@latest
+```
+
+Prefix an ID or wildcard with `-` to disable a configured plugin. `*` matches
+every plugin and `.*` matches an ID prefix. A later entry re-enables a plugin.
+
+CLI-only plugins are separate terminal configuration in `cli.json`:
+
+```json
+{ "plugins": ["opencode-acme-cli"] }
+```
+
+Use `@opencode/plugin`. Do not use `@opencode-ai/plugin` or V1 returned-hook
+objects.

@@ -1,208 +1,68 @@
 # Permissions
 
-Control what tools can do without approval.
-
-## Permission Levels
-
-| Level | Behavior |
-|-------|----------|
-| `"allow"` | Run immediately, no approval |
-| `"ask"` | Prompt user for approval |
-| `"deny"` | Block entirely |
-
-## Global Permissions
+Permissions are ordered rules. Each rule has an `action`, a `resource`, and an
+`effect` of `allow`, `ask`, or `deny`. The last matching rule wins.
 
 ```jsonc
 {
-  "permission": {
-    "edit": "ask",
-    "bash": "ask",
-    "webfetch": "allow"
-  }
+  "permissions": [
+    { "action": "shell", "resource": "*", "effect": "ask" },
+    { "action": "shell", "resource": "git status *", "effect": "allow" },
+    { "action": "shell", "resource": "git push *", "effect": "deny" },
+  ],
 }
 ```
 
-## Tool Permissions
+## Built-in actions
 
-| Tool | Controls |
-|------|----------|
-| `edit` | `edit`, `write`, `patch`, `multiedit` (all file modifications) |
-| `bash` | Shell command execution |
-| `webfetch` | Fetching web content |
-| `skill` | Loading skills |
-| `read` | Reading files |
-| `grep` | Searching file contents |
-| `glob` | Finding files by pattern |
+| Action | Resource |
+| --- | --- |
+| `read`, `edit` | File path |
+| `glob`, `grep` | Requested glob or search expression |
+| `shell` | Shell command |
+| `subagent` | Agent ID |
+| `skill` | Skill ID |
+| `question` | `*` |
+| `webfetch`, `websearch` | URL or search query |
+| `external_directory` | Canonical external directory boundary |
+| `<server>_<tool>` | An MCP tool resource |
+| `execute` | `*`; enables Code Mode, while nested tool checks still apply |
 
-## Wildcard Patterns
+## Agent rules
 
-```jsonc
-{
-  "permission": {
-    "mymcp_*": "ask"  // All tools from mymcp server
-  }
-}
-```
+Top-level rules apply to all agents. Agent rules append after them and can make
+the policy more specific.
 
-## Bash Command Permissions
-
-Fine-grained control over specific commands:
-
-```jsonc
-{
-  "permission": {
-    "bash": {
-      "*": "ask",              // Default: ask for all
-      "git status*": "allow",  // Allow git status
-      "git log*": "allow",     // Allow git log
-      "git push*": "ask",      // Ask for push
-      "rm -rf*": "deny"        // Block dangerous commands
-    }
-  }
-}
-```
-
-**Rules evaluated in order; last match wins.**
-
-## Per-Agent Permissions
-
-Override global permissions for specific agents:
-
-```jsonc
-{
-  "permission": {
-    "edit": "deny"
-  },
-  "agent": {
-    "build": {
-      "permission": {
-        "edit": "ask"
-      }
-    }
-  }
-}
-```
-
-### In Markdown Agents
-
-```markdown
+```yaml
 ---
-description: Safe exploration agent
+description: Read-only reviewer
 mode: subagent
-permission:
-  edit: deny
-  bash:
-    "*": ask
-    "git diff": allow
-    "git log*": allow
-  webfetch: deny
+permissions:
+  - action: edit
+    resource: "*"
+    effect: deny
+  - action: shell
+    resource: "*"
+    effect: deny
+  - action: shell
+    resource: "git diff *"
+    effect: allow
 ---
 ```
 
-## Skill Permissions
+## External directories
 
-Control which skills agents can load:
-
-```jsonc
-{
-  "permission": {
-    "skill": {
-      "*": "allow",
-      "internal-*": "deny",
-      "experimental-*": "ask"
-    }
-  }
-}
-```
-
-Per-agent skill permissions:
+Access outside the active location needs `external_directory` approval before
+the read or edit rule applies. OpenCode expands `~` and `$HOME` for `read`,
+`edit`, and `external_directory` resources when it loads configuration. Shell
+resources are raw command text and do not expand them.
 
 ```jsonc
 {
-  "agent": {
-    "plan": {
-      "permission": {
-        "skill": {
-          "internal-*": "allow"
-        }
-      }
-    }
-  }
-}
-```
-
-## Task Permissions
-
-Control which subagents an agent can invoke:
-
-```jsonc
-{
-  "agent": {
-    "orchestrator": {
-      "permission": {
-        "task": {
-          "*": "deny",
-          "helper-*": "allow",
-          "expensive-agent": "ask"
-        }
-      }
-    }
-  }
-}
-```
-
-When `deny`, the subagent is removed from Task tool description entirely.
-
-## Default Behavior
-
-By default, OpenCode **allows all operations** without approval. Configure permissions to add restrictions.
-
-## Practical Examples
-
-### Read-only Agent
-
-```jsonc
-{
-  "agent": {
-    "reviewer": {
-      "permission": {
-        "edit": "deny",
-        "bash": {
-          "*": "deny",
-          "git diff*": "allow",
-          "git log*": "allow",
-          "git show*": "allow"
-        }
-      }
-    }
-  }
-}
-```
-
-### Safe Defaults with Exceptions
-
-```jsonc
-{
-  "permission": {
-    "bash": {
-      "*": "ask",
-      "ls *": "allow",
-      "cat *": "allow",
-      "git status*": "allow",
-      "git log*": "allow",
-      "git diff*": "allow"
-    }
-  }
-}
-```
-
-### MCP Tool Restrictions
-
-```jsonc
-{
-  "permission": {
-    "expensive-mcp_*": "ask",
-    "dangerous-mcp_*": "deny"
-  }
+  "permissions": [
+    { "action": "external_directory", "resource": "~/reference/*", "effect": "allow" },
+    { "action": "read", "resource": "~/reference/*", "effect": "allow" },
+    { "action": "edit", "resource": "~/reference/*", "effect": "deny" },
+  ],
 }
 ```

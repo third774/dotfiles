@@ -1,6 +1,8 @@
 ---
 name: slidev
 description: Markdown-based presentation slides powered by Vue and Vite. Use when creating slide decks, technical presentations, conference talks, or any presentation that benefits from code highlighting, diagrams, and web technologies.
+metadata:
+  opencode/autoinvoke: false
 ---
 
 # Slidev

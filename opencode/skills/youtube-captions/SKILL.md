@@ -1,6 +1,8 @@
 ---
 name: youtube-captions
 description: Extract captions and transcripts from YouTube videos for agent context. Tries manual subtitles, then auto-generated, then falls back to audio transcription via Whisper. Use when a user provides a YouTube URL and wants to understand, summarize, reference, or search video content.
+metadata:
+  opencode/autoinvoke: false
 ---
 
 # youtube-captions

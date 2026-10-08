@@ -2,6 +2,7 @@
 name: remotion-best-practices
 description: Best practices for Remotion - Video creation in React
 metadata:
+  opencode/autoinvoke: false
   tags: remotion, video, react, animation, composition
 ---
 

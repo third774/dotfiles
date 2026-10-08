@@ -1,6 +1,8 @@
 ---
 name: gitlab-merge-request-comments
 description: Prepare, validate, and post GitLab merge-request inline or top-level discussions from JSON. Use when creating GitLab review comments, checking diff anchors, or posting MR feedback.
+metadata:
+  opencode/autoinvoke: false
 ---
 
 # GitLab Discussions

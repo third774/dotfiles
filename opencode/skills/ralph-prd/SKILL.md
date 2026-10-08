@@ -1,6 +1,8 @@
 ---
 name: ralph-prd
 description: Generate structured prd.json files for autonomous agent loops (Ralph Wiggum pattern). Use when planning bulk/batch tasks, migrations, refactoring campaigns, or any work that can be decomposed into independent items with verification steps.
+metadata:
+  opencode/autoinvoke: false
 ---
 
 # Ralph PRD Generation

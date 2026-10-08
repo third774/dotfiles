@@ -1,6 +1,8 @@
 ---
 name: refactoring-code
 description: Improve code structure while preserving behavior with test verification. Use when cleaning up code, reducing duplication, simplifying complexity, or reorganizing modules.
+metadata:
+  opencode/autoinvoke: false
 ---
 
 # Refactoring Code

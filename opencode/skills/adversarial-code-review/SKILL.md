@@ -1,6 +1,8 @@
 ---
 name: adversarial-code-review
 description: Review code through hostile perspectives to find bugs, security issues, and unintended consequences the author missed. Use when reviewing PRs, auditing codebases, or before critical deployments.
+metadata:
+  opencode/autoinvoke: false
 ---
 
 # Adversarial Code Review

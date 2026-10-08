@@ -1,6 +1,8 @@
 ---
 name: verification-before-completion
 description: Run verification commands before claiming work is complete or fixed. Use before asserting any task is done, bug is fixed, tests pass, or feature works.
+metadata:
+  opencode/autoinvoke: false
 ---
 
 # Verification Before Completion

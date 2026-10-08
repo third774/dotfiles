@@ -1,6 +1,8 @@
 ---
 name: systematic-debugging
 description: Four-phase debugging framework with root cause tracing - understand the source before proposing fixes. Use when investigating bugs, errors, unexpected behavior, or failed tests.
+metadata:
+  opencode/autoinvoke: false
 ---
 
 # Systematic Debugging

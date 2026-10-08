@@ -1,6 +1,8 @@
 ---
 name: documenting-code-comments
 description: Standards for writing self-documenting code and best practices for when to write (and avoid) code comments. Use when auditing, cleaning up, or improving inline code documentation.
+metadata:
+  opencode/autoinvoke: false
 ---
 
 # Code Comment Guidelines

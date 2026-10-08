@@ -1,6 +1,8 @@
 ---
 name: kevinkipp-blog-voice
 description: Write blog posts for kevinkipp.com in Kevin's voice and style. Use this skill when Kevin explicitly asks to write, draft, or edit a blog post — e.g. "write a post about...", "draft a blog post", "help me write something for my blog". Do NOT use for general writing tasks, emails, docs, or other content that isn't specifically a kevinkipp.com blog post.
+metadata:
+  opencode/autoinvoke: false
 ---
 
 # Writing in Kevin Kipp's Voice

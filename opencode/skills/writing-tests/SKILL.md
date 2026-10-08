@@ -1,6 +1,8 @@
 ---
 name: writing-tests
 description: Write behavior-focused tests following Testing Trophy model with real dependencies, avoiding common anti-patterns like testing mocks and polluting production code. Use when writing new tests, reviewing test quality, or improving test coverage.
+metadata:
+  opencode/autoinvoke: false
 ---
 
 # Writing Tests

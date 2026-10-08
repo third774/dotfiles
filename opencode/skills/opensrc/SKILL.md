@@ -1,6 +1,8 @@
 ---
 name: opensrc
 description: Fetch source code for npm, PyPI, or crates.io packages and GitHub/GitLab repos to provide AI agents with implementation context beyond types and docs. Use when needing to understand how a library works internally, debug dependency issues, or explore package implementations.
+metadata:
+  opencode/autoinvoke: false
 ---
 
 # opensrc

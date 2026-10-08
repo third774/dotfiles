@@ -1,6 +1,8 @@
 ---
 name: explorable-explanations
 description: Build single-file interactive HTML explanations that teach concepts through experimentation — sliders, animations, step-through controls, and multiple visual representations. Use when the user explicitly asks to build an explorable explanation, interactive explanation, or animated walkthrough of a concept.
+metadata:
+  opencode/autoinvoke: false
 ---
 
 # Explorable Explanations

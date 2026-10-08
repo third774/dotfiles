@@ -1,6 +1,8 @@
 ---
 name: index-knowledge
 description: Generate hierarchical AGENTS.md knowledge base for a codebase. Creates root + complexity-scored subdirectory documentation. Use when running /init, onboarding to a new codebase, bootstrapping project documentation, or regenerating stale AGENTS.md files.
+metadata:
+  opencode/autoinvoke: false
 ---
 
 # index-knowledge

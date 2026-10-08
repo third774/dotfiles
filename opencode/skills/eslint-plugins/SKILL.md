@@ -1,6 +1,8 @@
 ---
 name: eslint-plugin
 description: Author custom ESLint plugins and rules with test-driven development. Supports flat config (ESLint 9+) and legacy formats. Uses @typescript-eslint/rule-tester for testing. Covers problem, suggestion, and layout rules including auto-fixers and type-aware rules. Use when creating or modifying ESLint rules, plugins, custom linting logic, or authoring auto-fixers.
+metadata:
+  opencode/autoinvoke: false
 ---
 
 # ESLint Plugin Author

@@ -1,6 +1,8 @@
 ---
 name: jscodeshift-codemods
 description: Write and debug AST-based codemods using jscodeshift for automated code transformations. Use when creating migrations, API upgrades, pattern standardization, or large-scale refactoring.
+metadata:
+  opencode/autoinvoke: false
 ---
 
 # jscodeshift Codemods

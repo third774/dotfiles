@@ -1,6 +1,8 @@
 ---
 name: customizing-opencode
 description: Configure OpenCode via opencode.json, agents, commands, MCP servers, custom tools, plugins, themes, keybinds, and permissions. Use when setting up or modifying OpenCode configuration.
+metadata:
+  opencode/autoinvoke: false
 ---
 
 # Customizing OpenCode

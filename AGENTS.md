@@ -1,133 +1,28 @@
-# DOTFILES KNOWLEDGE BASE
+# Dotfiles Repository
 
-**Generated:** 2026-01-15
-**Commit:** ac0fc2c
-**Branch:** master
+macOS dotfiles for shell, terminal, editor, and agent tools.
 
-## OVERVIEW
+## Where to look
 
-macOS dotfiles: Zsh (oh-my-zsh + p10k), symlink-based config management, Homebrew packages.
+| Task | Location |
+|------|----------|
+| Add a shell alias | `.aliases` |
+| Add a shell function | `utils.sh` |
+| Add a PATH entry | `.path` |
+| Set machine-specific values | `.localProfile` |
+| Add a Homebrew package | `Brewfile` |
+| Change Git settings | `git/gitconfig` |
+| Change tmux settings | `.tmux.conf` |
+| Change agent config | `opencode/` or `pi/` |
+| Change machine setup | `script/setup` |
 
-## STRUCTURE
+## Rules
 
-```
-.dotfiles/
-├── script/setup         # Bootstrap entry point
-├── .entry-point         # Shell init (sources all configs)
-├── .zsh                 # oh-my-zsh plugins + syntax highlighting
-├── .aliases             # Git shortcuts, eza/yazi/lazygit
-├── utils.sh             # Functions: commit(), gch(), grecent(), fin()
-├── .path                # PATH: go, sqlite, cargo
-├── .nvm-setup           # NVM with auto .nvmrc loading
-├── .localProfile        # Machine-specific (GITIGNORED)
-├── git/gitconfig        # Delta pager, rerere, zdiff3
-├── .tmux.conf           # Catppuccin, sesh, vim-navigator
-├── opencode/            # AI agent config (has own AGENTS.md)
-├── ghostty/             # Terminal + 26 shaders
-├── karabiner/           # Keyboard remapping (JSON + TS generators)
-├── alacritty/           # Terminal config
-├── lazygit/             # Git UI + custom commands
-└── raycast/             # 3 extensions
-```
-
-## WHERE TO LOOK
-
-| Task | Location | Notes |
-|------|----------|-------|
-| Add shell alias | `.aliases` | Git-focused, keep short |
-| Add shell function | `utils.sh` | Interactive workflows |
-| Add PATH entry | `.path` | Sourced early |
-| Machine-specific config | `.localProfile` | Never commit |
-| Add Homebrew package | `Brewfile` | Run `brew bundle` after |
-| Git settings | `git/gitconfig` | Included via ~/.gitconfig |
-| Tmux keybinds | `.tmux.conf` | `prefix-r` to reload |
-| AI agent behavior | `opencode/` | See opencode/AGENTS.md |
-
-## CONVENTIONS
-
-### Bootstrap Reliability
-
-- Keep `script/setup` up to date whenever adding packages, config directories, symlinks, plugins, or machine setup assumptions.
-- Treat `script/setup` as the source of truth for setting up a fresh machine; a clean clone plus `./script/setup` should produce a usable environment.
-- Setup steps must be idempotent: rerunning the script should not create nested symlinks, duplicate config entries, or fail because something already exists.
-- Prefer guarded installs, `ln -sfn` for symlink updates, and append-only config writes only after checking for an existing exact value.
-
-### Shell Config
-
-- Entry point chain: `~/.zshrc` -> `.entry-point` -> modular sources
-- `.localProfile` for secrets/machine-specific (gitignored)
-- Functions in `utils.sh`, aliases in `.aliases` (no overlap)
-
-### Git Workflow
-
-- `--force-with-lease` (alias `gfph`), never `-f`
-- Conventional commits via `commit()` function (uses gum)
-- Delta pager with zdiff3 merge conflicts
-- Auto-rebase on pull
-
-### Tmux
-
-- `T` or `C-space`: sesh session picker
-- `|` / `-`: split panes (33%)
-- `h/j/k/l`: vim-style pane navigation
-- Plugins: catppuccin, vim-tmux-navigator
-
-### Naming
-
-- Lowercase, hyphenated for new dirs
-- Dotfiles at root level for direct home symlinks
-
-## ANTI-PATTERNS
-
-| Pattern | Why |
-|---------|-----|
-| Commit `.localProfile` | Contains secrets |
-| Hardcoded paths with username | Use `$HOME` |
-| `git push -f` | Use `--force-with-lease` |
-| Secrets in shell history | Use vault functions |
-
-## BOOTSTRAP
-
-```bash
-git clone git@github.com:third774/dotfiles.git ~/.dotfiles
-cd ~/.dotfiles/script && ./setup
-```
-
-Setup does:
-1. Creates `~/.gitconfig.local` (prompts for email)
-2. Installs oh-my-zsh
-3. Copies `.zshrc` to home
-4. Creates symlinks: karabiner, raycast, lazygit, ghostty, alacritty, opencode, .claude
-5. Installs TPM
-6. Runs `brew bundle`
-7. Installs TPM-managed tmux plugins
-
-## COMMANDS
-
-```bash
-# Reload shell
-resource
-
-# Git: fuzzy branch checkout
-gch          # all branches
-grecent      # sorted by recency
-
-# Git: interactive conventional commit
-commit
-
-# Notify on command completion
-long-running-command; fin
-```
-
-## TOOLS (via Brewfile)
-
-**CLI:** ast-grep, bat, eza, fd, fzf, gum, jq, ripgrep, yazi, zoxide
-**Dev:** jj, nvm, tmux, sesh, lumen
-**Apps:** 1Password, Alacritty, Karabiner, VS Code, Firefox, Chrome
-
-## NOTES
-
-- NVM auto-switches on `cd` via `.nvmrc` detection
-- Zoxide (`z`) replaces `cd` for frecency-based navigation
-- `fin` shows Raycast confetti + audio on command success/failure
-- Karabiner config is generated from TypeScript (`karabiner/*.ts`)
+- Keep changes small and follow the existing structure.
+- Keep `script/setup` in sync when you add packages, config directories, symlinks, plugins, or machine requirements. It is the source of truth for a fresh setup.
+- Make setup steps safe to run more than once. Guard installs, use `ln -sfn` for symlinks, and check before appending config.
+- Never commit `.localProfile`. Keep secrets and machine-specific values there.
+- Use `$HOME` instead of hardcoded home-directory paths.
+- Keep shell aliases in `.aliases` and functions in `utils.sh`.
+- When a force push is needed, use `--force-with-lease`; never use `git push -f`.
+- Use `karabiner/*.ts` as the source for generated Karabiner config.

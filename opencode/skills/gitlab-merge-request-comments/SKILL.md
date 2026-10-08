@@ -24,7 +24,7 @@ Write the payload outside the repository, for example `/tmp/mr-123-comments.json
     {
       "type": "inline",
       "api": {
-        "body": "AI-generated comment: Impact: strict peer validation rejects this dependency set. Evidence: the dependency peer range excludes React 19. Requested resolution: upgrade or replace the dependency before publishing React 19 support.",
+        "body": "Agent-assisted comment: Impact: strict peer validation rejects this dependency set. Evidence: the dependency peer range excludes React 19. Requested resolution: upgrade or replace the dependency before publishing React 19 support.",
         "position": {
           "base_sha": "1111111111111111111111111111111111111111",
           "start_sha": "2222222222222222222222222222222222222222",
@@ -37,7 +37,7 @@ Write the payload outside the repository, for example `/tmp/mr-123-comments.json
     {
       "type": "top-level",
       "api": {
-        "body": "AI-generated comment: Impact: this finding applies across several files. Evidence: the review identifies each affected path. Requested resolution: address the shared issue before merge."
+        "body": "Agent-assisted comment: Impact: this finding applies across several files. Evidence: the review identifies each affected path. Requested resolution: address the shared issue before merge."
       }
     }
   ]
@@ -48,7 +48,7 @@ Every comment requires `type`. The allowed values are `inline` and `top-level`.
 
 - `inline` requires a new-side position with current `base_sha`, `start_sha`, `head_sha`, `new_path`, and `new_line`. Do not supply old-side fields.
 - `top-level` accepts only `api.body` and has no position.
-- Every body starts exactly with `AI-generated comment:`.
+- Every body starts exactly with `Agent-assisted comment:`.
 
 ## Validate
 

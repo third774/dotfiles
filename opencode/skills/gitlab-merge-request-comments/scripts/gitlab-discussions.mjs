@@ -5,7 +5,7 @@ import { promisify } from 'node:util';
 import { pathToFileURL } from 'node:url';
 
 const execFileAsync = promisify(execFile);
-const bodyPrefix = 'AI-generated comment:';
+const bodyPrefix = 'Agent-assisted comment:';
 const shaPattern = /^[0-9a-f]{40}$/;
 
 const fail = message => {

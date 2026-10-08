@@ -12,13 +12,13 @@ const position = {
 const inline = {
   type: 'inline',
   api: {
-    body: 'AI-generated comment: Inline validation fixture.',
+    body: 'Agent-assisted comment: Inline validation fixture.',
     position
   }
 };
 const topLevel = {
   type: 'top-level',
-  api: { body: 'AI-generated comment: Top-level validation fixture.' }
+  api: { body: 'Agent-assisted comment: Top-level validation fixture.' }
 };
 
 test('parses explicit inline and top-level comments', () => {

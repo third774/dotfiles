@@ -1,7 +1,13 @@
 import { Plugin } from "@opencode/plugin";
 import { existsSync } from "node:fs";
-import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
-import { resolve, sep } from "node:path";
+import { appendFile, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import { execFile } from "node:child_process";
+import { dirname, resolve, sep } from "node:path";
+import { promisify } from "node:util";
+
+const execFileAsync = promisify(execFile);
+const SCRATCHPAD_DIRECTORY = "__scratchpad_plugin_sessions";
+const SCRATCHPAD_EXCLUDE = `.opencode/${SCRATCHPAD_DIRECTORY}/`;
 
 const INITIAL_TEMPLATE = `# Session Scratch Space
 
@@ -22,7 +28,7 @@ const INITIAL_TEMPLATE = `# Session Scratch Space
 `;
 
 function getScratchPath(directory: string, sessionID: string): string {
-  return resolve(directory, ".opencode", "__sessions", sessionID);
+  return resolve(directory, ".opencode", SCRATCHPAD_DIRECTORY, sessionID);
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -52,9 +58,36 @@ function invalidFilename() {
   return { content: "Error: Invalid filename. Path traversal is not allowed." };
 }
 
+async function getGitExcludePath(directory: string): Promise<string | undefined> {
+  try {
+    const { stdout } = await execFileAsync("git", ["-C", directory, "rev-parse", "--path-format=absolute", "--git-common-dir"]);
+    const gitDirectory = stdout.trim();
+    return gitDirectory.length === 0 ? undefined : resolve(gitDirectory, "info", "exclude");
+  } catch {
+    return undefined;
+  }
+}
+
+async function ensureScratchpadIsIgnored(directory: string): Promise<void> {
+  const excludePath = await getGitExcludePath(directory);
+  if (excludePath === undefined) return;
+
+  await mkdir(dirname(excludePath), { recursive: true });
+  const content = existsSync(excludePath) ? await readFile(excludePath, "utf8") : "";
+  const hasRule = content.split(/\r?\n/).some((line) => line.trim() === SCRATCHPAD_EXCLUDE);
+  if (hasRule) return;
+
+  const separator = content.length === 0 || content.endsWith("\n") ? "" : "\n";
+  await appendFile(excludePath, `${separator}${SCRATCHPAD_EXCLUDE}\n`);
+}
+
 export default Plugin.define({
   id: "scratchpad",
   async setup(ctx) {
+    await ensureScratchpadIsIgnored(ctx.location.directory).catch((error: unknown) =>
+      console.error("[scratchpad] could not update Git exclude file", error),
+    );
+
     const createScratchpad = async (sessionID: string): Promise<void> => {
       const scratchPath = getScratchPath(ctx.location.directory, sessionID);
       const indexPath = resolve(scratchPath, "index.md");
@@ -83,7 +116,7 @@ export default Plugin.define({
 
 ${indexContent}
 
-Path: .opencode/__sessions/${event.sessionID}/
+Path: .opencode/${SCRATCHPAD_DIRECTORY}/${event.sessionID}/
 Use session_scratch_read to load specific files.`,
       });
     });

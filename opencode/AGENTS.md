@@ -8,6 +8,7 @@
 - **Never compromise type safety**: No `any`, no non-null assertion operator (`!`), no type assertions (`as Type`)
 - **Make illegal states unrepresentable**: Model domain with ADTs/discriminated unions; parse inputs at boundaries into typed structures; if state can't exist, code can't mishandle it
 - **Abstractions**: Consciously constrained, pragmatically parameterised, doggedly documented.
+- **Remove obsolete references**: When deleting or changing behavior, remove related tests, comments, and documentation that no longer apply. Do not replace them with assertions or explanations that the old behavior is absent, unless that absence is an explicit requirement. Test and describe current behavior directly.
 
 ## Philosophy
 

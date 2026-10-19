@@ -1,7 +1,7 @@
 ---
 description: Code reviewer (Gemini). Analyzes diffs for bugs, security issues, and maintainability concerns.
 mode: subagent
-model: google/gemini-3.5-flash#high
+model: google/gemini-4-argon#high
 permissions:
   - action: edit
     resource: "*"

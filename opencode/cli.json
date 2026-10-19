@@ -16,7 +16,18 @@
   "session": {
     "sidebar": "auto",
     "scrollbar": false,
-    "thinking": "hide"
+    "thinking": "hide",
+    "permissions": "autoaccept"
   },
-  "animations": true
+  "animations": true,
+  "prompt": {
+    "paste": "full"
+  },
+  "attention": {
+    "notifications": true,
+    "sound": true
+  },
+  "terminal": {
+    "copy": "select"
+  }
 }

@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client"
 import { Pre, type HighlightedCode } from "codehike/code"
 import Content from "./content.mdx"
+import { Diagram } from "./diagram"
 import "./styles.css"
 
 function Code({ codeblock }: { codeblock: HighlightedCode }) {
@@ -12,4 +13,4 @@ if (root === null) {
   throw new Error("The document root is missing")
 }
 
-createRoot(root).render(<Content components={{ Code }} />)
+createRoot(root).render(<Content components={{ Code, Diagram }} />)

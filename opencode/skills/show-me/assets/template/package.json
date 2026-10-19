@@ -1,0 +1,29 @@
+{
+  "name": "code-explanation",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "npm run typecheck && node scripts/build.ts && node scripts/check-build.mjs"
+  },
+  "dependencies": {
+    "codehike": "1.1.0",
+    "pele": "1.6.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@mdx-js/rollup": "3.1.1",
+    "@types/mdx": "2.0.14",
+    "@types/node": "^24.0.0",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "parse5": "8.0.1",
+    "typescript": "5.9.3",
+    "vite": "8.3.4"
+  }
+}

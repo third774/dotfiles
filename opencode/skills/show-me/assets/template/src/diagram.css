@@ -1,0 +1,22 @@
+.explain-diagram {
+  min-width: 0;
+  margin-inline: 0;
+  --pele-font: system-ui, sans-serif;
+  --pele-font-mono: ui-monospace, monospace;
+}
+
+.explain-diagram-canvas {
+  width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.explain-diagram pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.explain-diagram :focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}

@@ -34,6 +34,9 @@ There is no dev-server command in the template.
 - `src/main.tsx` connects MDX code blocks to Code Hike's `Pre` component. Add
   annotation handlers and custom components here or in separate source modules
   as needed. `Pre` alone does not implement the documentation's annotations.
+- `src/diagram.tsx` registers the `Diagram` MDX component for Pele. Its effect
+  owns the mount and cleanup; `src/diagram.css` supplies component rules. Read
+  [the diagram reference](diagrams.md) before using or changing this wrapper.
 - `src/content.mdx` and `src/styles.css` are empty. Write the explanation and
   its presentation from the teaching outline. They are not content examples.
 - `index.html` contains only the document shell. Set its title for the explanation.
@@ -57,6 +60,8 @@ type assertions from documentation.
 - Do not depend on storage or clipboard APIs being available under `file://`.
   Provide a useful fallback if an optional feature needs one.
 - Do not inject source code as raw HTML. Let React and Code Hike escape it.
+  For diagrams, let Pele insert its generated SVG in the wrapper's isolated
+  container. Keep diagram links and images disabled.
 - A successful single-file build does not prove that third-party components
   work offline. Test the actual built file with normal browser security.
 

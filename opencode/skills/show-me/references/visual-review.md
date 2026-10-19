@@ -42,6 +42,9 @@ source code, DOM snapshot, or a previous agent's screenshots alone.
 - **Value of interaction:** Does each control make a relationship easier to see?
   If it only hides a few sentences, consider a static table or list. Use movement
   only when tracking continuity matters. Do not add features to meet a quota.
+- **Diagrams:** Are labels and arrows readable at both widths? Do relationships
+  match the source and nearby prose? Check resizing, source changes, error text,
+  and keyboard zoom. Check that narrow-screen layout changes keep the meaning.
 - **Reading order:** Is the main path clear, with supporting evidence and source
   metadata available without interrupting every idea? Keep essential rules and
   limits in the main path rather than behind hover or optional disclosures.

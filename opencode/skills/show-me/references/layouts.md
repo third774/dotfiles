@@ -66,6 +66,16 @@ overflow. At narrow widths, use normal document flow or place code with each
 section. Do not leave the reader with prose whose matching code is inaccessible.
 Scrolling must not move keyboard focus or require animation to understand a step.
 
+## Slideshow
+
+Source: [slideshow](https://codehike.org/docs/layouts/slideshow).
+
+Use this when a sequence benefits from explicit previous/next controls instead
+of scroll-driven selection. It is a custom React layout, not a built-in Code
+Hike component. Select each step's explanation, compiled code, and annotations
+together. Show the current step and handle the first and last step explicitly.
+Keep controls keyboard-accessible and do not require animation.
+
 ## Spotlight
 
 Source: [spotlight](https://codehike.org/docs/layouts/spotlight).

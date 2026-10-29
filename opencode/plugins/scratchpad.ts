@@ -60,7 +60,13 @@ function invalidFilename() {
 
 async function getGitExcludePath(directory: string): Promise<string | undefined> {
   try {
-    const { stdout } = await execFileAsync("git", ["-C", directory, "rev-parse", "--path-format=absolute", "--git-common-dir"]);
+    const { stdout } = await execFileAsync("git", [
+      "-C",
+      directory,
+      "rev-parse",
+      "--path-format=absolute",
+      "--git-common-dir",
+    ]);
     const gitDirectory = stdout.trim();
     return gitDirectory.length === 0 ? undefined : resolve(gitDirectory, "info", "exclude");
   } catch {
@@ -124,11 +130,19 @@ Use session_scratch_read to load specific files.`,
     await ctx.tool.transform((editor) => {
       editor.add({
         name: "session_scratch_write",
-        description: "Write content to a file in the session scratch space",
+        description: `Save session notes that must survive context compaction.
+For multi-step work, write the goal, constraints, key findings, decisions, checks, and next steps to index.md.
+Update it after important findings or changes in direction, and before a pause.
+This replaces the entire file. Keep notes brief. Skip scratch notes for simple requests.
+Do not store secrets, project source code, or private reasoning.
+Use separate files for large notes and link them from index.md.`,
         input: {
           type: "object",
           properties: {
-            filename: { type: "string", description: "Filename to write, relative to the scratch space" },
+            filename: {
+              type: "string",
+              description: "Filename to write, relative to the scratch space",
+            },
             content: { type: "string", description: "File content" },
           },
           required: ["filename", "content"],
@@ -151,11 +165,16 @@ Use session_scratch_read to load specific files.`,
 
       editor.add({
         name: "session_scratch_read",
-        description: "Read a file from the session scratch space",
+        description: `Read saved notes for this session.
+Read index.md when you resume work after compaction or an interruption, before you repeat an investigation.
+Read linked files as needed. Check saved findings against the current project state.`,
         input: {
           type: "object",
           properties: {
-            filename: { type: "string", description: "Filename to read, relative to the scratch space" },
+            filename: {
+              type: "string",
+              description: "Filename to read, relative to the scratch space",
+            },
           },
           required: ["filename"],
           additionalProperties: false,
@@ -175,7 +194,8 @@ Use session_scratch_read to load specific files.`,
 
       editor.add({
         name: "session_scratch_list",
-        description: "List files in the session scratch space",
+        description: `Find saved notes in this session when you do not know the filename.
+Start with index.md when it exists.`,
         input: {
           type: "object",
           properties: {},

@@ -10,6 +10,7 @@ macOS dotfiles for shell, terminal, editor, and agent tools.
 | Add a shell function | `utils.sh` |
 | Add a PATH entry | `.path` |
 | Set machine-specific values | `.localProfile` |
+| Change the default OpenCode model | `.localProfile` (`OPENCODE_MODEL`) |
 | Add a Homebrew package | `Brewfile` |
 | Change Git settings | `git/gitconfig` |
 | Change tmux settings | `.tmux.conf` |
@@ -20,7 +21,7 @@ macOS dotfiles for shell, terminal, editor, and agent tools.
 
 - Keep changes small and follow the existing structure.
 - Keep `script/setup` in sync when you add packages, config directories, symlinks, plugins, or machine requirements. It is the source of truth for a fresh setup.
-- Make setup steps safe to run more than once. Guard installs, use `ln -sfn` for symlinks, and check before appending config.
+- Make every setup step idempotent. It must be safe to run `script/setup` more than once. Guard installs, use `ln -sfn` for symlinks, and check before appending config.
 - Never commit `.localProfile`. Keep secrets and machine-specific values there.
 - Use `$HOME` instead of hardcoded home-directory paths.
 - Keep shell aliases in `.aliases` and functions in `utils.sh`.

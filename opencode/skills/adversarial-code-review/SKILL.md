@@ -176,6 +176,17 @@ Limit "Consider" comments to 2 maximum. More than that:
 
 If you have many "Consider" items, pick the 2 most valuable and drop the rest.
 
+## Verify Theories with Tests
+
+You may change tests to check your theories about the code. Do not only reason about a possible bug—show it.
+
+- When a theory about a bug is not clear, change or add a test to confirm it.
+- Run the test and look at the real result.
+- If the test fails, you found a potential bug. Report the test with your feedback.
+- If the test passes, the theory is not a problem. Do not report it.
+
+Restore or discard your temporary test changes before you give the review, unless the author asks for the test.
+
 ## What NOT to Flag
 
 - **Style preferences covered by linter/formatter** — Automation handles this
@@ -217,6 +228,10 @@ Structure findings clearly:
 ### Consider
 
 [Brief bullet points only - max 2 items]
+
+### Potential Failing Tests
+
+[Only if you found one. Include the test change and the failure output so the author can reproduce it.]
 ```
 
 ## When to Escalate

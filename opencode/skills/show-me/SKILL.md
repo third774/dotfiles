@@ -12,8 +12,9 @@ skill. Build an explanation, not just a view of highlighted code.
 
 ## Choose the delivery path
 
-Use the smallest view that answers the user's current question. Skip the
-preamble, keep prose brief, and put each visual next to the text it supports.
+Use the smallest view that answers the user's current question. Remove filler,
+not essential context. Keep prose brief, and put each visual next to the text it
+supports.
 
 - **Chat:** Prefer Markdown code blocks, trees, pseudocode, diffs, or a Mermaid
   diagram when they make the point clear. Do not build HTML just to display a
@@ -24,8 +25,9 @@ preamble, keep prose brief, and put each visual next to the text it supports.
 
 Both paths require source checks and clear labels for simplified examples and
 proposals. Follow sections 1–3 for either path. For chat, check the explanation
-against the source, send it, and stop. Build and browser checks in sections 4–5
-apply only to HTML output.
+against the source. If it has several sections or steps, do
+[the reader review](references/reader-review.md). Then send it and stop. Build
+and browser checks in sections 4–5 apply only to HTML output.
 
 ## Defaults and boundaries
 
@@ -77,7 +79,8 @@ Make a short internal teaching outline. Decide:
 1. **Goal:** What question will the explanation answer? What should the reader
    understand at the end?
 2. **Prerequisites:** Which project-specific terms or relationships must come
-   first? Assume language and framework knowledge unless told otherwise.
+   first? Define them before use. Assume language and framework knowledge
+   unless told otherwise.
 3. **Order:** Which concept and code excerpt should the reader see first, and
    why? Follow the learning dependencies, not file order or diff order.
 4. **Trace:** Would following one concrete input to its result clarify the
@@ -96,6 +99,22 @@ For a change, explain the prior behavior, the reason for the change when known,
 and the resulting behavior. Group related changes by purpose. Include unchanged
 code when it is needed to understand the change. Do not substitute a file-by-file
 diff summary for an explanation.
+
+Give the purpose and necessary context before the details that depend on them.
+Explain an unfamiliar concept when it first becomes relevant. The reader must be
+able to understand each point where it appears. Do not make the reader hold
+disconnected facts until later material supplies their meaning.
+
+Make connections between related ideas explicit. When an example helps, keep the
+same example through the related ideas, and state the relevant conditions and
+outcomes. Introduce a new topic by saying how it relates to the user's question
+or to what the reader already understands.
+
+Write headings that state a behavior, result, or question: "Retries stop after
+three failed attempts", not "Built to last". A reader who skims only the
+headings should learn the main points. Keep essential context in the main path.
+If it does not fit, reduce the scope or move supporting detail aside. Do not
+compress the explanation into labels or slogans.
 
 Do not impose a fixed chapter structure, visual layout, or number of steps.
 Choose these for the code and the user's question. Keep prose close to the code
@@ -207,11 +226,14 @@ starting a server or changing the delivery method.
    that limit; a successful build is not proof of browser behavior.
 4. Recheck the narrative against the source or both sides of the diff. Verify
    excerpt labels, highlights, change claims, and any simplified examples.
-5. Open the final artifact in the user's local browser with the platform opener
+5. Do [the reader review](references/reader-review.md) with a fresh subagent.
+   Fix the problems it finds, then recheck changed claims against the source.
+6. Open the final artifact in the user's local browser with the platform opener
    (`open` on macOS). If no local display is available, give the file path and
    state that the browser could not be opened.
 
-Report the HTML path, source scope, screenshot paths, and any unverified checks.
+Report the HTML path, source scope, screenshot paths, the reader review result,
+and any unverified checks.
 Keep the temporary source and build available for follow-up edits; warn that
 system temporary files can be removed. Do not delete the file after opening it.
 Stop any processes you started for verification.

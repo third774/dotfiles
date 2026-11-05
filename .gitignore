@@ -36,3 +36,5 @@ nvim/binaries
 /config/herdr/session.json
 /config/herdr/plugins.json
 /.opencode/__scratchpad_plugin_sessions
+# Machine-specific OpenCode config, loaded with opencode.jsonc (see AGENTS.md)
+/opencode/opencode.json

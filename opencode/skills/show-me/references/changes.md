@@ -14,8 +14,9 @@ language, not a raw unified diff passed to a syntax highlighter.
 
 Use diffs selectively when the claim depends on which lines changed, such as new
 allowlist entries or verification options. Do not make readers compare an entire
-unmarked list from memory. For a change between different structures, labelled
-before/after excerpts can be clearer. Do not force every section into diff form.
+unmarked list from memory. For related code, prefer token transitions for the
+before/after view; use a diff as needed to make specific changes clear. Do not
+force every section into diff form.
 
 The upstream implementation composes two handlers:
 
@@ -32,17 +33,36 @@ the new code, or the displayed comparison.
 
 Build excerpts from the actual comparison. Include enough unchanged context to
 locate the change, and label original paths, revisions, and line ranges for each
-side. Reordering or combining excerpts must not suggest that unrelated lines
-were adjacent. Use separate before/after panels when an interleaved comparison
-would obscure control flow.
+side. For separate before/after panels, give each block a source title with its
+revision, such as `src/store.ts:40-52 before (a1b2c3d)` and
+`src/store.ts:40-55 after (working tree)`. Each panel then shows its own
+original line numbers. An interleaved diff contains lines from both sides, so
+one line-number sequence cannot be correct. Give it a title without a range,
+such as `src/store.ts (a1b2c3d → working tree)`, and state both line ranges in
+that title or in the prose. Reordering or combining excerpts must not suggest
+that unrelated lines were adjacent. If an interleaved diff would obscure control
+flow, use a transition between complete excerpts or, when both must be visible,
+separate panels.
 
 ## Token transitions
 
 Source: [token transitions](https://codehike.org/docs/code/token-transitions).
 
-Use token movement when readers need to track what stays the same as code
-changes. Do not use it merely because a code panel changes. A transition between
-two excerpts is not evidence that Git identifies them as corresponding changes.
+For an HTML before/after comparison of related code, use token transitions by
+default. For example, a pipeline with changed branches but shared calls should
+transition between versions rather than display two unannotated panels. Provide
+labelled controls to select either version and update the source title, revision,
+and original line numbers with the selected excerpt. Explain the behavior changes
+with prose and appropriate annotations; motion alone is not a diff or evidence
+that Git identifies tokens as corresponding changes.
+
+Use separate panels when readers need both versions visible at once to understand
+the comparison. For example, persistent callouts, focus, marks, or tooltips on
+both versions may need simultaneous inspection, or the structures may be too
+different for movement to clarify their relationship. Choose this for a specific
+teaching benefit, not merely because the excerpts have different line numbers.
+Keep both panels readable and label each side. Do not animate unrelated code just
+because a panel changes.
 
 The upstream pattern uses these exports from `codehike/utils/token-transitions`:
 

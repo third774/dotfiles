@@ -1,0 +1,55 @@
+.mention-scope {
+  --mention-text-highlight: rgb(242 204 96 / 0.3);
+  --mention-code-highlight: rgb(242 204 96 / 0.16);
+  --mention-code-marker: rgb(242 204 96);
+  --mention-dim-opacity: 0.4;
+}
+
+.mention {
+  padding: 0;
+  border: 0;
+  border-radius: 0.2em;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline dotted;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.mention:hover,
+.mention:focus-visible,
+.mention[aria-pressed="true"] {
+  background: var(--mention-text-highlight);
+}
+
+.mention[aria-pressed="true"] {
+  text-decoration-style: solid;
+}
+
+.mention:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.mention-scope [data-mention-line][data-mention-on] {
+  background: var(--mention-code-highlight);
+  box-shadow: inset 3px 0 0 var(--mention-code-marker);
+}
+
+.mention-scope span[data-mention-on] {
+  background: var(--mention-code-highlight);
+  outline: 1px solid var(--mention-code-marker);
+  border-radius: 2px;
+}
+
+.mention-scope[data-mention-active]
+  [data-mention-line]:not([data-mention-on]):not(:has([data-mention-on])) {
+  opacity: var(--mention-dim-opacity);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mention-scope [data-mention-line] {
+    transition: opacity 150ms ease;
+  }
+}

@@ -1,6 +1,6 @@
 # Code blocks and annotations
 
-For Code Hike 1.1.0. Checked against upstream documentation on 2026-10-15.
+For Code Hike 1.1.0. Checked against upstream documentation on 2026-11-05.
 These are implementation notes, not a required presentation design. Examples
 belong in the generated app only when needed; keep the shared template empty.
 
@@ -10,15 +10,19 @@ Sources: [code blocks](https://codehike.org/docs/concepts/code),
 [annotations](https://codehike.org/docs/concepts/annotations).
 
 The template compiles highlighting through `remarkCodeHike` and `recmaCodeHike`.
-Its MDX `Code` component receives a `codeblock: HighlightedCode` prop. Pass that
-object to `<Pre code={codeblock} style={codeblock.style} handlers={handlers} />`.
-Import `Pre`, `HighlightedCode`, and `AnnotationHandler` from `codehike/code`.
-Do not copy the upstream async `highlight(RawCode, theme)` examples into browser
-rendering. Highlight during the build.
+Its MDX `Code` component, in `src/code.tsx`, receives a
+`codeblock: HighlightedCode` prop and renders it with `CodeBlock`. `CodeBlock`
+adds the [file name and line numbers](views.md#file-names-and-line-numbers) and
+passes its `handlers` to `Pre`. Import `Pre`, `HighlightedCode`, and
+`AnnotationHandler` from `codehike/code`. Do not copy the upstream async
+`highlight(RawCode, theme)` examples into browser rendering. Highlight during
+the build.
 
-Each annotation needs a handler with the same `name`. Pass all required handlers
-to `Pre`; also write the CSS and components they use. Names such as `focus` and
-`mark` are conventions, not features enabled by the template.
+Each annotation needs a handler with the same `name`. Also write the CSS and
+components the handler uses. The template's `Code` component passes only the
+[`mention`](#code-mentions) handler to `CodeBlock`; add other handlers to the
+same array. Names such as `focus` and `mark` are conventions, not features
+enabled by the template.
 
 ## Annotation syntax
 
@@ -71,9 +75,10 @@ also preserves indentation on continuation lines: its `Line` component uses
 in `ch` units. Its `Token` component resets `textIndent` to zero. Use `InnerPre`,
 `InnerLine`, and `InnerToken` to preserve handler composition.
 
-Check the combined CSS and handlers, not the wrap handler alone. Line-number
-wrappers and rules such as `min-width: max-content` can prevent wrapping. Keep
-line numbers outside the wrapping text, allow the code column to shrink, and
+Check the combined CSS and handlers, not the wrap handler alone. Rules such as
+`min-width: max-content` can prevent wrapping. The template's line-number gutter
+is a separate flex item beside `.code-line-content`, which can shrink. Apply
+wrapping to the code content, keep the gutter outside it, and
 check that annotations cover all visual rows of a wrapped source line. Wrapping
 must not change source text or create extra source line numbers.
 
@@ -136,17 +141,62 @@ operator, option, or field; use a callout when its meaning needs a visible note.
 
 Source: [code mentions](https://codehike.org/docs/code/code-mentions).
 
-The upstream pattern pairs `[description](hover:target)` in prose with
-`// !hover target` on a code line. A custom MDX `a` component recognizes the
-`hover:` prefix. The handler exposes `annotation.query` as a data attribute on
-the target line. A common container scopes the prose and the code.
+Code mentions are the default way to point from prose to code in HTML output.
+The template implements them in `src/mentions.tsx` and registers them in
+`src/main.tsx`. Do not write a new handler. In the copied app's MDX:
 
-The docs use CSS `:has()` and hover selectors for each target. For keyboard and
-touch use, render mention controls as buttons, and use focus and activation as
-well as hover. For many targets, use local React context with a selected target
-instead of generating one CSS rule per identifier. Keep normal links as links.
-Scope target identifiers to their code block so repeated names do not activate
-unrelated excerpts. Keep the explanation understandable when no target is active.
+````mdx
+<MentionScope>
+
+The [empty-input check](mention:guard) returns before the store call. Otherwise
+the handler [saves the parsed value](mention:save) and returns its
+[generated id](mention:id).
+
+```ts src/handler.ts:12-17
+export function handle(input: string) {
+  // !mention guard
+  if (input === "") return null
+  // !mention(1:2) save
+  const value = parse(input)
+  const record = store.save(value)
+  // !mention[/record\.id/] id
+  return record.id
+}
+```
+
+</MentionScope>
+````
+
+This is a syntax example, not a required narrative. The pieces:
+
+- `[phrase](mention:target)` renders the phrase as a toggle button. Other links
+  stay normal links.
+- `// !mention target` marks the next line. `// !mention(1:3) target` marks a
+  line range, and `// !mention[/regex/] target` marks tokens. One line can have
+  one line-level target.
+- `<MentionScope>` groups the prose and the code blocks it refers to. Target
+  names resolve only inside their scope, so repeat short names such as `guard`
+  in other scopes. Scopes cannot nest. Use one scope for each section or
+  excerpt, not one for the whole page.
+
+Hover or keyboard focus previews a target. A click or tap pins it; a second
+click or Escape clears it. The active target gets a highlight and a side marker,
+and the other lines of each annotated block in the scope are dimmed. The scope
+logs a console error for a mention without an annotation, or an annotation
+without a mention. Treat these errors as failed verification.
+
+Use mentions wherever a sentence says "this check", "the second call", "the
+fallback", or names a value that the reader must find in the excerpt. A static
+mark shows one fixed point; mentions let each sentence select its own evidence.
+Write prose that is complete without interaction; the mention adds the location.
+
+Keep mention phrases to a few words, because a button does not wrap across
+lines. Target the smallest expression or branch that proves the sentence. Put
+the scope's code next to its prose so the reader can see both together. To
+change colors for the page, set `--mention-text-highlight`,
+`--mention-code-highlight`, `--mention-code-marker`, and `--mention-dim-opacity`
+on `.mention-scope` in `src/styles.css`. Do not combine mentions with a
+[focus](#focus) handler on the same block unless their dimming styles agree.
 
 ## Callouts
 

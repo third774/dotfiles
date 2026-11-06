@@ -25,6 +25,14 @@ source code, DOM snapshot, or a previous agent's screenshots alone.
 - **Evidence:** Can the reader locate the expression or branch that proves the
   visible claim? Does each selected explanation show its matching evidence?
   Check called-function behavior at its implementation, not only its call site.
+- **Source location:** Does each excerpt of a codebase file show its file name
+  and original line numbers? Do the numbers match the source at the cited
+  revision? Do sketches and proposals have no source range? The page must not
+  show a code range error.
+- **Mentions:** Does each sentence that refers to a specific line, branch, or
+  expression have a code mention? Does each mention select the code that proves
+  its sentence, in the adjacent excerpt? Check hover, keyboard focus, click to
+  pin, and Escape. The console must not show mention errors.
 - **Attention:** Does a mark distinguish a useful target within its excerpt?
   Remove broad marks that add no guidance. Keep unrelated failure branches out
   of successful-path selections.

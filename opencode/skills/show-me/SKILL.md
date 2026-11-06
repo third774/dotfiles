@@ -91,7 +91,8 @@ Make a short internal teaching outline. Decide:
 7. **Presentation:** What does each code view or diagram help the reader understand?
 
 For each main claim about existing code, identify the exact expression or branch
-that proves it and how the reader will find it. For each interactive state, plan
+that proves it and how the reader will find it. In HTML, this is usually a code
+mention from the claim's phrase to that expression. For each interactive state, plan
 its explanation, code excerpt, and annotation target together. A source citation helps readers
 check evidence; it does not replace showing the code needed to understand it.
 
@@ -124,15 +125,15 @@ it explains. Explain mechanisms and consequences rather than restating syntax.
 
 Choose a representation before choosing a component:
 
-| Question | Smallest useful view |
-| --- | --- |
-| What does this logic do? | Pseudocode, with relevant branches and side effects |
-| What calls what, and in what order? | Call tree |
-| Which component owns this state or behavior? | Component tree with relevant state and module boundaries |
-| Where do responsibilities belong? | Shallow file tree with short responsibility labels |
-| What changes? | A diff of source, a tree, or pseudocode; label structural sketches |
-| What is the complete target? | A whole block when most of it is new, omissions hide ownership or order, or the reader needs a copyable result |
-| How do parts exchange data or change state? | Mermaid diagram |
+| Question                                     | Smallest useful view                                                                                           |
+| -------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| What does this logic do?                     | Pseudocode, with relevant branches and side effects                                                            |
+| What calls what, and in what order?          | Call tree                                                                                                      |
+| Which component owns this state or behavior? | Component tree with relevant state and module boundaries                                                       |
+| Where do responsibilities belong?            | Shallow file tree with short responsibility labels                                                             |
+| What changes?                                | A diff of source, a tree, or pseudocode; label structural sketches                                             |
+| What is the complete target?                 | A whole block when most of it is new, omissions hide ownership or order, or the reader needs a copyable result |
+| How do parts exchange data or change state?  | Mermaid diagram                                                                                                |
 
 Keep only the calls, files, props, states, and boundaries needed for the question.
 Use one view or a few complementary views, not every representation.
@@ -149,20 +150,35 @@ local reference does not cover a required detail. Annotation comments alone do
 not create the features; implement the corresponding components, handlers, and
 styles.
 
-| Teaching need | Tools to consider |
-| --- | --- |
-| Show relationships, boundaries, state changes, or a message sequence | [Pele diagrams](references/diagrams.md), with nearby source evidence |
-| Follow execution, a lifecycle, or data movement | [Scrollycoding](references/layouts.md#scrollycoding), changing [focus](references/annotations.md#focus) |
-| Connect prose to an exact line or expression | [Code mentions](references/annotations.md#code-mentions), [callouts](references/annotations.md#callouts), [marks](references/annotations.md#marks) |
-| Compare behavior or show a change | [Diffs](references/changes.md#diffs), [token transitions](references/changes.md#token-transitions) |
-| Explore independent topics or files | [Spotlight](references/layouts.md#spotlight), [tabs](references/layouts.md#tabs) |
-| Keep supporting detail available without distraction | [Fold](references/supporting-detail.md#fold), [collapse](references/supporting-detail.md#collapse), [footnotes](references/supporting-detail.md#footnotes) |
-| Read long expressions in a narrow panel | [Word wrap](references/annotations.md#word-wrap), a wider or shorter excerpt |
+| Teaching need                                                        | Tools to consider                                                                                                                                            |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Show relationships, boundaries, state changes, or a message sequence | [Pele diagrams](references/diagrams.md), with nearby source evidence                                                                                         |
+| Follow execution, a lifecycle, or data movement                      | [Scrollycoding](references/layouts.md#scrollycoding), changing [focus](references/annotations.md#focus)                                                      |
+| Connect prose to an exact line or expression                         | [Code mentions](references/annotations.md#code-mentions) (default), [callouts](references/annotations.md#callouts), [marks](references/annotations.md#marks) |
+| Compare behavior or show a change                                    | [Token transitions](references/changes.md#token-transitions) (default for related code), [diffs](references/changes.md#diffs)                                |
+| Explore independent topics or files                                  | [Spotlight](references/layouts.md#spotlight), [tabs](references/layouts.md#tabs)                                                                             |
+| Keep supporting detail available without distraction                 | [Fold](references/supporting-detail.md#fold), [collapse](references/supporting-detail.md#collapse), [footnotes](references/supporting-detail.md#footnotes)   |
+| Read long expressions in a narrow panel                              | [Word wrap](references/annotations.md#word-wrap), a wider or shorter excerpt                                                                                 |
 
-Use interaction only when it improves understanding. Do not use every feature.
-Make essential explanations available without hover. Support keyboard use,
-narrow screens, visible focus, and reduced motion. Do not rely on color alone
-to distinguish additions, removals, or important lines.
+In HTML, use [code mentions](references/annotations.md#code-mentions) by
+default. When a sentence refers to a line, branch, value, or expression in a
+nearby excerpt, make that phrase a mention of the matching code. The template
+implements them; only write the `mention:` links, `// !mention` annotations,
+and `<MentionScope>` wrappers. Most excerpts that support prose need at least
+one mention. Use static marks or callouts in addition when a point must stay
+visible without interaction.
+
+For an HTML before/after comparison of related code, default to one code panel
+with [token transitions](references/changes.md#token-transitions) and controls
+for both versions. Use separate panels only when showing both at once has a
+clear teaching benefit, such as persistent callouts, focus, marks, or tooltips
+that readers must compare across versions. Explain the changes in prose; do not
+rely on animation alone.
+
+Use other interaction only when it improves understanding. Make essential
+explanations available without hover. Support keyboard use, narrow screens,
+visible focus, and reduced motion. Do not rely on color alone to distinguish
+additions, removals, or important lines.
 
 When a control selects a code explanation, select the matching excerpt or focus
 range with it. If several choices use the same code, make their relevant targets
@@ -171,19 +187,24 @@ or list instead. Do not add animation, tabs, or scrolling just to use a feature.
 
 Mark the smallest useful expression or branch. If the claim describes a called
 function's behavior, show that function's relevant code, not just its call site.
-Use selective diffs when readers need to distinguish changed and unchanged lines;
-use separate before/after panels when comparing different structures is clearer.
+Use selective diffs when readers need to distinguish changed and unchanged lines.
 
 Keep code readable at normal browser zoom. Do not solve overflow by shrinking
 the text. Use wrapping, shorter excerpts, or a wider panel. At narrow widths,
 keep each explanation next to its evidence rather than only stacking a long
 control list above a large code panel.
 
-Keep excerpts faithful to the source. Identify source paths and original line
-ranges separately from excerpt line numbers. For a diff, identify the revision
-for each side. Label omissions and simplified examples. Add annotation comments
-only to the explanation's copies, not the source. Verify ranges after edits.
-Do not execute the code being explained merely to display it.
+Keep excerpts faithful to the source. In HTML, give every excerpt of a codebase
+file a [source title](references/views.md#file-names-and-line-numbers):
+`path:start-end` after the fence language, with an optional revision or side
+label. The template then shows the file name and the original line numbers. Use
+the path relative to the repository root. Keep each excerpt contiguous; for a
+gap, use separate blocks. Do not give a source range to sketches, pseudocode, or
+proposed code; give them a descriptive title instead. In chat, put the path and
+line range next to each excerpt. For a diff, identify the revision for each
+side. Label simplified examples. Add annotation comments only to the
+explanation's copies, not the source. Verify ranges after edits. Do not execute
+the code being explained merely to display it.
 
 ## 4. Create and build
 

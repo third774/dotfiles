@@ -31,9 +31,17 @@ There is no dev-server command in the template.
 - `scripts/build.ts` builds with Vite in memory, parses the generated HTML, and
   inlines its JavaScript and CSS. It rejects leftover resources and writes only
   `dist/index.html`.
-- `src/main.tsx` connects MDX code blocks to Code Hike's `Pre` component. Add
-  annotation handlers and custom components here or in separate source modules
-  as needed. `Pre` alone does not implement the documentation's annotations.
+- `src/main.tsx` registers the MDX components. Add custom components here or in
+  separate source modules as needed.
+- `src/code.tsx` connects MDX code blocks to Code Hike's `Pre` component. Its
+  `CodeBlock` component renders the
+  [file name and line numbers](views.md#file-names-and-line-numbers) from the
+  fence metadata, and passes annotation handlers to `Pre`. Add handlers to the
+  `Code` component's array. `Pre` alone does not implement the documentation's
+  annotations. `src/code.css` supplies the title, gutter, and error rules.
+- `src/mentions.tsx` implements [code mentions](annotations.md#code-mentions):
+  the `MentionScope` MDX component, the `a` component for `mention:` links, and
+  the `mention` handler. `src/mentions.css` supplies their rules.
 - `src/diagram.tsx` registers the `Diagram` MDX component for Pele. Its effect
   owns the mount and cleanup; `src/diagram.css` supplies component rules. Read
   [the diagram reference](diagrams.md) before using or changing this wrapper.

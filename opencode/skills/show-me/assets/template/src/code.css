@@ -1,0 +1,38 @@
+.code-block {
+  min-width: 0;
+  margin-inline: 0;
+}
+
+.code-block figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25em 0.75em;
+  align-items: baseline;
+}
+
+.code-path {
+  overflow-wrap: anywhere;
+}
+
+.code-error {
+  padding: 0.5em 0.75em;
+  border: 2px solid currentColor;
+  font-family: ui-monospace, monospace;
+}
+
+.code-line {
+  display: flex;
+}
+
+.code-line-number {
+  flex: none;
+  padding-inline-end: 1.5ch;
+  text-align: right;
+  opacity: 0.5;
+  user-select: none;
+}
+
+.code-line-content {
+  flex: 1;
+  min-width: 0;
+}

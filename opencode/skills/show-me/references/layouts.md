@@ -24,7 +24,10 @@ assume that a raw `CodeBlock` schema describes build-highlighted code; match the
 schema to the compilation settings and the installed package's exports.
 
 Alternatively, compose custom React components directly in MDX. Keep highlighted
-code compiled at build time in either approach. Model each step as one unit
+code compiled at build time in either approach. Render each code panel with the
+template's `CodeBlock` component from `src/code.tsx`, not with a bare `Pre`, so
+that source excerpts keep their
+[file names and line numbers](views.md#file-names-and-line-numbers). Model each step as one unit
 containing its label, prose, code, and source reference. Do not synchronize
 separate prose and code arrays by unchecked numeric indices. Validate that the
 sequence is nonempty before rendering a selected step.

@@ -8,7 +8,10 @@
     "leader": "ctrl+o",
     "model.cycle_favorite": "ctrl+s"
   },
-  "plugins": [],
+  "plugins": [
+    "-opencode.sidebar.context",
+    "@streetturtle/opencode-context-progress@latest"
+  ],
   "diffs": {
     "wrap": "word",
     "single": true

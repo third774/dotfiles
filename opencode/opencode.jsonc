@@ -111,7 +111,11 @@
     { "action": "shell", "resource": "yarn publish *", "effect": "deny" },
 
   ],
-  "plugins": ["@plannotator/opencode@latest", "github:eli0shin/opencode-tree"],
+  "plugins": [
+    "@plannotator/opencode@latest",
+    "github:eli0shin/opencode-tree",
+    "opencode-usage-limits@0.3.3"
+  ],
   "mcp": {
     "servers": {
       "chrome-devtools": {

@@ -38,3 +38,4 @@ nvim/binaries
 /.opencode/__scratchpad_plugin_sessions
 # Machine-specific OpenCode config, loaded with opencode.jsonc (see AGENTS.md)
 /opencode/opencode.json
+/config/herdr/session-snapshots

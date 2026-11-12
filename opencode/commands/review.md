@@ -1,5 +1,5 @@
 ---
-description: Run 3 parallel code reviews, then synthesize findings
+description: Run 4 parallel code reviews, then synthesize findings
 subagent: false
 ---
 
@@ -30,13 +30,13 @@ Review only. Do not modify repository files or run commands that change reposito
 2. **State the interpretation:** Before starting reviewers, output:
    - `Reviewing: [target]`, including the comparison base for a branch review.
    - `Focus: [areas]` when focus areas were provided.
-3. **Start three parallel review calls:** Call `review-opus`, `review-gemini`, and `review-codex` directly. Give each:
+3. **Start four parallel review calls:** Call `review-opus`, `review-gemini`, `review-codex`, and `review-kimi` directly. Give each:
    - `Original /review arguments:` followed by the exact preserved arguments, even when empty.
    - The same selected target, comparison base, diff, and relevant untracked file contents.
    - The parsed focus areas, if provided.
    - Instructions to explore callers, importers, types, tests, and adjacent code independently.
    - Instructions to work read-only, start no other subagents, and state if the review could not be completed.
-4. **Wait for all three review calls:**
+4. **Wait for all four review calls:**
    - Track each reviewer as completed, failed, or incomplete. A failed call, empty response, or partial review is not a completed review.
    - Record the exact available error or stated reason for failures and incomplete reviews. Do not infer a cause that was not reported.
    - Continue with completed reviews when possible. If none completed, report an incomplete review with the available errors and stop.
@@ -54,7 +54,7 @@ Review only. Do not modify repository files or run commands that change reposito
    - Wait for all validation calls. Treat failed calls, missing results, and uncertain results as UNVERIFIED, not INVALID. Preserve available errors or stated reasons.
 7. **Report results:**
    - Include only VALID issues in the findings sections. List UNVERIFIED issues separately with the reason they could not be checked. Omit INVALID issues.
-   - Mark the review complete only if all three reviewers completed and every required validation returned VALID or INVALID.
+   - Mark the review complete only if all four reviewers completed and every required validation returned VALID or INVALID.
    - Otherwise, mark it incomplete, identify the failed or incomplete steps, and report the available errors or reasons.
    - Report no findings only when the review is complete and no validated issues remain. A failed or incomplete review is not a clean result.
 

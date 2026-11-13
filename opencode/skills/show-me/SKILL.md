@@ -37,6 +37,9 @@ and browser checks in sections 4–5 apply only to HTML output.
   project, explain the application of Effect in this code, not Effect itself.
 - Proceed without approval of a teaching outline. Ask only when missing
   information prevents a useful explanation.
+- Link every pull request or merge request reference to the actual request, in
+  chat and HTML. Verify the URL; do not guess it. If the URL cannot be verified,
+  omit the reference or ask for the URL when the reference is essential.
 - Create new apps in a unique temporary directory. Use the approved temporary
   path from the session environment when supplied; otherwise use the system
   temporary directory. Do not assume a session-specific directory exists.

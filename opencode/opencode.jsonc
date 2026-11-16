@@ -114,7 +114,8 @@
   "plugins": [
     "@plannotator/opencode@latest",
     "github:eli0shin/opencode-tree",
-    "opencode-usage-limits@0.3.3"
+    "opencode-usage-limits@0.3.3",
+    "opencode-mobile-notifications"
   ],
   "mcp": {
     "servers": {

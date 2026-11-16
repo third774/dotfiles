@@ -2,12 +2,15 @@
 
 - Always use ASD-STE100 Simplified Technical English
 
+# Scope of action
+
+- Do only the actions that the user asks for.
+- If the user asks a question, give the answer. Do not start actions.
+
 # Code Quality Standards
 
-- Make minimal, surgical changes
 - **Never compromise type safety**: No `any`, no non-null assertion operator (`!`), no type assertions (`as Type`)
 - **Make illegal states unrepresentable**: Model domain with ADTs/discriminated unions; parse inputs at boundaries into typed structures; if state can't exist, code can't mishandle it
-- **Abstractions**: Consciously constrained, pragmatically parameterised, doggedly documented.
 - **Remove obsolete references**: When deleting or changing behavior, remove related tests, comments, and documentation that no longer apply. Do not replace them with assertions or explanations that the old behavior is absent, unless that absence is an explicit requirement. Test and describe current behavior directly.
 
 ## Philosophy

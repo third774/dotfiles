@@ -40,7 +40,6 @@
     { "action": "shell", "resource": "pwd", "effect": "allow" },
     { "action": "shell", "resource": "rg *", "effect": "allow" },
     { "action": "shell", "resource": "sg *", "effect": "allow" },
-    { "action": "shell", "resource": "rm *", "effect": "deny" },
     { "action": "shell", "resource": "trash *", "effect": "ask" },
     { "action": "shell", "resource": "which *", "effect": "allow" },
     { "action": "shell", "resource": "whoami", "effect": "allow" },

@@ -113,6 +113,7 @@
   "plugins": [
     "@plannotator/opencode@latest",
     "github:eli0shin/opencode-tree",
+    "github:third774/opencode-decision-models",
     "opencode-usage-limits@0.3.3",
     "opencode-mobile-notifications"
   ],

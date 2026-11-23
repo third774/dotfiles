@@ -16,7 +16,67 @@
   overflow-wrap: anywhere;
 }
 
-.explain-diagram :focus-visible {
+.explain-diagram :focus-visible,
+.diagram-scope .diagram-target:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 3px;
+}
+
+.diagram-scope {
+  --diagram-highlight-border: var(--pele-accent, #2563eb);
+  --diagram-highlight-shadow: rgb(37 99 235 / 0.25);
+  --diagram-dim-opacity: 0.38;
+  --diagram-edge-dim-opacity: 0.45;
+}
+
+.diagram-scope .diagram-target {
+  cursor: pointer;
+}
+
+.diagram-scope .diagram-target[data-diagram-on] {
+  border-color: var(--diagram-highlight-border);
+  box-shadow:
+    0 0 0 2px var(--diagram-highlight-border),
+    0 4px 12px var(--diagram-highlight-shadow);
+}
+
+.diagram-scope[data-diagram-active] .diagram-target:not([data-diagram-on]) {
+  opacity: var(--diagram-dim-opacity);
+}
+
+.explain-diagram-canvas [data-diagram-linked] {
+  cursor: pointer;
+}
+
+.explain-diagram-canvas[data-diagram-has-active-node] .pele-node:not([data-diagram-on]) {
+  opacity: var(--diagram-dim-opacity);
+}
+
+.explain-diagram-canvas[data-diagram-has-active-node] .pele-edge {
+  opacity: var(--diagram-edge-dim-opacity);
+}
+
+.explain-diagram-canvas[data-diagram-has-active-cluster] .pele-cluster:not([data-diagram-on]) {
+  opacity: var(--diagram-dim-opacity);
+}
+
+.explain-diagram-canvas [data-diagram-linked][data-diagram-on] {
+  filter: drop-shadow(0 0 3px var(--diagram-highlight-shadow));
+}
+
+.explain-diagram-canvas [data-diagram-linked][data-diagram-on] > :is(rect, polygon, circle, ellipse, path) {
+  stroke-width: 2.5px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .diagram-scope .diagram-target,
+  .explain-diagram-canvas .pele-node,
+  .explain-diagram-canvas .pele-cluster,
+  .explain-diagram-canvas .pele-edge {
+    transition:
+      opacity 150ms ease,
+      box-shadow 150ms ease,
+      border-color 150ms ease,
+      filter 150ms ease;
+  }
 }

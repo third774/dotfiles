@@ -51,8 +51,13 @@ source code, DOM snapshot, or a previous agent's screenshots alone.
   If it only hides a few sentences, consider a static table or list. Use movement
   only when tracking continuity matters. Do not add features to meet a quota.
 - **Diagrams:** Are labels and arrows readable at both widths? Do relationships
-  match the source and nearby prose? Check resizing, source changes, error text,
-  and keyboard zoom. Check that narrow-screen layout changes keep the meaning.
+  match the source and nearby prose? When showing changes, are status labels
+  (`NEW`, `CHANGED`, `EXISTING`, `REMOVED`) and a legend naming the comparison
+  base present in text as well as color? When a diagram has companion
+  explanation tiles, verify `<DiagramScope>` linking on hover, keyboard focus,
+  click to pin, and Escape, and confirm the console has no unmatched node-ID
+  errors. Check resizing, source changes, error text, and keyboard zoom. Check
+  that narrow-screen layout changes keep the meaning.
 - **Reading order:** Is the main path clear, with supporting evidence and source
   metadata available without interrupting every idea? Keep essential rules and
   limits in the main path rather than behind hover or optional disclosures.

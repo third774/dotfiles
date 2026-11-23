@@ -42,9 +42,11 @@ There is no dev-server command in the template.
 - `src/mentions.tsx` implements [code mentions](annotations.md#code-mentions):
   the `MentionScope` MDX component, the `a` component for `mention:` links, and
   the `mention` handler. `src/mentions.css` supplies their rules.
-- `src/diagram.tsx` registers the `Diagram` MDX component for Pele. Its effect
-  owns the mount and cleanup; `src/diagram.css` supplies component rules. Read
-  [the diagram reference](diagrams.md) before using or changing this wrapper.
+- `src/diagram.tsx` registers the `Diagram`, `DiagramScope`, and `DiagramTarget`
+  MDX components for Pele and interactive diagram-to-explanation highlighting.
+  `Diagram`'s effect owns the mount and cleanup; `src/diagram.css` supplies
+  component and highlight rules. Read [the diagram reference](diagrams.md)
+  before using or changing this wrapper.
 - `src/content.mdx` and `src/styles.css` are empty. Write the explanation and
   its presentation from the teaching outline. They are not content examples.
 - `index.html` contains only the document shell. Set its title for the explanation.

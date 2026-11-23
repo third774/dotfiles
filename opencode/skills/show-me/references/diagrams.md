@@ -68,6 +68,72 @@ Keep this wrapper small. Do not expose arbitrary render options, icon markup,
 or navigation handlers to diagram content. If an existing destination uses a
 different component structure, preserve these ownership and cleanup rules.
 
+## Linking diagram nodes to explanations
+
+When a diagram is paired with companion explanation tiles, cards, or step notes,
+link them with `DiagramScope` and `DiagramTarget` from `src/diagram.tsx` (both
+are registered for MDX in `src/main.tsx`).
+
+```mdx
+<DiagramScope>
+
+<Diagram
+  title="Service dependencies"
+  description="Arrows show dependencies, not execution order."
+  source={`flowchart TD
+    accTitle: Service dependencies
+    accDescr: LoginSessions depends on LoginSessionStore and RegistryTokens.
+    LoginSessions[LoginSessions · NEW]:::new --> LoginSessionStore[LoginSessionStore · NEW]:::new
+    LoginSessions --> RegistryTokens[RegistryTokens · CHANGED]:::changed
+    RegistryTokens --> RegistryTokenStore[RegistryTokenStore · CHANGED]:::changed
+    classDef new fill:#edf7f0,stroke:#2d6a4f
+    classDef changed fill:#fdf3e7,stroke:#b45309`}
+/>
+
+<div className="tiles">
+  <DiagramTarget nodes="LoginSessions" className="tile">
+    <span className="badge">NEW</span>
+    <h3>LoginSessions</h3>
+    <p>Coordinates session lifecycle and delegates token issuance.</p>
+  </DiagramTarget>
+
+  <DiagramTarget nodes={["RegistryTokens", "RegistryTokenStore"]} className="tile">
+    <span className="badge">CHANGED</span>
+    <h3>RegistryTokens + store</h3>
+    <p>Adds login-specific token issuance in a single database batch.</p>
+  </DiagramTarget>
+</div>
+
+</DiagramScope>
+```
+
+How linking works:
+
+- Pass a single Mermaid node (or subgraph/cluster) ID as `nodes="NodeId"` or a
+  list of IDs as `nodes={["NodeA", "NodeB"]}` to `<DiagramTarget>`. Multiple
+  targets may also reference the same node ID (for example, a shared service
+  involved in several flow steps).
+- Hovering or keyboard-focusing a linked diagram node highlights that node and
+  every matching `<DiagramTarget>`, while dimming unrelated targets and diagram
+  nodes. Hovering or focusing a `<DiagramTarget>` highlights that target and
+  every diagram node in its `nodes` list, dimming the rest.
+- Clicking a linked node or target (or pressing Enter or Space when focused)
+  pins the selection; activating it again or pressing Escape clears it. Links
+  and buttons inside a `<DiagramTarget>` still work normally without toggling
+  the pin.
+- Diagram nodes not referenced by any `<DiagramTarget>` stay non-interactive so
+  contextual nodes (such as entry routes or databases explained elsewhere) do
+  not dim unrelated tiles on hover.
+- `<DiagramScope>` cannot nest, and `<DiagramTarget>` must be inside a
+  `<DiagramScope>`. The scope logs a console error if a `<DiagramTarget>`
+  references a node ID that is missing from every `<Diagram>` in the scope.
+  Treat these errors as failed verification.
+- Keep all explanation text visible without interaction; linking adds visual
+  correspondence, not hidden content.
+- To customize highlight and dim styles in `src/styles.css`, set
+  `--diagram-highlight-border`, `--diagram-highlight-shadow`,
+  `--diagram-dim-opacity`, and `--diagram-edge-dim-opacity` on `.diagram-scope`.
+
 ## Offline use and styling
 
 The wrapper disables links and images. Images can trigger network requests;
@@ -79,7 +145,11 @@ Keep Pele's source, output, and edge limits enabled.
 `.explain-diagram` in the copied app's styles to match its background and text:
 `--pele-bg`, `--pele-fg`, `--pele-muted`, `--pele-line`, `--pele-surface`,
 `--pele-surface-alt`, `--pele-border`, and `--pele-accent`. Check contrast for
-each theme. Prefer these variables to fixed colors in Mermaid source.
+each theme. Prefer these variables to fixed colors in Mermaid source. When a
+change diagram uses Mermaid `classDef` fills and strokes to distinguish status
+(`NEW`, `CHANGED`, `EXISTING`, `REMOVED`), pair them with explicit status text
+in the node labels and a visible legend, and check label contrast against each
+fill.
 
 The wrapper sets system font variables before mounting, so measurement and
 display use the same fonts. If controls later change fonts, call `refresh()` on
@@ -89,7 +159,10 @@ the active mount or remount it. Color-variable changes do not need a new render.
 
 Test the built file offline at desktop and mobile widths. Check readable labels,
 arrow direction, container resizing, multiple diagrams, error text, source
-changes, zoom, keyboard use, and unmount cleanup. Some layouts change direction
-at narrow widths; confirm that the meaning stays correct. Inspect screenshots,
-not only SVG presence. Do not shrink text to make a large diagram fit; simplify
-it, split it, or use the available zoom and overflow controls.
+changes, zoom, keyboard use, and unmount cleanup. When using `<DiagramScope>`,
+verify hovering, focusing, pinning, and clearing with Escape from both diagram
+nodes and `<DiagramTarget>` items, and confirm there are no console errors for
+unmatched node IDs. Some layouts change direction at narrow widths; confirm that
+the meaning stays correct. Inspect screenshots, not only SVG presence. Do not
+shrink text to make a large diagram fit; simplify it, split it, or use the
+available zoom and overflow controls.

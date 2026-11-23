@@ -2,7 +2,46 @@
 
 For Code Hike 1.1.0. Checked against upstream documentation on 2026-10-15.
 Neither a diff handler nor token animation explains why a change matters. Pair
-the visual comparison with the resulting behavior and its source evidence.
+visual comparisons with the resulting behavior and its source evidence.
+
+## Change overview and architecture
+
+When explaining uncommitted changes, a commit, a branch comparison, or a pull or
+merge request that spans multiple files, components, or boundaries, start at a
+high level before showing low-level code diffs. Readers often inspect the code
+directly alongside the explanation; what they need most first is a map of how
+the pieces fit together.
+
+- **Use the codebase's own architectural units.** Model the change in terms of
+  the abstractions the project already uses — services, modules, routes,
+  handlers, components, stores, workers, packages, jobs, or database tables —
+  rather than forcing a generic pattern or one framework's terminology.
+- **Show how new, changed, and related unchanged parts integrate.** Include the
+  existing components that the change calls, extends, writes to, or sits
+  between. Unchanged neighbors are often the key to understanding how new code
+  plugs into the system.
+- **Use diagrams for relationships and flows.** Prefer one focused diagram per
+  concern — for example, one for dependencies or ownership and another for a
+  request, data, or state flow across boundaries. State explicitly what the
+  arrows represent (such as dependency direction versus execution or request
+  order).
+- **Mark status relative to the comparison base.** Distinguish parts that are
+  **`NEW`** (added), **`CHANGED`** (modified), **`EXISTING`** (unchanged,
+  included for integration context), and **`REMOVED`** (deleted, when relevant).
+  Show status with both distinct visual styles (such as fill and border colors
+  via Mermaid `classDef`) and explicit text labels inside nodes and tiles —
+  never color alone. Include a short legend naming the comparison base (for
+  example, `relative to main` or `relative to HEAD`).
+- **Pair diagrams with concise companion tiles and source references.** Below or
+  beside a diagram, explain each component (or logical group of tightly related
+  components) or flow step in brief tiles with matching status labels, and cite
+  the relevant source paths and line ranges so readers can jump into the code.
+  In HTML, wrap the diagram and its companion tiles in `<DiagramScope>` and
+  `<DiagramTarget>` so hovering, focusing, or clicking a diagram node highlights
+  the related tile(s) and dims unrelated ones (see
+  [linking diagram nodes to explanations](diagrams.md#linking-diagram-nodes-to-explanations)).
+- **Scale to the change.** Keep a small, single-file edit small — a focused code
+  diff or token transition is better than a forced architecture diagram.
 
 ## Diffs
 

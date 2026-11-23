@@ -99,10 +99,16 @@ mention from the claim's phrase to that expression. For each interactive state, 
 its explanation, code excerpt, and annotation target together. A source citation helps readers
 check evidence; it does not replace showing the code needed to understand it.
 
-For a change, explain the prior behavior, the reason for the change when known,
-and the resulting behavior. Group related changes by purpose. Include unchanged
-code when it is needed to understand the change. Do not substitute a file-by-file
-diff summary for an explanation.
+For a change — uncommitted edits, a commit, a branch comparison, or a pull or
+merge request — explain the prior behavior, the reason for the change when
+known, and the resulting behavior. Group related changes by purpose. Include
+unchanged code and components when they are needed to understand how the change
+fits in. Do not substitute a file-by-file diff summary for an explanation. When
+a change spans multiple modules, components, services, routes, stores, or
+boundaries, start at a high level before diving into code excerpts: show how
+new, changed, and related unchanged parts integrate using the codebase's own
+architectural units, and mark each part's status relative to the comparison base
+(see [change overview and architecture](references/changes.md#change-overview-and-architecture)).
 
 Give the purpose and necessary context before the details that depend on them.
 Explain an unfamiliar concept when it first becomes relevant. The reader must be
@@ -134,7 +140,7 @@ Choose a representation before choosing a component:
 | What calls what, and in what order?          | Call tree                                                                                                      |
 | Which component owns this state or behavior? | Component tree with relevant state and module boundaries                                                       |
 | Where do responsibilities belong?            | Shallow file tree with short responsibility labels                                                             |
-| What changes?                                | A diff of source, a tree, or pseudocode; label structural sketches                                             |
+| What changes?                                | A change-overview diagram when the change spans components or boundaries; a diff of source, a tree, or pseudocode for local edits; label structural sketches |
 | What is the complete target?                 | A whole block when most of it is new, omissions hide ownership or order, or the reader needs a copyable result |
 | How do parts exchange data or change state?  | Mermaid diagram                                                                                                |
 
@@ -155,10 +161,10 @@ styles.
 
 | Teaching need                                                        | Tools to consider                                                                                                                                            |
 | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Show relationships, boundaries, state changes, or a message sequence | [Pele diagrams](references/diagrams.md), with nearby source evidence                                                                                         |
+| Show relationships, boundaries, state changes, or a message sequence | [Pele diagrams](references/diagrams.md) with [linked explanations](references/diagrams.md#linking-diagram-nodes-to-explanations) and nearby source evidence |
 | Follow execution, a lifecycle, or data movement                      | [Scrollycoding](references/layouts.md#scrollycoding), changing [focus](references/annotations.md#focus)                                                      |
 | Connect prose to an exact line or expression                         | [Code mentions](references/annotations.md#code-mentions) (default), [callouts](references/annotations.md#callouts), [marks](references/annotations.md#marks) |
-| Compare behavior or show a change                                    | [Token transitions](references/changes.md#token-transitions) (default for related code), [diffs](references/changes.md#diffs)                                |
+| Compare behavior or show a change                                    | [Change overview diagrams](references/changes.md#change-overview-and-architecture), [token transitions](references/changes.md#token-transitions) (default for related code), [diffs](references/changes.md#diffs) |
 | Explore independent topics or files                                  | [Spotlight](references/layouts.md#spotlight), [tabs](references/layouts.md#tabs)                                                                             |
 | Keep supporting detail available without distraction                 | [Fold](references/supporting-detail.md#fold), [collapse](references/supporting-detail.md#collapse), [footnotes](references/supporting-detail.md#footnotes)   |
 | Read long expressions in a narrow panel                              | [Word wrap](references/annotations.md#word-wrap), a wider or shorter excerpt                                                                                 |
@@ -170,6 +176,14 @@ implements them; only write the `mention:` links, `// !mention` annotations,
 and `<MentionScope>` wrappers. Most excerpts that support prose need at least
 one mention. Use static marks or callouts in addition when a point must stay
 visible without interaction.
+
+When an HTML diagram is paired with companion explanation tiles, cards, or step
+notes, link them by default with `<DiagramScope>` and `<DiagramTarget>` (see
+[linking diagram nodes to explanations](references/diagrams.md#linking-diagram-nodes-to-explanations)).
+Hovering, focusing, or clicking a component in the diagram highlights its
+related explanation(s) and dims unrelated ones, and interacting with an
+explanation highlights its matching diagram node(s). The template implements
+this behavior; keep all explanation text visible without hover.
 
 For an HTML before/after comparison of related code, default to one code panel
 with [token transitions](references/changes.md#token-transitions) and controls

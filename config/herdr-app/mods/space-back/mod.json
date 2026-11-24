@@ -1,0 +1,8 @@
+{
+  "place": "none",
+  "title": "Previous space",
+  "overlay": { "kind": "popup", "frame": "none", "width": 2, "height": 2 },
+  "palette": [
+    { "title": "Previous space", "command": "mod.open", "args": { "name": "space-back" }, "words": "back last recent toggle" }
+  ]
+}

@@ -1,0 +1,19 @@
+# Herdr desktop writes its runtime state, shipped mods, and generated files
+# here. Track only personal config.
+/*
+!/.gitignore
+!/keys.json
+!/settings.json
+
+!/themes/
+/themes/*
+!/themes/tokyo-night.json
+
+!/mods/
+/mods/*
+!/mods/space-back/
+!/mods/worktree-new/
+!/mods/worktree-remove/
+/mods/*/jsconfig.json
+/mods/*/*.d.ts
+*.error

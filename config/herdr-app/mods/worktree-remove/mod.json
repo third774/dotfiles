@@ -1,0 +1,5 @@
+{
+  "place": "none",
+  "title": "Remove worktree",
+  "overlay": { "kind": "popup", "width": 2, "height": 2 }
+}

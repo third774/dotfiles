@@ -71,6 +71,16 @@ ln -sfn "${HOME}/.dotfiles/config/lumen" "${HOME}/.config/lumen"
 ln -sfn "${HOME}/.dotfiles/config/tuicr" "${HOME}/.config/tuicr"
 ln -sfn "${HOME}/.dotfiles/config/herdr" "${HOME}/.config/herdr"
 
+# Herdr desktop makes a real ~/.config/herdr-app on first start. Keep its state,
+# but let the config in dotfiles win, then replace the folder with the symlink.
+herdr_app="${HOME}/.config/herdr-app"
+if [ -d "$herdr_app" ] && [ ! -L "$herdr_app" ]; then
+  echo 'moving ~/.config/herdr-app into dotfiles (quit Herdr first)'
+  rsync -a --no-specials --no-devices --ignore-existing "$herdr_app/" "${HOME}/.dotfiles/config/herdr-app/"
+  mv "$herdr_app" "${herdr_app}.backup-$(date +%Y%m%d%H%M%S)"
+fi
+ln -sfn "${HOME}/.dotfiles/config/herdr-app" "$herdr_app"
+
 # Setup tmux
 if [ ! -d "${HOME}/.tmux/plugins/tpm" ]; then
   git clone https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"

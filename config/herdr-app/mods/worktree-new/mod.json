@@ -1,0 +1,9 @@
+{
+  "place": "none",
+  "title": "New worktree",
+  "overlay": { "kind": "popup", "width": 2, "height": 2 },
+  "palette": [
+    { "title": "New worktree…", "command": "mod.open", "args": { "name": "worktree-new" }, "words": "git branch checkout" },
+    { "title": "Remove worktree…", "command": "mod.open", "args": { "name": "worktree-remove" }, "words": "git branch checkout delete" }
+  ]
+}
